@@ -1,0 +1,238 @@
+input[id="menuicon"] {
+    display: none;
+}
+
+.mypage_sidebar {
+    width: 200px;
+    height: 100%;
+    margin-top: 70px;
+    margin-bottom: -120px;
+    background: white;
+    border-right: 1px solid #fff8f8;
+    position: fixed; /*화면에 고정 */
+    left: 0px;
+    z-index: 2; /*우선순위(햄버거 모양이 제일 위로 뜸) */
+    transition: all .35s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.mypage_sidebar a{
+    text-decoration: none;
+    color: black;
+}
+
+.mypage_menubar_content{
+    
+}
+
+.mypage_leave{
+    
+}
+
+.mypage_under_bar_boxing{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.mypage_under_bar { /*경계선 */
+    border-bottom: 1px solid lightgray;
+    width: 80%;
+    height: 1px;
+}
+
+
+.mypage_mtitle { /*내 서재 */
+    cursor: pointer;
+}
+
+
+.mypage_title { /*마이페이지 제목 */
+    color: black;
+    font-size: 25px;
+    font-weight: 600;
+    padding-left: 60px;
+    /*margin-left: 60px;*/
+    margin-top: 3px;
+}
+
+.mypage_imformation { /*회원 정보 */
+    font-size: 22px;
+    color: black;
+    cursor: pointer;
+    padding-left: 60px;
+    /*margin-left: 60px;*/
+    margin-top: 40px;
+}
+
+.mypage_imformation:hover { /*마이페이지 제목 */
+    background-color: #f7fbfc;
+}
+
+.mypage_library { /*내 서재 */
+    color: black;
+    font-size: 22px;
+    margin-top: 10px;
+    padding-left: 60px;
+    /*margin-left: 60px;*/
+    cursor: pointer;
+}
+
+.mypage_library:hover { /*마이페이지 제목 */
+    background-color: #f7fbfc;
+}
+
+
+.mypage_list{
+    margin-left: -60px;
+    font-size: 18px;
+}
+
+.mypage_picture { /*작품 목록 */
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.mypage_author { /*작가 목록 */
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.mypage_publisher { /*출판사 목록 */
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.mypage_set1 { /*목록들 모음 */
+    margin-left: 60px;
+}
+
+.mypage_visit { /*열람기록 */
+    font-size: 18px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.mypage_review { /*리뷰*/
+    font-size: 22px;
+    cursor: pointer;
+    margin-top: 10px;
+    padding-left: 60px;
+}
+
+.mypage_review:hover { /*마이페이지 제목 */
+    background-color: #f7fbfc;
+}
+
+.mypage_delete { /*회원탈퇴 */
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    margin-left: 60px;
+    margin-top: -110px;
+}
+
+input[id="menuicon"] + label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 25px;
+    position: fixed;
+    cursor: pointer;
+    margin-top: 70px;
+    margin-left: 10px;
+    z-index: 3;
+}
+
+input[id="menuicon"] + label span {
+    display: block;
+    /*position: absolute;*/
+    width: 75%;
+    height: 4px;
+    border-radius: 30px;
+    background: #000;
+    transition: all .35s;
+}
+
+/*input[id="menuicon"] + label:hover{
+    background-color: #e5e5e5;
+}*/
+ 
+/* 햄버거 모양 버튼 */
+input[id="menuicon"] + label span:nth-child(1) {
+    /*top: 0;*/
+}
+
+input[id="menuicon"] + label span:nth-child(2) {
+    margin-top: 3px;
+    /*top: 50%;
+    transform:translateY(-50%);*/
+}
+
+input[id="menuicon"] + label span:nth-child(3) {
+    margin-top: 3px;
+    /*bottom: 0;*/
+}
+
+/* 클릭 했을 때 변화 */
+/*input[id="menuicon"]:checked + label span:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+input[id="menuicon"]:checked + label span:nth-child(2) {
+    opacity: 0;
+}
+
+input[id="menuicon"]:checked + label span:nth-child(3) {
+    bottom: 50%;
+    transform: translateY(50%) rotate(-45deg);
+}*/
+
+
+input[id="menuicon"]:checked + label + nav {
+    left: -300px;
+}
+
+input[id="answer01"] {
+    display: none;
+}
+
+/*input[id="answer01"] + label {
+    display: block;
+    border-bottom: 0;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 18px;
+}*/
+
+input[id="answer01"] + label + div {
+    max-height: 0;
+    transition: all .35s;
+    overflow: hidden;
+    background: #f7fbfc;
+    position:relative;
+}
+
+input[id="answer01"]:checked + label + div { /*내 서재 클릭했을 때 목록들 칸 크기 */
+    max-height: 1000px;
+}
+
+input[id="picture"]:checked + div {
+    background: gray;
+}
+
+@media screen and (max-width: 640px) {
+    
+
+}
+
+
+
+
+

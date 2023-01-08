@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <link href="css/author_page.css" rel="stylesheet">
+    <link href="css/header.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
+    <title>작가페이지</title>
+</head>
+
+<body>
+    <header class="header">
+        <a class="logo_a" href="index.html">
+            <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
+            <img class="logo_icon" src="image/logo.png">
+        </a>
+        <div class="first_line">
+            <div class="inner_item">
+                <a id="open_close" href="#" class="navbar_toggleBtn">
+                    <img id="close" src="image/메뉴_검정_버튼.png">
+                </a>
+                <div class="inner_inner_item">
+                    <div class="search">
+                        <div class="icon"></div>
+                        <form method="get" action="http://novelpedia.dothome.co.kr/search?">
+                            <div class="input">
+                                <input type="text" placeholder="Search" id="mysearch">
+                            </div>
+                            <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
+                            <input type="submit" value="" class="search_btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="set">
+            <div class="set_mid">
+                <ul class="bar_menu">
+                    <li><a href="#">Category</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        /*메뉴버튼 바꾸기 위한 변수*/
+        const change_img = document.createElement('img');
+        change_img.setAttribute('src', './image/메뉴_닫힘.png');
+        change_img.setAttribute('id', 'close');
+
+        const change_img_normal = document.createElement('img');
+        change_img_normal.setAttribute('src', './image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('id', 'close');
+
+        /*검색버튼에 대한 동작 변수*/
+        const icon = document.querySelector('.search .icon');
+        const search = document.querySelector('.search');
+        const inner_item = document.querySelector('.inner_item');
+        const inner_inner_item = document.querySelector('.inner_inner_item');
+        const menu_window2 = document.querySelector('.header .set active');
+
+        /*메뉴 버튼에 따른 동작 변수*/
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.bar_menu');
+        const menu_window = document.querySelector('.header .set');
+
+        /*메뉴버튼*/
+        toggleBtn.onclick = function() {
+            menu.classList.toggle('active');
+            menu_window.classList.toggle('active');
+            const lastDiv = document.getElementById('close');
+            /*메뉴창 열림 여부에 따라 버튼 이미지 교체*/
+            if (document.querySelector('.header .set').classList.contains('active')) {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img);
+            } else {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img_normal);
+            }
+
+        }
+
+        /*검색버튼*/
+        icon.onclick = function() {
+            icon.classList.toggle('active');
+            search.classList.toggle('active');
+            inner_item.classList.toggle('active');
+            inner_inner_item.classList.toggle('active');
+            menu_window.classList.toggle('search_active');
+        }
+    </script>
+
+    <section class="document_section">
+        <div class="document_section_all">
+            <!--작품 제목(작가명)-->
+            <div class="document_name">
+                <a href="#">작가명(생년월일)</a>
+            </div>
+
+            <div class="document_bundle_button">
+                <a class="edit" href="author_edit.html">편집</a>
+                <a class="history" href="history.html">역사</a>
+                <a class="delete" href="#">삭제</a>
+            </div>
+
+            <div class="document_bundle">
+                <div class="document_bundle_cover">
+                    <!--작품표지-->
+                    <div class="document_profile_image">
+                        <img src="image/표지_미등록.png">
+                    </div>
+
+                    <!--관심등록 및 버튼-->
+                    <div class="document_button">
+                        <button>좋아요</button>
+                    </div>
+                </div>
+
+
+                <!--목차-->
+                <div class="document_index">
+                    <ol>목차
+                        <li><a href="#document_information">작가정보</a></li>
+                        <li><a href="#document_novel_list">작품목록</a></li>
+                        <li><a href="#document_award">수상</a></li>
+                        <li><a href="#document_career">경력</a></li>
+                        <li><a></a></li>
+                        <li><a></a></li>
+                    </ol>
+                </div>
+            </div>
+
+            <!--작품정보 : 표-->
+            <div id="document_information" class="document_information">
+                <table>
+                    <tr>
+                        <th colspan="2">작가정보</th>
+                    </tr>
+                    <!--Work Info-->
+                    <tr>
+                        <td class="title">이름</td>
+                        <td class="content">작가이름</td>
+                    </tr>
+                    <tr>
+                        <td class="title">출생</td>
+                        <td class="content">서울특별시</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title">생년월일</td>
+                        <td class="content">1999.01.01</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title">등단일</td>
+                        <td class="content">2022.08.04</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title">대표작품</td>
+                        <td class="content">작품이름</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title">학력</td>
+                        <td class="content">
+                            <li>OO초등학교</li>
+                            <li>OO중학교</li>
+                            <li>OO고등학교</li>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="title">소속</td>
+                        <td class="content">네이버</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!--작품 목록-->
+            <div id="document_novel_list" class="document_novel_list">
+                <div class="title">
+                    <p class="p_title">작품목록</p>
+                </div>
+                <div class="content">
+                    <div class="document_first">
+                        <div class="document_list">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>소설제목</p>
+                            </a>
+                        </div>
+                        <div class="document_list">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>소설제목</p>
+                            </a>
+                        </div>
+                        <div class="document_list">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>소설제목</p>
+                            </a>
+                        </div>
+                        <div class="document_list">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>소설제목</p>
+                            </a>
+                        </div>
+                        <div class="document_list">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>소설제목</p>
+                            </a>
+                        </div>
+                        <div class="document_list">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>소설제목</p>
+                            </a>
+                        </div>
+                        <div class="document_list">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>소설제목</p>
+                            </a>
+                        </div>
+                        <div class="document_list">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>소설제목</p>
+                            </a>
+                        </div>
+                        <div class="document_list">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>소설제목</p>
+                            </a>
+                        </div>
+                        <div class="document_list">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>소설제목</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--수상-->
+            <div id="document_award" class="document_award">
+                <div class="title">
+                    <p class="p_title">수상</p>
+                </div>
+                <div class="content">
+                    <li>목록</li>
+                    <li>목록</li>
+                    <li>목록</li>
+                    <li>목록</li>
+                    <li>목록</li>
+                </div>
+            </div>
+            <!--경력-->
+            <!--수상-->
+            <div id="document_career" class="document_career">
+                <div class="title">
+                    <p class="p_title">경력</p>
+                </div>
+                <div class="content">
+                    <li>목록</li>
+                    <li>목록</li>
+                    <li>목록</li>
+                    <li>목록</li>
+                    <li>목록</li>
+                </div>
+            </div>
+            <!--줄거리-->
+
+            <!--안내-->
+            <div class="alram">
+                <p>※여기부터는 사용자가 직접 편집할 수 있는 공간입니다※</p>
+            </div>
+
+            <!--기타-->
+            <div class="document_other"></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">공지사항</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">Q&A</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">의견보내기</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

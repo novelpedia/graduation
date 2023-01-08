@@ -1,0 +1,482 @@
+* {
+    font-family: 'NanumGothic';
+    margin: 0;
+}
+
+/*
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+*/
+
+/*
+button {
+    cursor: pointer;
+}
+*/
+
+body {
+    /*border-radius: 10px;*/
+}
+
+.signup {
+    width: 650px;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 150px;
+    margin-bottom: 150px;
+}
+
+.mid {
+    margin-top: 30px;
+}
+
+/*.space {
+    height: 140px;
+
+}*/
+
+.signup h2 {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+    font-weight: 600;
+    text-align: center;
+    font-size: 32px;
+}
+
+.signup form {
+    /*회원가입 칸 */
+    bottom: 10px;
+    width: 100%;
+    /*height: 110%; */
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid #bebebe;
+
+}
+
+.signup .mid {
+    width: 100%;
+    position: relative;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+/*.signup label {
+    display: block;
+    color: black;
+}*/
+
+.id {
+    width: 65%;
+}
+
+.password {
+    width: 65%;
+}
+
+.password2 {
+    width: 65%;
+
+}
+
+.name {
+    width: 65%;
+
+}
+
+.nickname {
+    width: 65%;
+}
+
+.email {
+    width: 65%;
+    display: flex;
+}
+
+
+.birthday span {
+    font-size: 14px;
+}
+
+.birthday .title {
+    display: flex;
+    align-items: center;
+}
+
+.birthday {
+    /* 생년월일 + 달력 */
+    width: 65%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.phone {
+    width: 65%;
+}
+
+.first {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+.first input {
+    /* 아이디, 비밀번호, 비밀번호 재확인 입력칸 */
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 45px;
+    border: solid 1px #e5e5e5;
+    background-color: white;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    outline: none;
+    margin-top: -1px;
+}
+
+.second {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.second input {
+    /* 이름, 이메일, 생일 입력칸 */
+    display: flex;
+    width: 100%;
+    height: 45px;
+    border: solid 1px #e5e5e5;
+    background-color: white;
+    margin-top: -1px;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+/*.check { 인증하기 
+    display: flex;
+    border-radius: 0px;
+    border: solid 1px black;
+    background-color: white;
+    justify-content : center;
+    
+}*/
+
+/*
+.check2 { 인증하기 
+    display: flex;
+    border-radius: 0px;
+    border: solid 1px black;
+    background-color: white;
+    
+}
+*/
+
+/*.block {
+    width: 65%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -1px;
+}*/
+
+/*.block2 {
+    width: 65%;
+    display: flex; 
+    justify-content: flex-end;
+}*/
+
+/*.block button {
+    width: 88%;
+    display: flex;
+    justify-content : center;
+    align-items: center;
+    border: 1px solid #e5e5e5;
+}*/
+
+/*.block button {
+    width: 96%;
+    display: flex;
+    justify-content : center;
+    align-items: center;
+    
+}*/
+
+
+
+/*.block input {
+    width: 100%;
+    height: 47px;
+    padding: 0px 20px;
+    background-color: #ededed;
+    border: solid 1px gray;
+    outline: none;
+}*/
+
+
+
+.birthday input {
+    display: flex;
+    right: 114px;
+    width: 83%;
+    height: 45px;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+
+.third {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.third input {
+    display: flex;
+    width: 100%;
+    height: 45px;
+    border: solid 1px #e5e5e5;
+    background-color: white;
+    margin-top: -1px;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.email input {
+    display: flex;
+    width: 70%;
+    height: 45px;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.email select {
+    /*이메일 선택*/
+    width: 30%;
+    height: 45px;
+    border: 1px solid #e5e5e5;
+    margin-top: -1px;
+    /*border-radius: 0px;*/
+    outline: none;
+}
+
+.check {
+    width: 65%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -1px;
+    margin-bottom: 30px;
+}
+
+.check input {
+    width: 70%;
+    height: 46px;
+}
+
+.check button {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e5e5e5;
+    height: 46px;
+    margin-top: -1px;
+    background-color: white;
+    font-weight: 600;
+}
+
+.phone input {}
+
+.gender {
+    margin-top: -2px;
+    width: 65%
+}
+
+.gender input[type=radio] {
+    display: none;
+}
+
+.gender input[type=radio] + label {
+    display: inline-block;
+    cursor: pointer;
+    height: 40px;
+    width: 50%;
+    border: 1px solid #e5e5e5;
+    background-color: white;
+    text-align: center;
+    font-size: 14px;
+    margin-right: -9px;
+}
+
+.gender input[type=radio] + label {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    font-weight: 600;
+}
+
+.gender input[type=radio]:checked + label {
+    background-color: #769fcd;
+    color: white;
+}
+
+/*
+.signup a {
+    color: #333;
+    font-size: 12px;
+    position: relative;
+    top: -2px;
+}
+*/
+
+.choice {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+}
+
+.choice a{
+    text-decoration: none;
+    font-weight: 600;
+    color:white;
+}
+
+/*.clear {
+    margin: 3px;
+    justify-content: center;
+}
+
+.back {
+    margin: 3px;
+    justify-content: center;
+}*/
+
+.choice button {
+    width: 100%;
+    height: 50px;
+    margin-left: 15px;
+    margin-right: 15px;
+    border: none;
+    background-color: #769FCD;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+
+@media screen and (max-width: 640px) {
+
+    .signup {
+        width: 100%;
+    }
+
+    .id {
+        width: 80%;
+    }
+
+    .password {
+        width: 80%;
+    }
+
+    .password2 {
+        width: 80%;
+
+    }
+
+    .name {
+        width: 80%;
+
+    }
+
+    .nickname {
+        width: 80%;
+    }
+
+    .email {
+        width: 80%;
+    }
+    
+    .birthday {
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .phone {
+        width: 80%;
+    }
+
+
+    fieldset {
+        width: 100%;
+    }
+
+    .choice {
+        width: 80%;
+    }
+    
+    .check{
+        width: 80%;
+    }
+    
+    .gender{
+        width: 80%;
+    }
+
+    .choice button{
+        margin-top: -30px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .birthday input {
+        width: 72%;
+    }
+
+    .gender {
+        right: 10%;
+    }
+}
+
+/*@media screen and (max-width: 390px) {
+    .gender {
+        right: 6%;
+    }
+  
+
+}
+
+@media screen and (max-width: 330px) {
+    .birthday input {
+        width: 68%;
+    }
+
+    .gender {
+        right: 2%;
+    }
+  
+
+}*/

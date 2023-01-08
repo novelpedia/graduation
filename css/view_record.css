@@ -1,0 +1,301 @@
+*{
+    font-family: 'NanumGothic';
+    margin: 0;
+}
+
+.view_section_all {
+    padding: 0%;
+    margin: 0 auto;
+    width: 850px;
+    margin-bottom: 100px;
+}
+
+.banner {
+    width: 100%;
+    border-bottom: 1px solid black;
+    display: flex;
+    text-align: center;
+    justify-content: end;
+    margin-top: 150px;
+    padding-bottom: 10px;
+    font-weight: 600;
+    font-size: 40px;
+}
+
+.col_0 {
+    display: flex;
+    width: 100%;
+    border: 1px solid #e5e5e5;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+}
+
+.col_1 {
+    width: 7%;
+    border: 1px solid #e5e5e5;
+    height: 60px;
+    /*line-height: 60px;*/
+}
+
+.col_2 {
+    width: 15%;
+    border: 1px solid #e5e5e5;
+    height: 60px;
+}
+
+.col_3 {
+    width: 8%;
+    border: 1px solid #e5e5e5;
+    height: 60px;
+    /*line-height: 60px;*/
+}
+
+.col_3 a {
+    width: 100%;
+}
+
+col_3 img{
+    width: 30px;
+    height: 60px;
+    margin-top: 3px;
+}
+
+.col_4 {
+    width: 33%;
+    border: 1px solid #e5e5e5;
+    height: 60px;
+    /*line-height: 60px;*/
+}
+
+.col_4 a {
+    text-decoration: none;
+    color: black;
+}
+
+.col_5 {
+    width: 11%;
+    border: 1px solid #e5e5e5;
+    height: 60px;
+    /*line-height: 60px;*/
+}
+
+.col_5 a {
+    text-decoration: none;
+    color: black;
+}
+
+.col_6 {
+    width: 19%;
+    border: 1px solid #e5e5e5;
+    height: 60px;
+    /*line-height: 60px;*/
+}
+
+.col_6 a {
+    text-decoration: none;
+    color: black;
+}
+
+.col_7 {
+    /*margin-top: -1px;*/
+    width: 7%;
+    border: 1px solid #e5e5e5;
+    height: 60px;
+    /*line-height: 65px;*/
+}
+
+.col_7 img {
+    width: 19px;
+}
+
+.col_3 img {
+    /*display: table-cell;*/
+    /*position: relative;*/
+    /*width: 100%;*/
+    
+    /*border: 1px solid #e5e5e5;*/
+}
+
+.table_all {
+    width: 100%;
+    height: auto;
+    /*background: #f7fbfc;*/
+    font-size: 16px;
+    text-align: center;
+    display: table;
+}
+
+.table_row {
+    width: 100%;
+    display: flex;
+}
+
+/*.table_set {
+    display: table-row-group;
+}*/
+
+.col_1,
+.col_2,
+.col_3,
+.col_4,
+.col_5,
+.col_6,
+.col_7 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.top {
+    width: 40%;
+    float: left;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.view_set {
+    width: 100%;
+}
+
+.all_choice,
+.delete {
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    background-color: #f7fbfc;
+    border: 1px solid #e5e5e5;
+    color: black;
+    border-radius: 3px;
+    width: 80px;
+    height: 33.5px;
+    line-height: 33.5px;
+    text-align: center;
+}
+
+.all_choice:hover {
+    background-color: #769fcd;
+    color: white;
+}
+
+.delete:hover {
+    background-color: #769fcd;
+    color: white;
+}
+
+.all_choice {
+    margin-right: 5px;;
+}
+
+.view_search {
+    margin-left: 50%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.view_search_bar {
+    width: 100%;
+    height: 20px;
+    background-color: #f7fbfc;
+    display: flex;
+    align-items: center;
+    border-radius: 60px;
+    padding: 7px 10px;
+    border: 1px solid #e5e5e5;
+}
+
+.view_search_bar input {
+    width: 100%;
+    background: transparent;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding: 10px;
+    color: #769fcd;
+    font-size: 16px;
+}
+
+::placeholder {
+    color: #a4b7ce;
+    font-size: 16px;
+}
+
+.view_search_bar button img {
+    width: 25px;
+    filter: opacity(0.5) brightness(60%) drop-shadow(0 0 0 #769fcd);
+}
+
+.view_search_bar button {
+    border: 0;
+    border-radius: 50%;
+    padding-bottom: 30px;
+    padding-right: 22px;
+    width: 20px;
+    height: 20px;
+    background: #f7fbfc;
+    cursor: pointer;
+    font-size: large;
+    color: #769fcd;
+}
+
+@media (max-width: 640px) {
+    .view_section_all {
+        width: 100%
+    }
+
+    .table_all {
+        width: 100%;
+    }
+
+    .table_all {
+        font-size: 13px;
+    }
+
+    .banner {
+        width: 100%;
+        font-size: 30px;
+    }
+
+    .view_set {
+        width: 100%;
+    }
+
+    .all_choice .delete {
+        font-size: 12px;
+    }
+
+    .col_3 {
+        width: 15%;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .all_choice,
+    .delete {
+        width: 55px;
+        font-size: 13px;
+    }
+
+    .view_search_bar input {
+        font-size: 13px;
+    }
+
+    ::placeholder {
+        font-size: 13px;
+    }
+
+    .col_2 {
+        width: 20%;
+    }
+
+    .col_3 {
+        width: 20%;
+    }
+
+    .col_5 {
+        width: 18%;
+    }
+}

@@ -1,0 +1,36 @@
+.footer {
+    padding: 40px 0;
+    background-color: #49698d;
+    position: relative;
+    bottom:0;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.row {
+    display: flex;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.footer-col li:hover {
+    transition: 0.25s;
+    transform: scale(1.2);
+}
+
+.footer-col a {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 500;
+    position: relative;
+    text-decoration: none;
+}

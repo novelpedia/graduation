@@ -1,0 +1,484 @@
+* {
+    font-family: 'NanumGothic';
+    margin: 0;
+}
+
+.document_section {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.document_section_all {
+    width: 950px;
+}
+
+.document_section h1 {
+    margin-bottom: 5px;
+}
+
+
+/*문서 이름*/
+.document_name {
+    /*width: 1100px;*/
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.document_name a {
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+
+/*편집, 역사 삭제 버튼*/
+.document_bundle_button {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -55px;
+    margin-bottom: 30px;
+}
+
+.document_bundle_button a {
+    text-decoration: none;
+    padding: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    border: 1px solid #c7c3c3;
+    color: gray;
+    background-color: #fff;
+}
+
+.document_bundle_button .edit {
+    color: #769fcd;
+}
+
+.document_bundle_button .history {
+    border-left: none;
+    color: #1fa73b;
+}
+
+.document_bundle_button .delete {
+    border-left: none;
+    color: red;
+}
+
+/*표지 + 버튼 + 목차 묶음*/
+.document_bundle {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/*표지 + 버튼 묶음*/
+.document_bundle_cover {}
+
+
+/*표지아래 버튼*/
+.document_button {
+    margin-top: -5px;
+    width: 300px;
+    border: 1px solid #e5e5e5;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.document_button button {
+    width: 300px;
+    height: 50px;
+    /*background-color: white;*/
+    background-color: #f7fbfc;
+    outline: 0;
+    border: 0;
+    font-size: 20px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.document_button button:focus {
+    background-color: #769fcd;
+    color: white;
+}
+
+/*표지*/
+.document_profile_image {
+    width: 300px;
+    border: 1px solid #e5e5e5;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.document_profile_image img {
+    text-align: center;
+    width: 100%;
+    border-radius: 15px;
+}
+
+/*목차*/
+.document_index {
+    width: 300px;
+    border: 1px solid #e5e5e5;
+    background-color: #f7fbfc;
+    border-radius: 15px;
+}
+
+.document_index ol {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.document_index li {
+    font-size: 15px;
+    margin-top: 10px;
+    font-weight: 300;
+}
+
+.document_index a {
+    text-decoration: none;
+}
+
+/*작품정보*/
+.document_information {
+    margin-bottom: 20px;
+    border-radius: 15px;
+    width: 300px;
+}
+
+.document_information table {
+    background-color: #f7fbfc;
+    border: 1px solid #e5e5e5;
+    border-collapse: separate;
+    border-radius: 15px;
+    width: 100%;
+}
+
+.document_information table li {
+    list-style: none;
+    text-decoration: none;
+}
+
+.document_information tr {
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+}
+
+.document_information th {
+    /*border: 1px solid #e5e5e5;*/
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px 20px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.document_information tr:nth-last-child(1) td {
+    border-bottom: 0px solid black;
+}
+
+.document_information td {
+    /*border: 1px solid #e5e5e5;*/
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px 20px;
+}
+
+.document_information th {
+    background-color: #769fcd;
+    font-size: 20px;
+}
+
+.document_information .title {
+    width: 100px;
+    text-align: center;
+    border-right: 1px solid #e5e5e5;
+}
+
+.document_information .content {
+    width: 200px;
+}
+
+/*작품목록*/
+.document_novel_list {
+    display: inline-block;
+    width: 950px;
+    height: auto;
+    background-color: #f7fbfc;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.document_novel_list .document_first {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-wrap: wrap
+}
+
+.document_novel_list .document_list {
+    display: block;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+
+.document_novel_list .document_list img {
+    display: block;
+    width: 160px;
+    margin-top: 35px;
+}
+
+.document_novel_list .document_list a {
+    text-decoration: none;
+    text-align: center;
+}
+
+.document_novel_list .document_list p {
+    display: block;
+    width: 160px;
+    margin: 0;
+    color: black;
+}
+
+.document_novel_list .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    background-color: #769fcd;
+    border: 1px solid #e5e5e5;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.document_novel_list .content {
+    font-size: 16px;
+    border: 1px solid #e5e5e5;
+    background-color: #f7fbfc;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    /*padding: 20px;*/
+    /*transition: 0.25s;*/
+}
+
+.document_novel_list .p_title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/*작가목록*/
+.document_author_list {
+    display: inline-block;
+    width: 950px;
+    height: auto;
+    background-color: #f7fbfc;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.document_author_list .document_first {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-wrap: wrap
+}
+
+.document_author_list .document_list {
+    display: block;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+
+.document_author_list .document_list img {
+    display: block;
+    width: 160px;
+    margin-top: 35px;
+}
+
+.document_author_list .document_list a {
+    text-decoration: none;
+    text-align: center;
+}
+
+.document_author_list .document_list p {
+    display: block;
+    width: 160px;
+    margin: 0;
+    color: black;
+}
+
+.document_author_list .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    background-color: #769fcd;
+    border: 1px solid #e5e5e5;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.document_author_list .content {
+    font-size: 16px;
+    border: 1px solid #e5e5e5;
+    background-color: #f7fbfc;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    /*padding: 20px;*/
+    /*transition: 0.25s;*/
+}
+
+.document_author_list .p_title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+.alram {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    background-color: #f7fbfc;
+    border: 1px solid #e5e5e5;
+    /*border-bottom: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;*/
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.alram p {
+    font-weight: 600;
+}
+
+
+/*기타*/
+.document_other {
+    background-color: #f7fbfc;
+    border: 1px solid #e5e5e5;
+    width: 950px;
+    height: 800px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+}
+
+@media (max-width:640px) {
+    .document_section {
+        margin-top: 200px;
+        flex-direction: row;
+    }
+
+    .document_section_all {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .document_name {
+        width: 90%;
+    }
+
+    .document_bundle_button {
+        width: 90%;
+        margin-top: -10px;
+        margin-bottom: 20px;
+    }
+
+    .document_bundle {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .document_bundle_cover {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .document_profile_image {
+        width: 90%;
+    }
+
+    .document_button {
+        width: 90%;
+    }
+
+    .document_button button {
+        width: 100%;
+    }
+
+    .document_index {
+        margin-top: 20px;
+        padding-bottom: 20px;
+        width: 90%;
+    }
+
+    .document_information {
+        width: 90%;
+    }
+
+    .document_information table {
+        width: 100%
+    }
+
+    .document_information .title {
+        width: 34%;
+    }
+
+    .document_information .content {
+        width: 66%;
+    }
+
+    .document_novel_list {
+        width: 90%;
+    }
+
+    .document_novel_list .document_list img {
+        width: 80px;
+        margin-top: 15px;
+    }
+
+    .document_novel_list .document_list p {
+        width: 80px;
+    }
+
+    .document_novel_list. content {
+        width: 100%;
+        height: 300px;
+    }
+    
+    /*작가목록*/
+    
+    .document_author_list {
+        width: 90%;
+    }
+    .document_author_list .document_list img {
+        width: 80px;
+        margin-top: 15px;
+    }
+
+    .document_author_list .document_list p {
+        width: 80px;
+    }
+
+    .document_author_list. content {
+        width: 100%;
+        height: 300px;
+    }
+
+    .document_section .alram {
+        width: 90%;
+        height: auto;
+        text-align: center;
+        border-radius: 5px;
+    }
+
+    .document_other {
+        width: 90%;
+    }
+}

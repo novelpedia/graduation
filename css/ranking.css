@@ -1,0 +1,388 @@
+body {
+    margin: 0;
+}
+
+
+.section_all {
+    margin-top: 90px;
+}
+
+.box_section {
+    position: relative;
+    padding: 0%;
+    margin: 0 auto;
+    width: 950px;
+}
+
+.banner_ranking {
+    width: 950px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e5e5e5;
+    background-color: #f7fbfc;
+}
+
+.banner_ranking a {
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: 600;
+    color: black;
+}
+
+.first_month_tab input[type=radio] {
+    display: none;
+}
+
+.first_month_tab input[type=radio] + label {
+    margin-top: 15px;
+    display: inline-block;
+    cursor: pointer;
+    height: 30px;
+    width: 236.3px;
+    border: 1px solid #e5e5e5;
+    line-height: 30px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 2px;
+    margin-bottom: 15px;
+    margin-right: -6px;
+}
+
+.first_month_tab input[type=radio] + label {
+    background-color: #f7fbfc;
+    color: #333;
+}
+
+.first_month_tab input[type=radio]:checked + label {
+    background-color: #769fcd;
+    color: white;
+}
+
+.second_genre_tab input[type=radio] {
+    display: none;
+}
+
+.second_genre_tab input[type=radio] + label {
+
+    display: inline-block;
+    cursor: pointer;
+    height: 30px;
+    width: 117.3px;
+    border: 1px solid #e5e5e5;
+    line-height: 30px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 2px;
+    margin-right: -6px;
+}
+
+.second_genre_tab input[type=radio] + label {
+    background-color: #f7fbfc;
+    color: #333;
+}
+
+.second_genre_tab input[type=radio]:checked + label {
+    background-color: #769fcd;
+    color: white;
+}
+
+.third_sort_tab input[type=radio] {
+    display: none;
+}
+
+.third_sort_tab input[type=radio] + label {
+    margin-top: 15px;
+    display: inline-block;
+    cursor: pointer;
+    height: 30px;
+    width: 315.3px;
+    border: 1px solid #e5e5e5;
+    line-height: 30px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 2px;
+    margin-right: -6px;
+}
+
+.third_sort_tab input[type=radio] + label {
+    background-color: #f7fbfc;
+    color: #333;
+}
+
+.third_sort_tab input[type=radio]:checked + label {
+    background-color: #769fcd;
+    color: white;
+}
+
+
+.novel_rank {
+    position: relative;
+
+}
+
+.novel_rank a {
+    text-decoration: none;
+}
+
+.dot_1:hover {
+    background-color: #769fcd;
+}
+
+.dot_2:hover {
+    background-color: #769fcd;
+}
+
+.dot_3:hover {
+    background-color: #769fcd;
+}
+
+.dot_1 {
+    width: 235.5px;
+    height: 30px;
+    background-color: #f7fbfc;
+    border: 1px solid #e5e5e5;
+    font-size: 1rem;
+    display: inline-block;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.dot_2 {
+    width: 116.75px;
+    height: 30px;
+    background-color: #f7fbfc;
+    border: 1px solid #e5e5e5;
+    font-size: 1rem;
+    display: inline-block;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.dot_3 {
+    width: 314.6px;
+    height: 30px;
+    background-color: #f7fbfc;
+    border: 1px solid #e5e5e5;
+    font-size: 1rem;
+    display: inline-block;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.month_tab li a span {
+    position: relative;
+    top: 10px;
+}
+
+.novel_top_rank {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+    background-color: #f7fbfc;
+}
+
+.novel_top_rank li {
+    display: flex;
+    width: 100%;
+    padding: 20px 0;
+    height: 119px;
+    overflow: hidden;
+    border-top: 1px solid #e4e4e4;
+}
+
+.novel_top_rank li:first-child {
+    padding-top: 20px;
+}
+
+.novel_top_rank li:last-child {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e4e4e4;
+    margin-bottom: 30px;
+}
+
+.novel_top_rank li .image {
+    display: table-cell;
+    position: relative;
+    width: 90px;
+    padding-right: 20px;
+}
+
+.image img {
+    width: 80px;
+    height: 115px;
+    border: #e4e4e4;
+    border-style: solid;
+}
+
+.novel_top_rank .top_numb {
+    display: table-cell;
+    width: 90px;
+    padding-right: 2px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.novel_top_rank .top_numb .top_num {
+    display: inline-block;
+    margin-top: 42px;
+    padding-left: 5px;
+}
+
+.novel_top_rank .top_numb .top_num em {
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.novel_top_rank li a {
+    color: black;
+
+}
+
+.novel_top_rank li .novel_cont {
+    justify-content: center;
+}
+
+.novel_cont h3 {
+    margin-top: auto;
+}
+
+.score {
+    margin-top: 0.5px;
+    font-size: 12px;
+}
+
+.summary {
+    margin-top: 0.5px;
+    font-size: 12px;
+}
+
+.like_box {
+    width: 100%;
+    float: right;
+}
+
+.like {
+    color: black;
+    font-size: 20px;
+}
+
+.like_checkbox {
+    display: none;
+}
+
+.like_checkbox:checked ~ label {
+    color: red;
+}
+
+
+/*
+.button-like {
+    border: none;
+    background-color: #f7fbfc;
+    margin-left: 700px;
+    font-size: medium;
+}
+
+.button-like .fa,
+.button-like span {
+    transition: all ease 0.4s;
+}
+
+.button-like:focus {
+    background-color: transparent;
+}
+
+.button-like:focus .fa,
+.button-like:focus span {
+    color: #e4e4e4;
+}
+
+.button-like:hover {
+    border-color: red;
+    background-color: transparent;
+}
+
+.button-like:hover .fa,
+.button-like:hover span {
+    color: red;
+}
+
+.liked {
+    background-color: red;
+    border-color: red;
+}
+
+.liked .fa {
+    color: #e4e4e4;
+}
+
+.liked:focus {
+    background-color: red;
+}
+
+.liked:focus .fa {
+    color: #e4e4e4;
+}
+
+.liked:hover {
+    background-color: red;
+    border-color: red;
+}
+
+.liked:hover .fa {
+    color: #e4e4e4;
+}
+*/
+
+@media only screen and (max-width: 640px) {
+    .section_all {
+        width: 100%;
+    }
+
+    .box_section {
+        width: 90%;
+    }
+
+    .banner_ranking {
+        width: 100%;
+    }
+
+    .first_month_tab input[type=radio] + label {
+        width: 24.7%;
+        margin-right: -6px;
+    }
+
+    .second_genre_tab input[type=radio] + label {
+        width: 24.7%;
+        margin-right: -6px;
+    }
+
+    .third_sort_tab input[type=radio] + label {
+        width: 33%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-right: -6px;
+    }
+
+    .dot_1 {
+        width: 23%
+    }
+
+    .dot_2 {
+        width: 23%
+    }
+
+    .dot_3 {
+        width: 31%
+    }
+
+    .button-like {
+        margin-left: 255%;
+    }
+}

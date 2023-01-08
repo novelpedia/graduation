@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/header.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" sizes="512x512" href="android-chrome-512x512.png" />
+    <title>노벨피디아</title>
+</head>
+
+<body class="main_body">
+    <header class="header">
+        <a class="logo_a" href="index.html">
+            <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
+            <img class="logo_icon" src="image/logo.png">
+        </a>
+        <div class="first_line">
+            <div class="inner_item">
+                <a id="open_close" href="#" class="navbar_toggleBtn">
+                    <img id="close" src="image/메뉴_검정_버튼.png">
+                </a>
+                <div class="inner_inner_item">
+                    <div class="search">
+                        <div class="icon"></div>
+                        <form method="get" action="search.html">
+                            <div class="input">
+                                <input type="text" placeholder="Search" id="mysearch">
+                            </div>
+                            <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
+                            <input type="submit" value="" class="search_btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="set">
+                <div class="set_mid">
+                    <ul class="bar_menu">
+                        <li><a href="listpage.html">목록페이지</a></li>
+                        <li class="mypage_header"><a href="user_modify.html">마이페이지</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <script>
+        /*메뉴버튼 바꾸기 위한 변수*/
+        const change_img = document.createElement('img');
+        change_img.setAttribute('src', './image/메뉴_닫힘.png');
+        change_img.setAttribute('id', 'close');
+
+        const change_img_normal = document.createElement('img');
+        change_img_normal.setAttribute('src', './image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('id', 'close');
+
+        /*검색버튼에 대한 동작 변수*/
+        const icon = document.querySelector('.search .icon');
+        const search = document.querySelector('.search');
+        const inner_item = document.querySelector('.inner_item');
+        const inner_inner_item = document.querySelector('.inner_inner_item');
+        const menu_window2 = document.querySelector('.header .set active');
+
+        /*메뉴 버튼에 따른 동작 변수*/
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.bar_menu');
+        const menu_window = document.querySelector('.header .set');
+
+        /*메뉴버튼*/
+        toggleBtn.onclick = function() {
+            menu.classList.toggle('active');
+            menu_window.classList.toggle('active');
+            const lastDiv = document.getElementById('close');
+            /*메뉴창 열림 여부에 따라 버튼 이미지 교체*/
+            if (document.querySelector('.header .set').classList.contains('active')) {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img);
+            } else {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img_normal);
+            }
+
+        }
+
+        /*검색버튼*/
+        icon.onclick = function() {
+            icon.classList.toggle('active');
+            search.classList.toggle('active');
+            inner_item.classList.toggle('active');
+            inner_inner_item.classList.toggle('active');
+            menu_window.classList.toggle('search_active');
+        }
+    </script>
+
+
+    <section class="main_section">
+        <div class="main_first">
+            <div class="main_slideboard">
+                <input type="radio" name="slide" id="slide01" checked>
+                <input type="radio" name="slide" id="slide02">
+                <input type="radio" name="slide" id="slide03">
+                <input type="radio" name="slide" id="slide04">
+                <div class="slidewrap">
+                    <ul class="slidelist">
+                        <!-- 슬라이드 영역 -->
+                        <li class="slideitem">
+                            <a href="#" target="_blank">
+                                <!--<div class="textbox">
+                                    <h3>첫번째 슬라이드</h3>
+                                    <p>첫번째 슬라이드 입니다.</p>
+                                </div>-->
+                                <img src="./image/slide4.png">
+                            </a>
+                        </li>
+                        <li class="slideitem">
+                            <a href="#" target="_blank">
+
+                                <div class="textbox">
+                                    <h3>두번째 슬라이드</h3>
+                                    <p>두번째 슬라이드 입니다.</p>
+                                </div>
+                                <img src="./image/slide2.jpg">
+                            </a>
+                        </li>
+                        <li class="slideitem">
+                            <a href="#" target="_blank">
+
+                                <div class="textbox">
+                                    <h3>세번째 슬라이드</h3>
+                                    <p>세번째 슬라이드 입니다.</p>
+                                </div>
+                                <img src="./image/slide.jpg">
+                            </a>
+                        </li>
+                        <li class="slideitem">
+                            <a href="#" target="_blank">
+
+                                <div class="textbox">
+                                    <h3>네번째 슬라이드</h3>
+                                    <p>네번째 슬라이드 입니다.</p>
+                                </div>
+                                <img src="./image/slide.jpg">
+                            </a>
+                        </li>
+
+                        <!-- 좌,우 슬라이드 버튼 -->
+                        <div class="slide-control">
+                            <div>
+                                <label for="slide04" class="left"></label>
+                                <label for="slide02" class="right"></label>
+                            </div>
+                            <div>
+                                <label for="slide01" class="left"></label>
+                                <label for="slide03" class="right"></label>
+                            </div>
+                            <div>
+                                <label for="slide02" class="left"></label>
+                                <label for="slide04" class="right"></label>
+                            </div>
+                            <div>
+                                <label for="slide03" class="left"></label>
+                                <label for="slide01" class="right"></label>
+                            </div>
+                        </div>
+
+                    </ul>
+                    <!-- 페이징 -->
+                    <ul class="slide-pagelist">
+                        <li><label for="slide01"></label></li>
+                        <li><label for="slide02"></label></li>
+                        <li><label for="slide03"></label></li>
+                        <li><label for="slide04"></label></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="main_multi">
+                <div class="main_go">
+                    <p>바로가기</p>
+                    <div class="line_one">
+                        <input type="button" class="button" onclick="location.href='ranking.html'">
+                        <input type="button" class="button" onclick="location.href='#'">
+                        <input type="button" class="button" onclick="location.href='#'">
+                        <input type="button" class="button" onclick="location.href='#'">
+                    </div>
+                    <div class="line_two">
+                        <input type="button" class="button" onclick="location.href='#'">
+                        <input type="button" class="button" onclick="location.href='#'">
+                        <input type="button" class="button" onclick="location.href='#'">
+                        <input type="button" class="button" onclick="location.href='#'">
+                    </div>
+                </div>
+                <div class="main_new_document">
+                    <a href="#">새로 등록된 작품</a>
+                    <div class="document_first">
+                        <div class="document_second">
+                            <a href="novel.html">
+                                <img src="./image/표지_미등록.png">
+                                <p>첫번째</p>
+                            </a>
+                        </div>
+                        <div class="document_second">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>두번째</p>
+                            </a>
+                        </div>
+                        <div class="document_second">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>세번째</p>
+                            </a>
+                        </div>
+                        <div class="document_second">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>네번째</p>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="main_intro">
+            <div class="explain">
+                <!--<hr />-->
+                <h1>"NovelPedia"</h1>
+                <p>노벨피디아는 검증되지 않았거나, 편향적이거나, 잘못된 서술이 있을 수 있습니다.</p>
+                <p>정식 출간되지 않은 작품도 문서로 등록할 수 있으며, 여러분이 직접 문서를 고치고 리뷰를 작성할 수 있습니다.</p>
+                <!--<hr />-->
+            </div>
+        </div>
+
+        <div class="main_second">
+            <div class="main_ranking">
+                <a href="#">노벨피디아 순위</a>
+                <div class="document_first">
+                    <div class="document_rank">
+                        <a href="#">
+                            <img class="rankimg" src="./image/rank1.png">
+                            <img src="./image/표지_미등록.png">
+                            <p>1위</p>
+                            <p>소설제목</p>
+                            <p>작가</p>
+                        </a>
+                    </div>
+                    <div class="document_rank">
+                        <a href="#">
+                            <img class="rankimg" src="./image/rank2.png">
+                            <img src="./image/표지_미등록.png">
+                            <p>2위</p>
+                            <p>소설제목</p>
+                            <p>작가</p>
+                        </a>
+                    </div>
+                    <div class="document_rank">
+                        <a href="#">
+                            <img class="rankimg" src="./image/rank3.png">
+                            <img src="./image/표지_미등록.png">
+                            <p>3위</p>
+                            <p>소설제목</p>
+                            <p>작가</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="document_second">
+                    <div class="document_rank2">
+                        <a href="#" class="a_first">
+                        </a>
+                    </div>
+                    <div class="document_rank2">
+                        <a href="#">
+                            <!--<img src="./image/표지_미등록.png">-->
+                            <p class="p_rank">4위</p>
+                            <p class="p_title">너의 목소리가 들려</p>
+                            <p class="p_writer">김영하</p>
+                        </a>
+                    </div>
+                    <div class="document_rank2">
+                        <a href="#">
+                            <!--<img src="./image/표지_미등록.png">-->
+                            <p class="p_rank">5위</p>
+                            <p class="p_title">최선의 삶</p>
+                            <p class="p_writer">임솔아</p>
+                        </a>
+                    </div>
+                    <div class="document_rank2">
+                        <a href="#">
+                            <!--<img src="./image/표지_미등록.png">-->
+                            <p class="p_rank">6위</p>
+                            <p class="p_title">살인자의 기억법</p>
+                            <p class="p_writer">김영하</p>
+                        </a>
+                    </div>
+                    <div class="document_rank2">
+                        <a href="#">
+                            <!--<img src="./image/표지_미등록.png">-->
+                            <p class="p_rank">7위</p>
+                            <p class="p_title">대학일기</p>
+                            <p class="p_writer">자까</p>
+                        </a>
+                    </div>
+                    <div class="document_rank2">
+                        <a href="#">
+                            <!--<img src="./image/표지_미등록.png">-->
+                            <p class="p_rank">8위</p>
+                            <p class="p_title">아몬드</p>
+                            <p class="p_writer">손원평</p>
+                        </a>
+                    </div>
+                    <div class="document_rank2">
+                        <a href="#">
+                            <!--<img src="./image/표지_미등록.png">-->
+                            <p class="p_rank">9위</p>
+                            <p class="p_title">농무</p>
+                            <p class="p_writer">신경림</p>
+                        </a>
+                    </div>
+                    <div class="document_rank2">
+                        <a href="#">
+                            <!--<img src="./image/표지_미등록.png">-->
+                            <p class="p_rank">10위</p>
+                            <p class="p_title">누가 하늘을 보았다 하는가</p>
+                            <p class="p_writer">신동엽</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="main_new_review">
+                <div class="name">
+                    <a href="#">새로 등록된 리뷰</a>
+                </div>
+                <div class="review_pre">
+
+                    <div class="review_pre_set" style="margin-top:16px;">
+                        <p>닉네임</p>
+                        <p>|</p>
+                        <p>작품이름</p>
+                        <div class="balloon">
+                            <p>리뷰</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review_pre">
+                    <div class="review_pre_set">
+                        <p>닉네임</p>
+                        <p>|</p>
+                        <p>작품이름</p>
+                        <div class="balloon">
+                            <p>리뷰</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review_pre">
+                    <div class="review_pre_set">
+                        <p>닉네임</p>
+                        <p>|</p>
+                        <p>작품이름</p>
+                        <div class="balloon">
+                            <p>리뷰</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="review_pre">
+                    <div class="review_pre_set">
+                        <p>닉네임</p>
+                        <p>|</p>
+                        <p>작품이름</p>
+                        <div class="balloon">
+                            <p>리뷰</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">공지사항</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">Q&A</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">의견보내기</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

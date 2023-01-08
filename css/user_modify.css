@@ -1,0 +1,401 @@
+* {
+    font-family: 'NanumGothic';
+    margin: 0;
+}
+/*
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+*/
+
+/*button {
+    cursor: pointer;
+}
+
+body {
+    border-radius: 10px;
+}*/
+
+.user_modify {
+    width: 850px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.user_modify .mypage {
+    /* "나의 정보" */
+    width: 100%;
+    border-bottom: 1px solid black;
+    display: flex;
+    text-align: center;
+    justify-content: end;
+    margin-top: 150px;
+    padding-bottom: 10px;
+    font-weight: 600;
+    font-size: 40px;
+}
+
+.user_modify .space {
+    display: flex;
+    justify-content: center;
+    
+    /*display: flex;
+    left: 82.5%;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    justify-content: flex-end;*/
+}
+
+.user_modify .modify {
+    font-size: 20px;
+}
+
+.user_modify .space2 {
+    /*회원정보 수정 */
+    display: flex;
+    justify-content: flex-end;
+    left: 86%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    right: 50%;
+}
+
+.user_modify .mid {
+    margin-top: 30px;
+}
+
+.user_modify h2 {
+    /* 회원가입 제목 */
+    width: 100%;
+    height: 100px;
+    line-height: 150px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.user_modify form {
+    /*회원가입 칸 */
+    bottom: 10px;
+    width: 100%;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid #bebebe;
+    margin-bottom: 10px;
+}
+
+.user_modify .mid {
+    width: 100%;
+    position: relative;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user_modify label {
+    display: block;
+    font-size: 13px;
+    color: black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.user_modify .id {
+    width: 65%;
+}
+
+.user_modify .password {
+    width: 65%;
+}
+
+.user_modify .password2 {
+    width: 65%;
+}
+
+.user_modify .name {
+    width: 65%;
+}
+
+.user_modify .nickname {
+    width: 65%;
+    margin-bottom: 10px;
+}
+
+.user_modify .email {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+}
+
+.user_modify .setting {
+    display: flex;
+    width: 100%
+}
+
+.user_modify .birthday {
+    /* 생년월일 + 달력 */
+    width: 65%;
+    margin-bottom: 30px;
+}
+
+.user_modify .phone {
+    width: 65%;
+}
+
+.user_modify .first {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 90%;
+    margin-bottom: 30px;
+}
+
+.user_modify .first input {
+    /* 아이디, 비밀번호, 비밀번호 재확인 입력칸 */
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 50px;
+    border: solid 1px #e5e5e5;
+    background-color: white;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.user_modify .second {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 90%;
+}
+
+.user_modify .second input {
+    /* 이름, 이메일, 생일 입력칸 */
+    display: flex;
+    width: 100%;
+    height: 50px;
+    border: solid 1px #e5e5e5;
+    background-color: white;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.user_modify .third {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 90%;
+}
+
+.user_modify .email input {
+    display: flex;
+    width: 60%;
+    height: 50px;
+    border: solid 1px #e5e5e5;
+    background-color: white;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.user_modify .email select {
+    /*이메일 선택*/
+    display: flex;
+    width: 40%;
+    height: 50px;
+    border-radius: 0px;
+    outline: none;
+    border: 1px solid #e5e5e5;
+}
+
+.user_modify .check {
+    /*인증하기 */
+    display: flex;
+    border-radius: 0px;
+    border: solid 1px #e5e5e5;
+    background-color: white;
+
+}
+
+.user_modify .check2 {
+    /*인증하기 */
+    display: flex;
+    border-radius: 0px;
+    border: solid 1px #e5e5e5;
+    background-color: white;
+}
+
+.user_modify .block {
+    width: 65%;
+    margin-top: 7px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.user_modify .block2 {
+    width: 65%;
+    margin-top: 7px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+}
+
+.user_modify .birthday input {
+    /*display: flex;*/
+    /*right: 114px;*/
+}
+
+.user_modify .phone input {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    border: solid 1px #e5e5e5;
+    background-color: white;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.user_modify a {
+    color: #333;
+    font-size: 12px;
+    position: relative;
+    top: -2px;
+}
+
+.user_modify .gender {
+    width: 65%
+}
+
+.user_modify .gender input[type=radio] {
+    display: none;
+}
+
+.user_modify .gender input[type=radio] + label {
+    display: inline-block;
+    height: 30px;
+    width: 50%;
+    border: solid 1px #e5e5e5;
+    background-color: white;
+    line-height: 30px;
+    text-align: center;
+    font-size: 15px;
+    /*margin-bottom: 15px;*/
+    margin-right: -9px;
+}
+
+/*
+.gender input[type=radio] + label {
+    background-color: #ededed;
+    color: #333;
+}
+*/
+
+.user_modify .gender input[type=radio]:checked + label {
+    background-color: #769fcd;
+    color: white;
+}
+
+.user_modify .buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+
+.user_modify .clear {
+    margin: 3px;
+    justify-content: center;
+}
+
+.user_modify .back {
+    margin: 3px;
+    justify-content: center;
+}
+
+.user_modify .buttons button {
+    width: 150px;
+    height: 50px;
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    border: none;
+    background-color: #769FCD;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+
+@media screen and (max-width: 640px) {
+    .user_modify .mypage {
+        font-size: 30px;
+    }
+
+    .user_modify .modify {
+        font-size: 15px;
+    }
+
+    /*.buttons {
+        left: 22%;
+    }
+*/
+    .user_modify .block2 {
+        width: 65%;
+
+    }
+
+    .user_modify .first {
+        width: 100%;
+        height: 100%;
+    }
+
+    .second {
+        width: 100%;
+        height: 100%;
+    }
+
+    .user_modify .third {
+        width: 100%;
+        height: 100%;
+    }
+
+    .user_modify .gender {
+        width: 65%;
+    }
+
+    .user_modify .email input {
+        width: 50%;
+
+    }
+
+    .user_modify .email select {
+        width: 50%
+    }
+
+    .user_modify .signup {
+        width: 100%;
+    }
+
+    .user_modify .first input {
+        /* 아이디, 비밀번호, 비밀번호 재확인 입력칸 */
+        width: 100%;
+
+    }
+}
+/*
+fieldset {
+    width: 100%;
+}
+
+.buttons {
+    width: 60%;
+}*/

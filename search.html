@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <link href="css/header.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
+    <link href="./css/search.css" rel="stylesheet">
+    <title>검색페이지</title>
+</head>
+
+<body>
+    <header class="header">
+        <a class="logo_a" href="index.html">
+            <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
+            <img class="logo_icon" src="image/logo.png">
+        </a>
+        <div class="first_line">
+            <div class="inner_item">
+                <a id="open_close" href="#" class="navbar_toggleBtn">
+                    <img id="close" src="image/메뉴_검정_버튼.png">
+                </a>
+                <div class="inner_inner_item">
+                    <div class="search">
+                        <div class="icon"></div>
+                        <form method="get" action="search.html">
+                            <div class="input">
+                                <input type="text" placeholder="Search" id="mysearch">
+                            </div>
+                            <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
+                            <input type="submit" value="" class="search_btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="set">
+            <div class="set_mid">
+                <ul class="bar_menu">
+                    <li class="mypage_header"><a href="#">마이페이지</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        /*메뉴버튼 바꾸기 위한 변수*/
+        const change_img = document.createElement('img');
+        change_img.setAttribute('src', './image/메뉴_닫힘.png');
+        change_img.setAttribute('id', 'close');
+
+        const change_img_normal = document.createElement('img');
+        change_img_normal.setAttribute('src', './image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('id', 'close');
+
+        /*검색버튼에 대한 동작 변수*/
+        const icon = document.querySelector('.search .icon');
+        const search = document.querySelector('.search');
+        const inner_item = document.querySelector('.inner_item');
+        const inner_inner_item = document.querySelector('.inner_inner_item');
+        const menu_window2 = document.querySelector('.header .set active');
+
+        /*메뉴 버튼에 따른 동작 변수*/
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.bar_menu');
+        const menu_window = document.querySelector('.header .set');
+
+        /*메뉴버튼*/
+        toggleBtn.onclick = function() {
+            menu.classList.toggle('active');
+            menu_window.classList.toggle('active');
+            const lastDiv = document.getElementById('close');
+            /*메뉴창 열림 여부에 따라 버튼 이미지 교체*/
+            if (document.querySelector('.header .set').classList.contains('active')) {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img);
+            } else {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img_normal);
+            }
+
+        }
+
+        /*검색버튼*/
+        icon.onclick = function() {
+            icon.classList.toggle('active');
+            search.classList.toggle('active');
+            inner_item.classList.toggle('active');
+            inner_inner_item.classList.toggle('active');
+            menu_window.classList.toggle('search_active');
+        }
+    </script>
+
+
+    <section class="section_search">
+        <div class="search_page">
+            <div class="search_information">
+                <div class="search_word">검색어</div>
+                <div class="search_default_sentence"> 에 대한&nbsp;</div>
+                <div class="search_word">0</div>
+                <div class="search_default_sentence">개의 검색결과</div>
+            </div>
+            <div class="search_area">
+                <form method="get" action="./search.html">
+                    <div class="select_package">
+                        <select>
+                            <option>전체</option>
+                            <option>웹소설</option>
+                            <option>웹툰</option>
+                            <option>일반소설</option>
+                            <option>만화책</option>
+                        </select>
+                        <select>
+                            <option>전체</option>
+                            <option>작품</option>
+                            <option>작가</option>
+                            <option>출판사</option>
+                        </select>
+                        <select class="title_content_select">
+                            <option>문서제목</option>
+                            <option>내용</option>
+                            <option>문서제목 + 내용</option>
+                        </select>
+                    </div>
+                    <div class="input_package">
+                        <input type="text" class="search_input_bar">
+                        <input type="submit" value="검색" class="search_submit_button">
+                    </div>
+                </form>
+            </div>
+            <div class="search_result_area">
+                <div class="search_result_element">
+                    <a href="#" class="title_summary">
+                        <h1>문서제목</h1>
+                        <p>문서내용 or 줄거리</p>
+                    </a>
+                </div>
+                <div class="search_result_element">
+                    <a href="#" class="title_summary">
+                        <h1>문서제목</h1>
+                        <p>문서내용 or 줄거리</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">공지사항</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">Q&A</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">의견보내기</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

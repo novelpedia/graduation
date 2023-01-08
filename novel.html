@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <link href="css/novel_page.css" rel="stylesheet">
+    <link href="css/header.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
+    <title>작품페이지</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a class="logo_a" href="index.html">
+            <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
+            <img class="logo_icon" src="image/logo.png">
+        </a>
+        <div class="first_line">
+            <div class="inner_item">
+                <a id="open_close" href="#" class="navbar_toggleBtn">
+                    <img id="close" src="image/메뉴_검정_버튼.png">
+                </a>
+                <div class="inner_inner_item">
+                    <div class="search">
+                        <div class="icon"></div>
+                        <form method="get" action="http://novelpedia.dothome.co.kr/search?">
+                            <div class="input">
+                                <input type="text" placeholder="Search" id="mysearch">
+                            </div>
+                            <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
+                            <input type="submit" value="" class="search_btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="set">
+            <div class="set_mid">
+                <ul class="bar_menu">
+                    <li><a href="#">Category</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        /*메뉴버튼 바꾸기 위한 변수*/
+        const change_img = document.createElement('img');
+        change_img.setAttribute('src', './image/메뉴_닫힘.png');
+        change_img.setAttribute('id', 'close');
+
+        const change_img_normal = document.createElement('img');
+        change_img_normal.setAttribute('src', './image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('id', 'close');
+
+        /*검색버튼에 대한 동작 변수*/
+        const icon = document.querySelector('.search .icon');
+        const search = document.querySelector('.search');
+        const inner_item = document.querySelector('.inner_item');
+        const inner_inner_item = document.querySelector('.inner_inner_item');
+        const menu_window2 = document.querySelector('.header .set active');
+
+        /*메뉴 버튼에 따른 동작 변수*/
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.bar_menu');
+        const menu_window = document.querySelector('.header .set');
+
+        /*메뉴버튼*/
+        toggleBtn.onclick = function() {
+            menu.classList.toggle('active');
+            menu_window.classList.toggle('active');
+            const lastDiv = document.getElementById('close');
+            /*메뉴창 열림 여부에 따라 버튼 이미지 교체*/
+            if (document.querySelector('.header .set').classList.contains('active')) {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img);
+            } else {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img_normal);
+            }
+
+        }
+
+        /*검색버튼*/
+        icon.onclick = function() {
+            icon.classList.toggle('active');
+            search.classList.toggle('active');
+            inner_item.classList.toggle('active');
+            inner_inner_item.classList.toggle('active');
+            menu_window.classList.toggle('search_active');
+        }
+    </script>
+
+    <section class="document_section">
+        <div class="document_section_all">
+            <!--작품 제목(작가명)-->
+            <div class="document_name">
+                <a href="#">작품제목(작가명)</a>
+            </div>
+
+            <div class="document_bundle_button">
+                <a class="edit" href="novel_edit.html">편집</a>
+                <a class="history" href="history.html">역사</a>
+                <a class="delete" href="#">삭제</a>
+            </div>
+
+            <div class="document_bundle">
+                <div class="document_bundle_cover">
+                    <!--작품표지-->
+                    <div class="document_bookcover">
+                        <img src="image/표지_미등록.png">
+                    </div>
+
+                    <!--관심등록 및 버튼-->
+                    <div class="document_button">
+                        <button>좋아요</button>
+                    </div>
+                </div>
+
+
+                <!--목차-->
+                <div class="document_index">
+                    <ol>목차
+                        <li><a href="#document_information">작품정보</a></li>
+                        <li><a href="#document_summary">줄거리</a></li>
+                        <li><a href="#document_review">리뷰</a></li>
+                        <li><a></a></li>
+                        <li><a></a></li>
+                    </ol>
+                </div>
+            </div>
+
+            <!--작품정보 : 표-->
+            <div id="document_information" class="document_information">
+                <table>
+                    <tr>
+                        <th colspan="2">작품정보</th>
+                    </tr>
+                    <!--Work Info-->
+                    <tr>
+                        <td class="title">제목</td>
+                        <td class="content">작품제목</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title">작가</td>
+                        <td class="content"><a href="author.html">작가이름</a></td>
+                    </tr>
+
+                    <tr>
+                        <td class="title">출판사</td>
+                        <td class="content"><a href="publisher.html">문학동네</a></td>
+                    </tr>
+
+                    <tr>
+                        <td class="title">장르</td>
+                        <td class="content">일반소설</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title">구매처 및 연재처</td>
+                        <td class="content"><a href="https://yes24.com" target="_blank">Yes24</a></td>
+                    </tr>
+
+                    <tr>
+                        <td class="title">출간일</td>
+                        <td class="content">2022-08-04</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!--줄거리-->
+            <div id="document_summary" class="document_summary">
+                <div class="title">
+                    <p class="p_title">줄거리</p>
+                </div>
+                <input type="checkbox" class="read_more" id="more" />
+                <!--<div class="lable_Square"></div>-->
+
+                <div class="content">
+                    <p>
+                        「
+                        흥부전」의 기본 줄거리는 다음과 같다.
+                        충청·전라·경상 삼도의 어름에 악하고 사나운 형 놀부와 순하고 착한 아우 흥부가 살았는데,
+                        놀부는 부모의 유산을 독차지하고 흥부를 내쫓았다.
+                        아내와 많은 자식과 함께 쫓겨난 흥부는 할 수 없이 언덕에 움집을 짓고 살지만 먹을 것이 없었다.
+                        하루는 놀부의 집으로 쌀을 구하러 갔으나 매만 맞고 돌아왔다.
+                        여러 가지 품팔이를 다해 보아도 먹고 살길이 없어,
+                        대신 매를 맞아 주는 매품팔이를 하나 그것도 안 되었다.어느 해 봄,
+                        제비가 돌아와 집을 짓고 사는데 새끼 한 마리가 땅에 떨어져 다리가 부러졌다.
+                        흥부가 불쌍히 여겨 다리를 매어 주니 고맙다고 날아갔다.
+                        그리고 그 이듬해 봄에 돌아올 때 박씨 하나를 물어다 주었다.
+                        흥부는 그 박씨를 심어 가을에 큰 박을 많이 땄는데 그 속에서 금은보화가 나와 큰 부자가 되었다.
+                        놀부가 이 소식을 듣고 제비 새끼의 다리를 일부러 부러뜨려 날려보냈다.
+                        이듬해 봄에 제비가 가져다 준 박씨를 심어 많은 박을 땄는데 그 속에서 온갖 몹쓸 것이 나와 집안이 망하게 되었다.
+                        흥부는 이 소식을 듣고 놀부에게 재물을 주어 살게 하고,
+                        그 뒤 놀부도 잘못을 뉘우치고 착한 사람이 되었으며 형제가 화목하게 살게 되었다.
+                        [출처: 한국민족문화대백과사전(흥부전(興夫傳))]
+                        「
+                        흥부전」의 기본 줄거리는 다음과 같다.
+                        충청·전라·경상 삼도의 어름에 악하고 사나운 형 놀부와 순하고 착한 아우 흥부가 살았는데,
+                        놀부는 부모의 유산을 독차지하고 흥부를 내쫓았다.
+                        아내와 많은 자식과 함께 쫓겨난 흥부는 할 수 없이 언덕에 움집을 짓고 살지만 먹을 것이 없었다.
+                        하루는 놀부의 집으로 쌀을 구하러 갔으나 매만 맞고 돌아왔다.
+                        여러 가지 품팔이를 다해 보아도 먹고 살길이 없어,
+                        대신 매를 맞아 주는 매품팔이를 하나 그것도 안 되었다.어느 해 봄,
+                        제비가 돌아와 집을 짓고 사는데 새끼 한 마리가 땅에 떨어져 다리가 부러졌다.
+                        흥부가 불쌍히 여겨 다리를 매어 주니 고맙다고 날아갔다.
+                        그리고 그 이듬해 봄에 돌아올 때 박씨 하나를 물어다 주었다.
+                        흥부는 그 박씨를 심어 가을에 큰 박을 많이 땄는데 그 속에서 금은보화가 나와 큰 부자가 되었다.
+                        놀부가 이 소식을 듣고 제비 새끼의 다리를 일부러 부러뜨려 날려보냈다.
+                        이듬해 봄에 제비가 가져다 준 박씨를 심어 많은 박을 땄는데 그 속에서 온갖 몹쓸 것이 나와 집안이 망하게 되었다.
+                        흥부는 이 소식을 듣고 놀부에게 재물을 주어 살게 하고,
+                        그 뒤 놀부도 잘못을 뉘우치고 착한 사람이 되었으며 형제가 화목하게 살게 되었다.
+                        [출처: 한국민족문화대백과사전(흥부전(興夫傳))]
+                        「
+                        흥부전」의 기본 줄거리는 다음과 같다.
+                        충청·전라·경상 삼도의 어름에 악하고 사나운 형 놀부와 순하고 착한 아우 흥부가 살았는데,
+                        놀부는 부모의 유산을 독차지하고 흥부를 내쫓았다.
+                        아내와 많은 자식과 함께 쫓겨난 흥부는 할 수 없이 언덕에 움집을 짓고 살지만 먹을 것이 없었다.
+                        하루는 놀부의 집으로 쌀을 구하러 갔으나 매만 맞고 돌아왔다.
+                        여러 가지 품팔이를 다해 보아도 먹고 살길이 없어,
+                        대신 매를 맞아 주는 매품팔이를 하나 그것도 안 되었다.어느 해 봄,
+                        제비가 돌아와 집을 짓고 사는데 새끼 한 마리가 땅에 떨어져 다리가 부러졌다.
+                        흥부가 불쌍히 여겨 다리를 매어 주니 고맙다고 날아갔다.
+                        그리고 그 이듬해 봄에 돌아올 때 박씨 하나를 물어다 주었다.
+                        흥부는 그 박씨를 심어 가을에 큰 박을 많이 땄는데 그 속에서 금은보화가 나와 큰 부자가 되었다.
+                        놀부가 이 소식을 듣고 제비 새끼의 다리를 일부러 부러뜨려 날려보냈다.
+                        이듬해 봄에 제비가 가져다 준 박씨를 심어 많은 박을 땄는데 그 속에서 온갖 몹쓸 것이 나와 집안이 망하게 되었다.
+                        흥부는 이 소식을 듣고 놀부에게 재물을 주어 살게 하고,
+                        그 뒤 놀부도 잘못을 뉘우치고 착한 사람이 되었으며 형제가 화목하게 살게 되었다.
+                        [출처: 한국민족문화대백과사전(흥부전(興夫傳))]
+                    </p>
+                </div>
+                <label for="more" class="trigger"></label>
+            </div>
+
+            <!--리뷰-->
+            <!--<h1>리뷰</h1>-->
+            <div id="document_review" class="document_review">
+                <div class="title">
+                    <p class="p_title">리뷰</p>
+                </div>
+                <div class="content">
+                    <div class="box_estimate">
+                        <div class="document_500char">
+                            <span class="document_500char_name">500자평</span>
+                        </div>
+                        <form>
+                            <div class="content_input">
+                                <div class="star_box">
+                                    <div class="star">
+                                        <input type="radio" name="rating" value="5" id="rate1"><label for="rate1">★</label>
+                                        <input type="radio" name="rating" value="4" id="rate2"><label for="rate2">★</label>
+                                        <input type="radio" name="rating" value="3" id="rate3"><label for="rate3">★</label>
+                                        <input type="radio" name="rating" value="2" id="rate4"><label for="rate4">★</label>
+                                        <input type="radio" name="rating" value="1" id="rate5"><label for="rate5">★</label>
+                                    </div>
+                                </div>
+                                <div class="content_boxing">
+                                    <textarea id="char_content" onkeydown="calc()" onkeyup="calc()" onkeypress="calc()" maxlength="500"></textarea>
+                                    <div class="register_button">
+                                        <input class="register_submit" type="submit" value="등록">
+                                    </div>
+                                </div>
+                                <div class="char_number">
+                                    <input type="number" id="char_result" value="0" readonly>
+                                    <span class="max_number">/ 500</span>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="review_button">
+                            <a href="#" class="review_write">리뷰작성</a>
+                        </div>
+                    </div>
+
+                    <script>
+                        function calc() {
+                            document.getElementById('char_result').value = document.getElementById('char_content').value.length;
+                        }
+                    </script>
+                    <div class="line">
+                    </div>
+                    <div class="review_pre">
+                        <div class="review_pre_set">
+                            <p>닉네임</p>
+                            <p>|</p>
+                            <p>평점</p>
+                            <div class="balloon">
+                                <p>리뷰</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review_pre">
+                        <div class="review_pre_set">
+                            <p>닉네임</p>
+                            <p>|</p>
+                            <p>평점</p>
+                            <div class="balloon">
+                                <p>리뷰</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review_pre">
+                        <div class="review_pre_set">
+                            <p>닉네임</p>
+                            <p>|</p>
+                            <p>평점</p>
+                            <div class="balloon">
+                                <p>리뷰</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review_pre">
+                        <div class="review_pre_set">
+                            <p>닉네임</p>
+                            <p>|</p>
+                            <p>평점</p>
+                            <div class="balloon">
+                                <p>리뷰</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review_pre">
+                        <div class="review_pre_set">
+                            <p>닉네임</p>
+                            <p>|</p>
+                            <p>평점</p>
+                            <div class="balloon">
+                                <p>리뷰</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review_pre">
+                        <div class="review_pre_set">
+                            <p>닉네임</p>
+                            <p>|</p>
+                            <p>평점</p>
+                            <div class="balloon">
+                                <p>리뷰</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--구분선-->
+            <!--안내-->
+            <div class="alram">
+                <p>※여기부터는 사용자가 직접 편집할 수 있는 공간입니다※</p>
+            </div>
+
+            <!--기타-->
+            <div class="document_other"></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">공지사항</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">Q&A</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">의견보내기</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

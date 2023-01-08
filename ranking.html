@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/ranking.css" rel="stylesheet">
+    <link href="css/header.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <title>순위페이지</title>
+</head>
+
+<body>
+    <header class="header">
+        <a class="logo_a" href="index.html">
+            <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
+            <img class="logo_icon" src="image/logo.png">
+        </a>
+        <div class="first_line">
+            <div class="inner_item">
+                <a id="open_close" href="#" class="navbar_toggleBtn">
+                    <img id="close" src="image/메뉴_검정_버튼.png">
+                </a>
+                <div class="inner_inner_item">
+                    <div class="search">
+                        <div class="icon"></div>
+                        <form method="get" action="http://novelpedia.dothome.co.kr/search?">
+                            <div class="input">
+                                <input type="text" placeholder="Search" id="mysearch">
+                            </div>
+                            <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
+                            <input type="submit" value="" class="search_btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="set">
+            <div class="set_mid">
+                <ul class="bar_menu">
+                    <li><a href="#">Category</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        /*메뉴버튼 바꾸기 위한 변수*/
+        const change_img = document.createElement('img');
+        change_img.setAttribute('src', './image/메뉴_닫힘.png');
+        change_img.setAttribute('id', 'close');
+
+        const change_img_normal = document.createElement('img');
+        change_img_normal.setAttribute('src', './image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('id', 'close');
+
+        /*검색버튼에 대한 동작 변수*/
+        const icon = document.querySelector('.search .icon');
+        const search = document.querySelector('.search');
+        const inner_item = document.querySelector('.inner_item');
+        const inner_inner_item = document.querySelector('.inner_inner_item');
+        const menu_window2 = document.querySelector('.header .set active');
+
+        /*메뉴 버튼에 따른 동작 변수*/
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.bar_menu');
+        const menu_window = document.querySelector('.header .set');
+
+        /*메뉴버튼*/
+        toggleBtn.onclick = function() {
+            menu.classList.toggle('active');
+            menu_window.classList.toggle('active');
+            const lastDiv = document.getElementById('close');
+            /*메뉴창 열림 여부에 따라 버튼 이미지 교체*/
+            if (document.querySelector('.header .set').classList.contains('active')) {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img);
+            } else {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img_normal);
+            }
+
+        }
+
+        /*검색버튼*/
+        icon.onclick = function() {
+            icon.classList.toggle('active');
+            search.classList.toggle('active');
+            inner_item.classList.toggle('active');
+            inner_inner_item.classList.toggle('active');
+            menu_window.classList.toggle('search_active');
+        }
+    </script>
+
+
+
+    <section class="section_all">
+        <div class="box_section">
+            <div class="banner_ranking">
+                <a href="#">노벨피디아 작품 순위(Ranking)</a>
+            </div>
+            <div class="first_month_tab">
+                <input type="radio" id="select" name="choice"><label for="select">실시간</label>
+                <input type="radio" id="select2" name="choice"><label for="select2">일간</label>
+                <input type="radio" id="select3" name="choice"><label for="select3">주간</label>
+                <input type="radio" id="select4" name="choice"><label for="select4">월간</label>
+            </div>
+            <div class="second_genre_tab">
+                <input type="radio" id="select5" name="choice2"><label for="select5">로맨스</label>
+                <input type="radio" id="select6" name="choice2"><label for="select6">판타지</label>
+                <input type="radio" id="select7" name="choice2"><label for="select7">로판</label>
+                <input type="radio" id="select8" name="choice2"><label for="select8">현판</label>
+                <input type="radio" id="select9" name="choice2"><label for="select9">무협</label>
+                <input type="radio" id="select10" name="choice2"><label for="select10">미스터리</label>
+                <input type="radio" id="select11" name="choice2"><label for="select11">라이트노벨</label>
+                <input type="radio" id="select12" name="choice2"><label for="select12">기타</label>
+            </div>
+            <div class="third_sort_tab">
+                <input type="radio" id="select13" name="choice3"><label for="select13">조회 수</label>
+                <input type="radio" id="select14" name="choice3"><label for="select14">좋아요 수</label>
+                <input type="radio" id="select15" name="choice3"><label for="select15">리뷰 수</label>
+            </div>
+            <div id="content">
+                <div class="novel_rank">
+                    <ul class="novel_top_rank">
+                        <li>
+                            <div class="top_numb">
+                                <span class="top_num">
+                                    <em class="1">1</em>
+                                </span>
+                            </div>
+                            <a href="" class="image">
+                                <img src="./image/표지_미등록.png">
+                            </a>
+                            <div class="novel_cont">
+                                <h3>
+                                    <a href="">소설제목</a>
+                                </h3>
+                                <p class="info">
+                                    <span class="score">
+                                        <span style="">평점</span>
+                                    </span>
+                                </p>
+                                <p class="summary">줄거리</p>
+                                <div class="like_box">
+                                    <input class="like_checkbox" type="checkbox" id="heart_1">
+                                    <label class="like" for="heart_1">♥</label>
+                                </div>
+                                <!--<button class="button button-like"><i class="fa fa-heart"></i></button>-->
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top_numb">
+                                <span class="top_num">
+                                    <em class="2">2</em>
+                                </span>
+                            </div>
+                            <a href="" class="image">
+                                <img src="./image/표지_미등록.png">
+                            </a>
+                            <div class="novel_cont">
+                                <h3>
+                                    <a href="">소설제목</a>
+                                </h3>
+                                <p class="info">
+                                    <span class="score">
+                                        <span style="">평점</span>
+                                    </span>
+                                </p>
+                                <p class="summary">줄거리</p>
+                                <div class="like_box">
+                                    <input class="like_checkbox" type="checkbox" id="heart_2">
+                                    <label class="like" for="heart_2">♥</label>
+                                </div>
+                                <!--<button class="button button-like"><i class="fa fa-heart"></i></button>-->
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top_numb">
+                                <span class="top_num">
+                                    <em class="3">3</em>
+                                </span>
+                            </div>
+                            <a href="" class="image">
+                                <img src="./image/표지_미등록.png">
+                            </a>
+                            <div class="novel_cont">
+                                <h3>
+                                    <a href="">소설제목</a>
+                                </h3>
+                                <p class="info">
+                                    <span class="score">
+                                        <span style="">평점</span>
+                                    </span>
+                                </p>
+                                <p class="summary">줄거리</p>
+                                <div class="like_box">
+                                    <input class="like_checkbox" type="checkbox" id="heart_3">
+                                    <label class="like" for="heart_3">♥</label>
+                                </div>
+                                <!--<button class="button button-like"><i class="fa fa-heart"></i></button>-->
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top_numb">
+                                <span class="top_num">
+                                    <em class="4">4</em>
+                                </span>
+                            </div>
+                            <a href="" class="image">
+                                <img src="./image/표지_미등록.png">
+                            </a>
+                            <div class="novel_cont">
+                                <h3>
+                                    <a href="">소설제목</a>
+                                </h3>
+                                <p class="info">
+                                    <span class="score">
+                                        <span style="">평점</span>
+                                    </span>
+                                </p>
+                                <p class="summary">줄거리</p>
+                                <div class="like_box">
+                                    <input class="like_checkbox" type="checkbox" id="heart_4">
+                                    <label class="like" for="heart_4">♥</label>
+                                </div>
+                                <!--<button class="button button-like"><i class="fa fa-heart"></i></button>-->
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top_numb">
+                                <span class="top_num">
+                                    <em class="5">5</em>
+                                </span>
+                            </div>
+                            <a href="" class="image">
+                                <img src="./image/표지_미등록.png">
+                            </a>
+                            <div class="novel_cont">
+                                <h3>
+                                    <a href="">소설제목</a>
+                                </h3>
+                                <p class="info">
+                                    <span class="score">
+                                        <span style="">평점</span>
+                                    </span>
+                                </p>
+                                <p class="summary">줄거리</p>
+                                <div class="like_box">
+                                    <input class="like_checkbox" type="checkbox" id="heart_5">
+                                    <label class="like" for="heart_5">♥</label>
+                                </div>
+                                <!--<button class="button button-like"><i class="fa fa-heart"></i></button>-->
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top_numb">
+                                <span class="top_num">
+                                    <em class="6">6</em>
+                                </span>
+                            </div>
+                            <a href="" class="image">
+                                <img src="./image/표지_미등록.png">
+                            </a>
+                            <div class="novel_cont">
+                                <h3>
+                                    <a href="">소설제목</a>
+                                </h3>
+                                <p class="info">
+                                    <span class="score">
+                                        <span style="">평점</span>
+                                    </span>
+                                </p>
+                                <p class="summary">줄거리</p>
+                                <div class="like_box">
+                                    <input class="like_checkbox" type="checkbox" id="heart_6">
+                                    <label class="like" for="heart_6">♥</label>
+                                </div>
+                                <!--<button class="button button-like"><i class="fa fa-heart"></i></button>-->
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top_numb">
+                                <span class="top_num">
+                                    <em class="7">7</em>
+                                </span>
+                            </div>
+                            <a href="" class="image">
+                                <img src="./image/표지_미등록.png">
+                            </a>
+                            <div class="novel_cont">
+                                <h3>
+                                    <a href="">소설제목</a>
+                                </h3>
+                                <p class="info">
+                                    <span class="score">
+                                        <span style="">평점</span>
+                                    </span>
+                                </p>
+                                <p class="summary">줄거리</p>
+                                <div class="like_box">
+                                    <input class="like_checkbox" type="checkbox" id="heart_7">
+                                    <label class="like" for="heart_7">♥</label>
+                                </div>
+                                <!--<button class="button button-like"><i class="fa fa-heart"></i></button>-->
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top_numb">
+                                <span class="top_num">
+                                    <em class="8">8</em>
+                                </span>
+                            </div>
+                            <a href="" class="image">
+                                <img src="./image/표지_미등록.png">
+                            </a>
+                            <div class="novel_cont">
+                                <h3>
+                                    <a href="">소설제목</a>
+                                </h3>
+                                <p class="info">
+                                    <span class="score">
+                                        <span style="">평점</span>
+                                    </span>
+                                </p>
+                                <p class="summary">줄거리</p>
+                                <div class="like_box">
+                                    <input class="like_checkbox" type="checkbox" id="heart_8">
+                                    <label class="like" for="heart_8">♥</label>
+                                </div>
+                                <!--<button class="button button-like"><i class="fa fa-heart"></i></button>-->
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top_numb">
+                                <span class="top_num">
+                                    <em class="9">9</em>
+                                </span>
+                            </div>
+                            <a href="" class="image">
+                                <img src="./image/표지_미등록.png">
+                            </a>
+                            <div class="novel_cont">
+                                <h3>
+                                    <a href="">소설제목</a>
+                                </h3>
+                                <p class="info">
+                                    <span class="score">
+                                        <span style="">평점</span>
+                                    </span>
+                                </p>
+                                <p class="summary">줄거리</p>
+                                <div class="like_box">
+                                    <input class="like_checkbox" type="checkbox" id="heart_9">
+                                    <label class="like" for="heart_9">♥</label>
+                                </div>
+                                <!--<button class="button button-like"><i class="fa fa-heart"></i></button>-->
+                            </div>
+                        </li>
+                        <li>
+                            <div class="top_numb">
+                                <span class="top_num">
+                                    <em class="10">10</em>
+                                </span>
+                            </div>
+                            <a href="" class="image">
+                                <img src="./image/표지_미등록.png">
+                            </a>
+                            <div class="novel_cont">
+                                <h3>
+                                    <a href="">소설제목</a>
+                                </h3>
+                                <p class="info">
+                                    <span class="score">
+                                        <span style="">평점</span>
+                                    </span>
+                                </p>
+                                <p class="summary">줄거리</p>
+                                <div class="like_box">
+                                    <input class="like_checkbox" type="checkbox" id="heart_10">
+                                    <label class="like" for="heart_10">♥</label>
+                                </div>
+                                <!--<button class="button button-like"><i class="fa fa-heart"></i></button>-->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">공지사항</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">Q&A</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">의견보내기</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!--<script src="heart.js"></script>-->
+</body>
+
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <link href="css/header.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
+    <link href="css/listpage.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List</title>
+</head>
+
+<body>
+
+    <header class="header">
+        <a class="logo_a" href="index.html">
+            <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
+            <img class="logo_icon" src="image/logo.png">
+        </a>
+        <div class="first_line">
+            <div class="inner_item">
+                <a id="open_close" href="#" class="navbar_toggleBtn">
+                    <img id="close" src="image/메뉴_검정_버튼.png">
+                </a>
+                <div class="inner_inner_item">
+                    <div class="search">
+                        <div class="icon"></div>
+                        <form method="get" action="search.html">
+                            <div class="input">
+                                <input type="text" placeholder="Search" id="mysearch">
+                            </div>
+                            <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
+                            <input type="submit" value="" class="search_btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="set">
+            <div class="set_mid">
+                <ul class="bar_menu">
+                    <li class="mypage_header"><a href="user_modify.html">마이페이지</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        /*메뉴버튼 바꾸기 위한 변수*/
+        const change_img = document.createElement('img');
+        change_img.setAttribute('src', './image/메뉴_닫힘.png');
+        change_img.setAttribute('id', 'close');
+
+        const change_img_normal = document.createElement('img');
+        change_img_normal.setAttribute('src', './image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('id', 'close');
+
+        /*검색버튼에 대한 동작 변수*/
+        const icon = document.querySelector('.search .icon');
+        const search = document.querySelector('.search');
+        const inner_item = document.querySelector('.inner_item');
+        const inner_inner_item = document.querySelector('.inner_inner_item');
+        const menu_window2 = document.querySelector('.header .set active');
+
+        /*메뉴 버튼에 따른 동작 변수*/
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.bar_menu');
+        const menu_window = document.querySelector('.header .set');
+
+        /*메뉴버튼*/
+        toggleBtn.onclick = function() {
+            menu.classList.toggle('active');
+            menu_window.classList.toggle('active');
+            const lastDiv = document.getElementById('close');
+            /*메뉴창 열림 여부에 따라 버튼 이미지 교체*/
+            if (document.querySelector('.header .set').classList.contains('active')) {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img);
+            } else {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img_normal);
+            }
+
+        }
+
+        /*검색버튼*/
+        icon.onclick = function() {
+            icon.classList.toggle('active');
+            search.classList.toggle('active');
+            inner_item.classList.toggle('active');
+            inner_inner_item.classList.toggle('active');
+            menu_window.classList.toggle('search_active');
+        }
+    </script>
+
+    <section class="title_section">
+        <div class="list_section_all">
+            <div class="list_name">
+                <a href="#">LIST PAGE</a>
+            </div>
+            <select name="sort" id="sort">
+                <option value="View">조회순</option>
+                <option value="Newest">최신순</option>
+                <option value="ABC">사전순</option>
+            </select>
+        </div>
+    </section>
+    <section class="list_section">
+        <div class="list_body">
+            <div class="list">
+                <div class="list_pages">
+                    <div class="list_pages_div">
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="list_pages_div">
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list_pages">
+                    <div class="list_pages_div">
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="list_pages_div">
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list_pages">
+                    <div class="list_pages_div">
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="list_pages_div">
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list_pages">
+                    <div class="list_pages_div">
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="list_pages_div">
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                        <div class="list_page">
+                            <a href="#">
+                                <li>
+                                    <img src="./image/cover.png">
+                                </li>
+                                <p>Document</p>
+                                <p>Writer Name</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">공지사항</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">Q&A</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">의견보내기</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    
+</body>
+
+</html>
