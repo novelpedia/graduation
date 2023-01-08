@@ -2,6 +2,7 @@
 <html lang="ko">
 
 <head>
+    <meta charset="UTF-8">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
     <link href="css/header.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
@@ -20,7 +21,7 @@
         <div class="first_line">
             <div class="inner_item">
                 <a id="open_close" href="#" class="navbar_toggleBtn">
-                    <img id="close" src="image/¸Ş´º_°ËÁ¤_¹öÆ°.png">
+                    <img id="close" src="image/ë©”ë‰´_ê²€ì •_ë²„íŠ¼.png">
                 </a>
                 <div class="inner_inner_item">
                     <div class="search">
@@ -39,7 +40,7 @@
         <div class="set">
             <div class="set_mid">
                 <ul class="bar_menu">
-                    <li class="mypage_header"><a href="user_modify.html">¸¶ÀÌÆäÀÌÁö</a></li>
+                    <li class="mypage_header"><a href="user_modify.html">ë§ˆì´í˜ì´ì§€</a></li>
                     <li><a href="login.html">Login</a></li>
                 </ul>
             </div>
@@ -47,33 +48,33 @@
     </header>
 
     <script>
-        /*¸Ş´º¹öÆ° ¹Ù²Ù±â À§ÇÑ º¯¼ö*/
+        /*ë©”ë‰´ë²„íŠ¼ ë°”ê¾¸ê¸° ìœ„í•œ ë³€ìˆ˜*/
         const change_img = document.createElement('img');
-        change_img.setAttribute('src', './image/¸Ş´º_´İÈû.png');
+        change_img.setAttribute('src', './image/ë©”ë‰´_ë‹«í˜.png');
         change_img.setAttribute('id', 'close');
 
         const change_img_normal = document.createElement('img');
-        change_img_normal.setAttribute('src', './image/¸Ş´º_°ËÁ¤_¹öÆ°.png');
+        change_img_normal.setAttribute('src', './image/ë©”ë‰´_ê²€ì •_ë²„íŠ¼.png');
         change_img_normal.setAttribute('id', 'close');
 
-        /*°Ë»ö¹öÆ°¿¡ ´ëÇÑ µ¿ÀÛ º¯¼ö*/
+        /*ê²€ìƒ‰ë²„íŠ¼ì— ëŒ€í•œ ë™ì‘ ë³€ìˆ˜*/
         const icon = document.querySelector('.search .icon');
         const search = document.querySelector('.search');
         const inner_item = document.querySelector('.inner_item');
         const inner_inner_item = document.querySelector('.inner_inner_item');
         const menu_window2 = document.querySelector('.header .set active');
 
-        /*¸Ş´º ¹öÆ°¿¡ µû¸¥ µ¿ÀÛ º¯¼ö*/
+        /*ë©”ë‰´ ë²„íŠ¼ì— ë”°ë¥¸ ë™ì‘ ë³€ìˆ˜*/
         const toggleBtn = document.querySelector('.navbar_toggleBtn');
         const menu = document.querySelector('.bar_menu');
         const menu_window = document.querySelector('.header .set');
 
-        /*¸Ş´º¹öÆ°*/
+        /*ë©”ë‰´ë²„íŠ¼*/
         toggleBtn.onclick = function() {
             menu.classList.toggle('active');
             menu_window.classList.toggle('active');
             const lastDiv = document.getElementById('close');
-            /*¸Ş´ºÃ¢ ¿­¸² ¿©ºÎ¿¡ µû¶ó ¹öÆ° ÀÌ¹ÌÁö ±³Ã¼*/
+            /*ë©”ë‰´ì°½ ì—´ë¦¼ ì—¬ë¶€ì— ë”°ë¼ ë²„íŠ¼ ì´ë¯¸ì§€ êµì²´*/
             if (document.querySelector('.header .set').classList.contains('active')) {
                 document.getElementById('open_close').removeChild(lastDiv);
                 document.getElementById('open_close').appendChild(change_img);
@@ -84,7 +85,7 @@
 
         }
 
-        /*°Ë»ö¹öÆ°*/
+        /*ê²€ìƒ‰ë²„íŠ¼*/
         icon.onclick = function() {
             icon.classList.toggle('active');
             search.classList.toggle('active');
@@ -100,9 +101,9 @@
                 <a href="#">LIST PAGE</a>
             </div>
             <select name="sort" id="sort">
-                <option value="View">Á¶È¸¼ø</option>
-                <option value="Newest">ÃÖ½Å¼ø</option>
-                <option value="ABC">»çÀü¼ø</option>
+                <option value="View">ì¡°íšŒìˆœ</option>
+                <option value="Newest">ìµœì‹ ìˆœ</option>
+                <option value="ABC">ì‚¬ì „ìˆœ</option>
             </select>
         </div>
     </section>
@@ -297,7 +298,7 @@
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">°øÁö»çÇ×</a></li>
+                        <li><a href="#">ê³µì§€ì‚¬í•­</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -307,7 +308,7 @@
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">ÀÇ°ßº¸³»±â</a></li>
+                        <li><a href="#">ì˜ê²¬ë³´ë‚´ê¸°</a></li>
                     </ul>
                 </div>
             </div>

@@ -5,10 +5,10 @@ input[id="menuicon"] {
 .mypage_sidebar {
     width: 200px;
     height: 100%;
-    margin-top: 70px;
+    margin-top: 60px;
     margin-bottom: -120px;
     background: white;
-    border-right: 1px solid #fff8f8;
+    border-right: 1px solid #e0e0e0;
     position: fixed; /*화면에 고정 */
     left: 0px;
     z-index: 2; /*우선순위(햄버거 모양이 제일 위로 뜸) */
@@ -55,7 +55,7 @@ input[id="menuicon"] {
     font-weight: 600;
     padding-left: 60px;
     /*margin-left: 60px;*/
-    margin-top: 3px;
+    margin-top: 10px;
 }
 
 .mypage_imformation { /*회원 정보 */
@@ -131,7 +131,7 @@ input[id="menuicon"] {
     color: #fff;
     cursor: pointer;
     margin-left: 60px;
-    margin-top: -110px;
+    margin-top: -210px;
 }
 
 input[id="menuicon"] + label {
@@ -155,7 +155,7 @@ input[id="menuicon"] + label span {
     height: 4px;
     border-radius: 30px;
     background: #000;
-    transition: all .35s;
+    transition: all .75s;
 }
 
 /*input[id="menuicon"] + label:hover{
