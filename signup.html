@@ -118,22 +118,22 @@
 
                 <div class="second">
                     <div class="name">
-                        <input type="text" placeholder="이름">
+                        <input type="text" id="name" placeholder="이름">
                     </div>
                     <div class="nickname">
-                        <input type="text" placeholder="닉네임">
+                        <input type="text" id="nickname" placeholder="닉네임">
                     </div>
                     <div class="gender">
-                        <input type="radio" id="select" name="choice">
+                        <input type="radio" id="select" name="genderchoice" value="남성">
                         <label for="select">남성</label>
-                        <input type="radio" id="select2" name="choice">
+                        <input type="radio" id="select2" name="genderchoice" value="여성">
                         <label for="select2">여성</label>
                     </div>
                     <div class="birthday">
                         <div class="title">
                             <span>생년월일</span>
                         </div>
-                        <input type="date" name="userBirthday" value="2001-10-05" />
+                        <input type="date" name="userBirthday" id="userBirthday" />
                     </div>                    
                 </div>
 
@@ -153,7 +153,7 @@
                     </div>
                     
                     <div class="phone">
-                        <input type="text" placeholder="전화번호">
+                        <input id="phonenumber" type="text" placeholder="전화번호">
                     </div>
                     <div class="check">
                         <input type="text" id="certificate2" placeholder="인증번호 입력">
@@ -165,7 +165,7 @@
 
                 <div class="choice">
                     <button type="submit"><a href="login.html">뒤로가기</a></button>
-                    <button type="button">가입하기</button>
+                    <button id="register" type="button">가입하기</button>
                 </div>
             </div>
         </form>
@@ -192,6 +192,15 @@
             </div>
         </div>
     </footer>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    
+    <script src="./js/signup.js"></script>
 </body>
 
 </html>
