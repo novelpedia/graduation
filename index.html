@@ -40,8 +40,8 @@
                 <div class="set_mid">
                     <ul class="bar_menu">
                         <li><a href="listpage.html">목록페이지</a></li>
-                        <li class="mypage_header"><a href="user_modify.html">마이페이지</a></li>
-                        <li><a href="login.html">Login</a></li>
+                        <li class="mypage_header" id="mypage_button"><a href="mypage">마이페이지</a></li>
+                        <li><a href="login" id="login_logout">Login</a></li>
                     </ul>
                 </div>
             </div>
@@ -196,8 +196,8 @@
                 </div>
                 <div class="main_new_document">
                     <a href="#">새로 등록된 작품</a>
-                    <div class="document_first">
-                        <div class="document_second">
+                    <div class="document_first" id="new_document_limit4">
+                        <!-- <div class="document_second">
                             <a href="novel.html">
                                 <img src="./image/표지_미등록.png">
                                 <p>첫번째</p>
@@ -220,7 +220,7 @@
                                 <img src="./image/표지_미등록.png">
                                 <p>네번째</p>
                             </a>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>
@@ -402,6 +402,56 @@
             </div>
         </div>
     </footer>
+
+    
+    
+    <!--파이어베이스 연동 자바스크립트 파일-->
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+    <!--제이쿼리-->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    
+    <!--파이어베이스 정보 가져오기--><!--파이어베이스 연동 키값-->
+    <script src="./js/information.js"></script>
+
+    <!--로그인 상태 체크-->
+    <script src="./js/login_check.js"></script>
+    <!--로그아웃을 위한 소스코드-->
+    <script src="./js/logout.js"></script>
+    <!--로그아웃 상태일 때-->
+    <script src="./js/logout_state.js"></script>
+
+    <!-- 파이어베이스 데이터 출력 -->
+    <script>
+
+        const dbRef = db.collection("novel_document");
+        
+        dbRef.orderBy("the_first_date").limit(4).get().then((res)=>{
+            /*res 안에 든 데이터의 갯수만큼 코드 반복*/
+            res.forEach((doc)=>{
+                console.log(doc.data());
+                var document_name = "n/" + doc.data().name + "(" + doc.data().author + ")";
+                var doc_name_temp = doc.data().name;
+
+                // 문자열이 너무 길어지면 문자열을 끊고 '...' 으로 이어지도록
+                if(doc_name_temp.length>5){
+                    doc_name_temp = doc_name_temp.substr(0,4) + "...";
+                }
+
+                var temp = 
+                    `<div class="document_second">
+                            <a href="${document_name}">
+                                <img src="${doc.data().bookcover}">
+                                <p>${doc_name_temp}</p>
+                            </a>
+                        </div>`;
+                    $('#new_document_limit4').append(temp);
+            })
+        })
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>NovelPedia</title>
+</head>
+
+<body>
+    <!--파이어베이스 연동 자바스크립트 파일-->
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+    <!--제이쿼리-->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+    <!--파이어베이스 연동 키값입력-->
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyDkGeh_PXavAP0-dIgNoMTpxYftAmBUvhs",
+            authDomain: "novelpedia2223-2ce3c.firebaseapp.com",
+            projectId: "novelpedia2223-2ce3c",
+            storageBucket: "novelpedia2223-2ce3c.appspot.com",
+            messagingSenderId: "693960594059",
+            appId: "1:791349138937:web:e8dd1af3750611fc3b9928"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebaseEmailAuth = firebase.auth();
+    </script>
+
+    <script>
+        firebaseEmailAuth.signOut().then(function() {
+            window.location.href = "./index.html"
+        }).catch(function(error) {
+            if (error) {
+                alert("로그인 실패");
+            }
+        });
+    </script>
+</body>
+
+</html>

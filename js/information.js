@@ -9,6 +9,7 @@ var firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+firebaseEmailAuth = firebase.auth();
 
 
 const db = firebase.firestore();

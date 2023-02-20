@@ -104,7 +104,8 @@
             <div class="mid">
                 <div class="first">
                     <div class="id">
-                        <input type="text" id="signupid" placeholder="아이디">
+                        <input type="text" id="signupid" placeholder="아이디" onkeydown="inputIdChk()">
+                        <div id="id_empty"></div>
                     </div>
                     <div class="password">
                         <input type="password" id="signupPass" placeholder="비밀번호">
@@ -114,7 +115,6 @@
                     </div>
 
                 </div>
-
 
                 <div class="second">
                     <div class="name">

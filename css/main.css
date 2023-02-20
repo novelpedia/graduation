@@ -134,7 +134,7 @@ body {
 .main_new_document .document_first {
     display: flex;
     justify-content: space-evenly;
-
+    flex-direction: row-reverse;
 }
 
 .main_new_document .document_second {
@@ -145,6 +145,7 @@ body {
 .main_new_document .document_second img {
     display: block;
     width: 75px;
+    height: 107px;
     margin-top: 10px;
     border-radius: 5px;
     border: 1px solid #e5e5e5;

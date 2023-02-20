@@ -110,6 +110,7 @@
 /*표지*/
 .document_bookcover {
     width: 300px;
+    height: 430px;
     border: 1px solid #e5e5e5;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
@@ -118,7 +119,9 @@
 .document_bookcover img {
     text-align: center;
     width: 100%;
-    border-radius: 15px;
+    height: 100%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
 
 /*목차*/
@@ -547,9 +550,13 @@
     background-color: #f7fbfc;
     border: 1px solid #e5e5e5;
     width: 950px;
-    height: 800px;
+    min-height: 800px;
     margin-bottom: 20px;
     border-radius: 15px;
+}
+
+.document_other #document_other{
+    margin: 30px;
 }
 
 @media (max-width:640px) {
@@ -588,6 +595,7 @@
 
     .document_bookcover {
         width: 90%;
+        height: auto;
     }
 
     .document_button {

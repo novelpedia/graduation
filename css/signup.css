@@ -80,6 +80,13 @@ body {
     width: 65%;
 }
 
+.id #id_empty{
+    position: relative;
+    float: right;
+    margin-top: -35px;
+    margin-right: 10px;
+}
+
 .password {
     width: 65%;
 }
