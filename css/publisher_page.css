@@ -118,7 +118,8 @@
 .document_profile_image img {
     text-align: center;
     width: 100%;
-    border-radius: 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
 
 /*목차*/
@@ -131,6 +132,7 @@
 
 .document_index ol {
     margin-top: 20px;
+    margin-bottom: 20px;
     font-size: 20px;
     font-weight: 600;
 }
@@ -229,7 +231,9 @@
 .document_novel_list .document_list img {
     display: block;
     width: 160px;
+    height: 230px;
     margin-top: 35px;
+    border: 1px solid black;
 }
 
 .document_novel_list .document_list a {
@@ -242,6 +246,8 @@
     width: 160px;
     margin: 0;
     color: black;
+    text-align: left;
+    font-size: 15px;
 }
 
 .document_novel_list .title {
@@ -440,6 +446,7 @@
 
     .document_novel_list .document_list img {
         width: 80px;
+        height: 115px;
         margin-top: 15px;
     }
 

@@ -13,7 +13,7 @@
 
 <body class="login_body">
     <header class="header">
-        <a class="logo_a" href="index.html">
+        <a class="logo_a" href="http://novelpedia.co.kr">
             <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
             <img class="logo_icon" src="image/logo.png">
         </a>
@@ -25,9 +25,9 @@
                 <div class="inner_inner_item">
                     <div class="search">
                         <div class="icon"></div>
-                        <form method="get" action="http://novelpedia.dothome.co.kr/search?">
+                        <form method="get" action="search">
                             <div class="input">
-                                <input type="text" placeholder="Search" id="mysearch">
+                                <input type="text" placeholder="Search" id="mysearch" name="q">
                             </div>
                             <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
                             <input type="submit" value="" class="search_btn">
@@ -35,15 +35,17 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="set">
-            <div class="set_mid">
-                <ul class="bar_menu">
-                    <li><a href="#">Category</a></li>
-                    <li><a href="login.html">Login</a></li>
-                </ul>
+            <div class="set">
+                <div class="set_mid">
+                    <ul class="bar_menu">
+                        <li><a href="listpage.html">목록페이지</a></li>
+                        <li class="mypage_header" id="mypage_button"><a href="mypage">마이페이지</a></li>
+                        <li><a href="login" id="login_logout">Login</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
+
     </header>
 
     <script>
@@ -97,7 +99,7 @@
     <section class="login_section">
         <div class="loginbox">
             <h2>LOGIN</h2>
-            <form action="#">
+            <form onsubmit="return false;">
                 <fieldset class="login_area">
                     <!--<legend> 로그인 구역</legend>-->
                     <div>
@@ -112,7 +114,7 @@
 
                     <ul>
                         <li><a href="#">아이디/비밀번호찾기</a></li>
-                        <li><a href="signup.html">회원가입</a></li>
+                        <li><a href="signup">회원가입</a></li>
                     </ul>
                     <button id="login_btn">로그인</button>
                 </fieldset>
@@ -150,6 +152,13 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     
     <script src="./js/login.js"></script>
+
+    <!--로그인 상태 체크-->
+    <script src="./js/login_check.js"></script>
+    <!--로그아웃을 위한 소스코드-->
+    <script src="./js/logout.js"></script>
+    <!--로그아웃 상태일 때-->
+    <script src="./js/logout_state.js"></script>
 </body>
 
 </html>

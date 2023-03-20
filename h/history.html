@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <link href="../css/history.css" rel="stylesheet">
+    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/footer.css" rel="stylesheet">
+    <title>역사페이지</title>
+</head>
+
+<body>
+    <header class="header">
+        <a class="logo_a" href="../index.html">
+            <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
+            <img class="logo_icon" src="../image/logo.png">
+        </a>
+        <div class="first_line">
+            <div class="inner_item">
+                <a id="open_close" href="#" class="navbar_toggleBtn">
+                    <img id="close" src="../image/메뉴_검정_버튼.png">
+                </a>
+                <div class="inner_inner_item">
+                    <div class="search">
+                        <div class="icon"></div>
+                        <form method="get" action="../search">
+                            <div class="input">
+                                <input type="text" placeholder="Search" id="mysearch" name="q">
+                            </div>
+                            <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
+                            <input type="submit" value="" class="search_btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="set">
+                <div class="set_mid">
+                    <ul class="bar_menu">
+                        <li><a href="../listpage.html">목록페이지</a></li>
+                        <li class="mypage_header" id="mypage_button"><a href="../mypage">마이페이지</a></li>
+                        <li><a href="../login" id="login_logout">Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <script>
+        /*메뉴버튼 바꾸기 위한 변수*/
+        const change_img = document.createElement('img');
+        change_img.setAttribute('src', '../image/메뉴_닫힘.png');
+        change_img.setAttribute('id', 'close');
+
+        const change_img_normal = document.createElement('img');
+        change_img_normal.setAttribute('src', '../image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('id', 'close');
+
+        /*검색버튼에 대한 동작 변수*/
+        const icon = document.querySelector('.search .icon');
+        const search = document.querySelector('.search');
+        const inner_item = document.querySelector('.inner_item');
+        const inner_inner_item = document.querySelector('.inner_inner_item');
+        const menu_window2 = document.querySelector('.header .set active');
+
+        /*메뉴 버튼에 따른 동작 변수*/
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.bar_menu');
+        const menu_window = document.querySelector('.header .set');
+
+        /*메뉴버튼*/
+        toggleBtn.onclick = function() {
+            menu.classList.toggle('active');
+            menu_window.classList.toggle('active');
+            const lastDiv = document.getElementById('close');
+            /*메뉴창 열림 여부에 따라 버튼 이미지 교체*/
+            if (document.querySelector('.header .set').classList.contains('active')) {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img);
+            } else {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img_normal);
+            }
+
+        }
+
+        /*검색버튼*/
+        icon.onclick = function() {
+            icon.classList.toggle('active');
+            search.classList.toggle('active');
+            inner_item.classList.toggle('active');
+            inner_inner_item.classList.toggle('active');
+            menu_window.classList.toggle('search_active');
+        }
+    </script>
+
+    <section class="section_all">
+        <div class="boxing_section">
+            <div class="container">
+                <div class="banner">
+                    <span class="title_history"><a href="#" title="문서로 돌아가기" id="document_name">문서제목 : 역사 페이지</a></span>
+                </div>
+            </div>
+            <div class="compare">
+                <a href="" class="edit" id="compare_edit">편집</a>
+                <!-- <a href="" class="recent">최근변경</a> -->
+                <a href="" class="compare_select">비교</a>
+            </div>
+            <div class="table_all" id="table_all">
+                <div class="table_set" id="table_set">
+                </div>
+            </div>
+            <div class="previous_next">
+                <button class="previous" id="back">&#9664; 이전</button>
+                <button class="next" id="next">다음 &#9654;</button>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">공지사항</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">Q&A</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">의견보내기</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="../js/information.js"></script>
+
+    <!--로그인 상태 체크-->
+    <script src="../js/login_check.js"></script>
+    <!--로그아웃을 위한 소스코드-->
+    <script src="../js/logout.js"></script>
+    <!--로그아웃 상태일 때-->
+    <script src="../js/logout_state.js"></script>
+
+    <script>
+        const path_url = window.location.pathname;
+        const path_decode = decodeURI(path_url);
+        const document_name = path_decode.split('/');
+        document.getElementById('document_name').innerText = document_name[2] + "(역사)";
+        
+
+        // 타이틀 변경
+        // console.log(document_name[2]);
+        document.title = document_name[2] + "(역사)";
+
+        var before;
+        var next = db.collection('history').doc(document_name[2]).collection('version').orderBy("version", "desc").limit(15);
+        
+        next.get().then((결과) => {
+            결과.forEach((doc)=>{
+                console.log(doc.data())
+                var document_version = doc.data().version;
+                var document_update_date = doc.data().update_date;
+                var document_category = doc.data().category;
+                var document_final = doc.data().final_modify;
+
+                document.getElementById("document_name").href = "../" + document_category + "/" + document_name[2];
+
+
+                // 편집 버튼 주소 초기화
+                if(document_category=='n'){
+                    document.getElementById('compare_edit').href = '../e/' + document_name[2];
+                }
+                else if(document_category=='a'){
+                    document.getElementById('compare_edit').href = '../ea/' + document_name[2];
+                }
+                else{
+                    document.getElementById('compare_edit').href = '../ep/' + document_name[2];
+                }
+                
+                
+                // 타임스템프 변환
+                var timestamp_second = document_update_date.seconds * 1000;
+                var time = new Date(timestamp_second);
+                var year = time.getFullYear().toString().slice(-4) + "년 ";
+                var month = ("0" + (time.getMonth() + 1)).slice(-2) + "월 ";
+                var day = ("0" + time.getDate()).slice(-2) + "일 ";
+                var hour = ("0" + time.getHours()).slice(-2) + "시 ";
+                var minute = ("0" + time.getMinutes()).slice(-2) + "분 ";
+                var second = ("0" + time.getSeconds()).slice(-2) + "초";
+
+                // var address = "n/" + doc.data().name + "(" + doc.data().author + ")"
+                var temp = `
+                <div class="tabl_row">
+                    <div class="col_1"><input type="radio" name="chk_info" value="1"></div>
+                    <div class="col_2"><input type="radio" name="chk_info2" value="1"></div>
+                    <div class="col_3">${document_version}</div>
+                    <div class="col_4"><a>${year + month + day + hour + minute + second}</a></div>
+                    <div class="col_5"><a href="${"../h" + document_category + "/" + document_name[2] + "=" + document_version}">보기</a></div>
+                    <div class="col_6"><a href="">되돌리기</a></div>
+                    <div class="col_7">${document_final}</div>
+                    <div class="col_8">요청OR되돌리기</div>
+                    <div class="col_9">사용자</div>
+                </div>`;
+                $('.table_set').append(temp);
+            })
+            var lastVisible = 결과.docs[결과.docs.length-1];
+            before = next;
+            next = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(15);
+            console.log(next);
+        }).catch((err) => {
+            console.log(err);
+        });
+
+        document.getElementById('next').addEventListener("click", function() {
+            $('#table_set').remove();
+            var list_append = `<div class="table_set" id="table_set"></div>`
+            $('#table_all').append(list_append);
+        
+            next.get().then((결과) => {
+                결과.forEach((doc)=>{
+                    console.log(doc.data())
+                    var document_version = doc.data().version;
+                    var document_update_date = doc.data().update_date;
+                    var document_category = doc.data().category;
+                    var document_final = doc.data().final_modify;
+                    
+                    // 타임스템프 변환
+                    var timestamp_second = document_update_date.seconds * 1000;
+                    var time = new Date(timestamp_second);
+                    var year = time.getFullYear().toString().slice(-4) + "년 ";
+                    var month = ("0" + (time.getMonth() + 1)).slice(-2) + "월 ";
+                    var day = ("0" + time.getDate()).slice(-2) + "일 ";
+                    var hour = ("0" + time.getHours()).slice(-2) + "시 ";
+                    var minute = ("0" + time.getMinutes()).slice(-2) + "분 ";
+                    var second = ("0" + time.getSeconds()).slice(-2) + "초";
+
+                    // var address = "n/" + doc.data().name + "(" + doc.data().author + ")"
+                    var temp = `
+                    <div class="tabl_row">
+                        <div class="col_1"><input type="radio" name="chk_info" value="1"></div>
+                        <div class="col_2"><input type="radio" name="chk_info2" value="1"></div>
+                        <div class="col_3">${document_version}</div>
+                        <div class="col_4"><a>${year + month + day + hour + minute + second}</a></div>
+                        <div class="col_5"><a href="${"../h" + document_category + "/" + document_name[2] + "=" + document_version}">보기</a></div>
+                        <div class="col_6"><a href="">되돌리기</a></div>
+                        <div class="col_7">${document_final}</div>
+                        <div class="col_8">요청OR되돌리기</div>
+                        <div class="col_9">사용자</div>
+                    </div>`;
+                    $('.table_set').append(temp);
+                })
+                var b_lastVisible;
+                if (결과.docs.length>14){
+                    b_lastVisible = 결과.docs[결과.docs.length - 15];
+                }
+                else{
+                    b_lastVisible = 결과.docs[결과.docs.length - 결과.docs.length];
+                }
+                console.log(결과.docs.length);
+                console.log("b", b_lastVisible);
+                before = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "asc").startAfter(b_lastVisible).limit(15);
+                var lastVisible = 결과.docs[결과.docs.length-1];
+                console.log("l", lastVisible);
+                next = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(15);
+                console.log(next);
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+
+        document.getElementById('back').addEventListener("click", function() {
+            $('#table_set').remove();
+            var list_append = `<div class="table_set" id="table_set"></div>`
+            $('#table_all').append(list_append);
+        
+            before.get().then((결과) => {
+
+                for(var i = 14; i>-1; i--){
+                    console.log(i);
+                    // 결과.docs[i];
+                    // console.log(doc.data())
+                    var document_version = 결과.docs[i].data().version;
+                    var document_update_date = 결과.docs[i].data().update_date;
+                    var document_category = 결과.docs[i].data().category;
+                    var document_final = 결과.docs[i].data().final_modify;
+                    
+                    // 타임스템프 변환
+                    var timestamp_second = document_update_date.seconds * 1000;
+                    var time = new Date(timestamp_second);
+                    var year = time.getFullYear().toString().slice(-4) + "년 ";
+                    var month = ("0" + (time.getMonth() + 1)).slice(-2) + "월 ";
+                    var day = ("0" + time.getDate()).slice(-2) + "일 ";
+                    var hour = ("0" + time.getHours()).slice(-2) + "시 ";
+                    var minute = ("0" + time.getMinutes()).slice(-2) + "분 ";
+                    var second = ("0" + time.getSeconds()).slice(-2) + "초";
+
+                    // var address = "n/" + doc.data().name + "(" + doc.data().author + ")"
+                    var temp = `
+                    <div class="tabl_row">
+                        <div class="col_1"><input type="radio" name="chk_info" value="1"></div>
+                        <div class="col_2"><input type="radio" name="chk_info2" value="1"></div>
+                        <div class="col_3">${document_version}</div>
+                        <div class="col_4"><a>${year + month + day + hour + minute + second}</a></div>
+                        <div class="col_5"><a href="${"../h" + document_category + "/" + document_name[2] + "=" + document_version}">보기</a></div>
+                        <div class="col_6"><a href="">되돌리기</a></div>
+                        <div class="col_7">${document_final}</div>
+                        <div class="col_8">요청OR되돌리기</div>
+                        <div class="col_9">사용자</div>
+                    </div>`;
+                    $('.table_set').append(temp);
+                }
+
+                // 결과.forEach((doc)=>{
+                    
+                // })
+                var b_lastVisible = 결과.docs[결과.docs.length-1];
+                console.log("b", b_lastVisible);
+                before = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "asc").startAfter(b_lastVisible).limit(15);
+                var lastVisible;
+                if (결과.docs.length>14){
+                    lastVisible = 결과.docs[결과.docs.length - 15];
+                }
+                else{
+                    lastVisible = 결과.docs[결과.docs.length - 결과.docs.length];
+                }
+                console.log("l", lastVisible);
+                next = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(15);
+                console.log(next);
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    </script>
+</body>
+
+</html>

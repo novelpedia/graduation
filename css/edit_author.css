@@ -103,16 +103,40 @@ label {
     font-size: 15px;
 }
 
-
-.document_publishdate_edit {
+.document_birthday_edit {
+    display: flex;
     margin-bottom: 20px;
 }
 
-.document_publishdate_edit input {
+.document_birthday_edit .birthday_warning{
+    display: flex;
+    flex-direction: column;
+    margin-left: 4px;
+}
+
+.document_birthday_edit input {
+    width: 250px;
     height: 30px;
     font-size: 15px;
 }
 
+.document_birthday_edit input[type="checkbox"] {
+    width: auto;
+    height: 15px;
+    font-size: 15px;
+}
+
+.document_birthday_edit .checkbox_pakage{
+    margin-top: 5px;
+    height: auto;
+    display: flex;
+}
+
+.document_birthday_edit span {
+    /* width: 250px; */
+    height: 15px;
+    font-size: 13px;
+}
 
 .document_debutdate_edit {
     margin-bottom: 20px;
@@ -123,11 +147,33 @@ label {
     font-size: 15px;
 }
 
+
+.document_recent_publishdate_edit {
+    margin-bottom: 20px;
+}
+
+.document_recent_publishdate_edit input {
+    height: 30px;
+    font-size: 15px;
+}
+
+
 .document_main_novel_edit {
     margin-bottom: 20px;
 }
 
 .document_main_novel_edit input {
+    height: 30px;
+    width: 250px;
+    outline: none;
+    font-size: 15px;
+}
+
+.document_recent_novel_edit {
+    margin-bottom: 20px;
+}
+
+.document_recent_novel_edit input {
     height: 30px;
     width: 250px;
     outline: none;
@@ -156,15 +202,75 @@ label {
     font-size: 15px;
 }
 
-.document_tag_edit {
+.document_tag_edit{
     margin-bottom: 30px;
+    display: flex;    
 }
 
-.document_tag_edit input {
-    height: 30px;
-    width: 250px;
+.document_tag_edit :where(li){
+    display: flex;
+    align-items: center;
+}
+
+.document_tag_edit .content{
+    margin-left: 3px;
+}
+
+.document_tag_edit .content p{
+    font-size: 15px;
+}
+
+.document_tag_edit .content ul{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 7px;
+    border-radius: 3px;
+    border: 1px solid rgb(172, 172, 172);
+    height: 100px;
+    overflow: hidden;
+    overflow-y: scroll;
+    width: 350px;
+}
+
+.document_tag_edit .content ul li{
+    list-style: none;
+    margin: 4px 3px;
+    height: auto;
+    max-width: 100%;
+    border-radius: 5px;
+    background-color: #f7fbfc;
+    padding: 5px 8px 5px 10px;
+    border: 2px solid black;
+    word-break: break-all;
+}
+
+.document_tag_edit .content ul li span{
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    color: #808080;
+    margin-left: 8px;
+    font-size: 15px;
+    border-radius: 5px;
+    background: rgb(227, 225, 225);
+    display: flex;
+    justify-content: center;
+}
+
+.document_tag_edit .content ul li span div{
+    margin-top: 1px;
+}
+
+.document_tag_edit .content ul textarea{
+    height: auto;
+    width: 100%;
     outline: none;
     font-size: 15px;
+    border: none;
+    vertical-align: top;
+    font-size: 16px;
+    font-family: '나눔고딕';
+    resize: none;
 }
 
 
@@ -278,14 +384,22 @@ label {
         margin-left: 30px;
     }
 
-    .document_publishdate_edit {
+    .document_birthday_edit {
         display: flex;
         flex-direction: column;
     }
 
-    .document_publishdate_edit input {
+    .document_birthday_edit .birthday_warning{
+        margin-left: 0px;
+    }
+
+    .document_birthday_edit input {
         margin-left: 30px;
         width: 250px;
+    }
+
+    .document_birthday_edit .span {
+        margin-left: 30px;
     }
 
     .document_debutdate_edit {
@@ -297,6 +411,16 @@ label {
         margin-left: 30px;
         width: 250px;
     }
+
+    .document_recent_publishdate_edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_recent_publishdate_edit input {
+        margin-left: 30px;
+        width: 250px;
+    }
     
     .document_main_novel_edit {
         display: flex;
@@ -304,6 +428,15 @@ label {
     }
 
     .document_main_novel_edit input {
+        margin-left: 30px;
+    }
+
+    .document_recent_novel_edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_recent_novel_edit input {
         margin-left: 30px;
     }
     
@@ -330,8 +463,14 @@ label {
         flex-direction: column;
     }
 
-    .document_tag_edit input {
+    .document_tag_edit .content{
         margin-left: 30px;
+        margin-right: 45px;
+        width: auto;
+    }
+
+    .document_tag_edit .content ul {
+        width: 100%;
     }
 
     .document_other_edit .webeditor textarea {

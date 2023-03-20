@@ -11,9 +11,8 @@
 </head>
 
 <body>
-   
-   <header class="header">
-        <a class="logo_a" href="index.html">
+    <header class="header">
+        <a class="logo_a" href="http://novelpedia.co.kr">
             <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
             <img class="logo_icon" src="image/logo.png">
         </a>
@@ -25,9 +24,9 @@
                 <div class="inner_inner_item">
                     <div class="search">
                         <div class="icon"></div>
-                        <form method="get" action="search.html">
+                        <form method="get" action="search">
                             <div class="input">
-                                <input type="text" placeholder="Search" id="mysearch">
+                                <input type="text" placeholder="Search" id="mysearch" name="q">
                             </div>
                             <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
                             <input type="submit" value="" class="search_btn">
@@ -35,15 +34,17 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="set">
-            <div class="set_mid">
-                <ul class="bar_menu">
-                    <li class="mypage_header"><a href="#">마이페이지</a></li>
-                    <li><a href="login.html">Login</a></li>
-                </ul>
+            <div class="set">
+                <div class="set_mid">
+                    <ul class="bar_menu">
+                        <li><a href="listpage.html">목록페이지</a></li>
+                        <li class="mypage_header" id="mypage_button"><a href="mypage">마이페이지</a></li>
+                        <li><a href="login" id="login_logout">Login</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
+
     </header>
 
     <script>
@@ -201,6 +202,13 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     
     <script src="./js/signup.js"></script>
+
+    <!--로그인 상태 체크-->
+    <script src="./js/login_check.js"></script>
+    <!--로그아웃을 위한 소스코드-->
+    <script src="./js/logout.js"></script>
+    <!--로그아웃 상태일 때-->
+    <script src="./js/logout_state.js"></script>
 </body>
 
 </html>

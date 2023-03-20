@@ -25,9 +25,9 @@
                 <div class="inner_inner_item">
                     <div class="search">
                         <div class="icon"></div>
-                        <form method="get" action="search.html">
+                        <form method="get" action="search">
                             <div class="input">
-                                <input type="text" placeholder="Search" id="mysearch">
+                                <input type="text" placeholder="Search" id="mysearch" name="q">
                             </div>
                             <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
                             <input type="submit" value="" class="search_btn">
@@ -35,15 +35,17 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="set">
-            <div class="set_mid">
-                <ul class="bar_menu">
-                    <li class="mypage_header"><a href="#">마이페이지</a></li>
-                    <li><a href="login.html">Login</a></li>
-                </ul>
+            <div class="set">
+                <div class="set_mid">
+                    <ul class="bar_menu">
+                        <li><a href="listpage.html">목록페이지</a></li>
+                        <li class="mypage_header" id="mypage_button"><a href="mypage">마이페이지</a></li>
+                        <li><a href="login" id="login_logout">Login</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
+
     </header>
 
     <script>
@@ -98,9 +100,9 @@
     <section class="section_search">
         <div class="search_page">
             <div class="search_information">
-                <div class="search_word">검색어</div>
+                <div class="search_word" id="search_word">검색어</div>
                 <div class="search_default_sentence"> 에 대한&nbsp;</div>
-                <div class="search_word">0</div>
+                <div class="search_word" id="search_count">0</div>
                 <div class="search_default_sentence">개의 검색결과</div>
             </div>
             <div class="search_area">
@@ -131,19 +133,7 @@
                     </div>
                 </form>
             </div>
-            <div class="search_result_area">
-                <div class="search_result_element">
-                    <a href="#" class="title_summary">
-                        <h1>문서제목</h1>
-                        <p>문서내용 or 줄거리</p>
-                    </a>
-                </div>
-                <div class="search_result_element">
-                    <a href="#" class="title_summary">
-                        <h1>문서제목</h1>
-                        <p>문서내용 or 줄거리</p>
-                    </a>
-                </div>
+            <div class="search_result_area" id="search_result_area">
             </div>
         </div>
     </section>
@@ -170,6 +160,24 @@
             </div>
         </div>
     </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="./js/information.js"></script>
+
+    <!--로그인 상태 체크-->
+    <script src="./js/login_check.js"></script>
+    <!--로그아웃을 위한 소스코드-->
+    <script src="./js/logout.js"></script>
+    <!--로그아웃 상태일 때-->
+    <script src="./js/logout_state.js"></script>
+
+    <!--검색창-->
+    <script src="./js/search.js"></script>
 </body>
 
 </html>

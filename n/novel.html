@@ -28,9 +28,9 @@
                 <div class="inner_inner_item">
                     <div class="search">
                         <div class="icon"></div>
-                        <form method="get" action="../search.html">
+                        <form method="get" action="../search">
                             <div class="input">
-                                <input type="text" placeholder="Search" id="mysearch">
+                                <input type="text" placeholder="Search" id="mysearch" name="q">
                             </div>
                             <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
                             <input type="submit" value="" class="search_btn">
@@ -54,11 +54,11 @@
     <script>
         /*메뉴버튼 바꾸기 위한 변수*/
         const change_img = document.createElement('img');
-        change_img.setAttribute('src', './image/메뉴_닫힘.png');
+        change_img.setAttribute('src', '../image/메뉴_닫힘.png');
         change_img.setAttribute('id', 'close');
 
         const change_img_normal = document.createElement('img');
-        change_img_normal.setAttribute('src', './image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('src', '../image/메뉴_검정_버튼.png');
         change_img_normal.setAttribute('id', 'close');
 
         /*검색버튼에 대한 동작 변수*/
@@ -113,7 +113,19 @@
             <div class="document_bundle_button">
                 <a class="edit" href="../e" id="go_edit">편집</a>
                 <a class="history" href="../h" id="go_history">역사</a>
-                <a class="delete" href="#">삭제</a>
+                <a class="delete" href="#" id="go_delete">삭제</a>
+            </div>
+
+            <div class="document_view_update">
+                <div class="view_block">
+                    <span id="view_name">조회수 :</span>
+                    <span id="view_get"></span>
+                </div>
+                <span class="sl">/</span>
+                <div class="update_block">
+                    <span id="update_name">최종 수정 :</span>
+                    <span id="update_get"></span>
+                </div>
             </div>
 
             <div class="document_bundle">
@@ -121,11 +133,13 @@
                     <!--작품표지-->
                     <div class="document_bookcover">
                         <img id="document_bookcover" src="../image/표지_미등록.png">
-                    </div>
-
-                    <!--관심등록 및 버튼-->
-                    <div class="document_button">
-                        <button>좋아요</button>
+                        <!--관심등록 및 버튼-->
+                        <div class="document_button">
+                            <input type="checkbox" id="like_button" style="display: none;">
+                            <label class="like" for="like_button" onclick="like()">좋아요</label>
+                            <label class="heart" for="like_button" onclick="like()">♥</label>
+                            <label class="like_count" id="like_count">0</label>
+                        </div>
                     </div>
                 </div>
 
@@ -165,6 +179,11 @@
                     </tr>
 
                     <tr>
+                        <td class="title">평점</td>
+                        <td class="content" id="document_information_star"></td>
+                    </tr>
+
+                    <tr>
                         <td class="title">장르</td>
                         <td class="content" id="document_information_genre"></td>
                     </tr>
@@ -179,6 +198,11 @@
                         <td class="content" id="document_information_publish_date">2022-08-04</td>
                     </tr>
                 </table>
+            </div>
+
+            <!-- 태그영역 -->
+            <div class="document_tag_area" id="document_tag_area">
+
             </div>
 
             <!--줄거리-->
@@ -203,7 +227,7 @@
                     <p class="p_title">리뷰</p>
                 </div>
                 <div class="content">
-                    <div class="box_estimate">
+                    <div class="box_estimate" id="review_input">
                         <div class="document_500char">
                             <span class="document_500char_name">500자평</span>
                         </div>
@@ -221,7 +245,7 @@
                                 <div class="content_boxing">
                                     <textarea id="char_content" onkeydown="calc()" onkeyup="calc()" onkeypress="calc()" maxlength="500"></textarea>
                                     <div class="register_button">
-                                        <input class="register_submit" type="submit" value="등록">
+                                        <input class="register_submit" type="button" value="등록" id="review_send" onclick="review()">
                                     </div>
                                 </div>
                                 <div class="char_number">
@@ -231,9 +255,9 @@
                             </div>
                         </form>
 
-                        <div class="review_button">
+                        <!-- <div class="review_button">
                             <a href="#" class="review_write">리뷰작성</a>
-                        </div>
+                        </div> -->
                     </div>
 
                     <script>
@@ -241,68 +265,8 @@
                             document.getElementById('char_result').value = document.getElementById('char_content').value.length;
                         }
                     </script>
-                    <div class="line">
-                    </div>
-                    <div class="review_pre">
-                        <div class="review_pre_set">
-                            <p>닉네임</p>
-                            <p>|</p>
-                            <p>평점</p>
-                            <div class="balloon">
-                                <p>리뷰</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="review_pre">
-                        <div class="review_pre_set">
-                            <p>닉네임</p>
-                            <p>|</p>
-                            <p>평점</p>
-                            <div class="balloon">
-                                <p>리뷰</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="review_pre">
-                        <div class="review_pre_set">
-                            <p>닉네임</p>
-                            <p>|</p>
-                            <p>평점</p>
-                            <div class="balloon">
-                                <p>리뷰</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="review_pre">
-                        <div class="review_pre_set">
-                            <p>닉네임</p>
-                            <p>|</p>
-                            <p>평점</p>
-                            <div class="balloon">
-                                <p>리뷰</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="review_pre">
-                        <div class="review_pre_set">
-                            <p>닉네임</p>
-                            <p>|</p>
-                            <p>평점</p>
-                            <div class="balloon">
-                                <p>리뷰</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="review_pre">
-                        <div class="review_pre_set">
-                            <p>닉네임</p>
-                            <p>|</p>
-                            <p>평점</p>
-                            <div class="balloon">
-                                <p>리뷰</p>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="line" id="review_line"></div>
+                    <div id="review_add"></div>
 
                 </div>
             </div>
@@ -310,7 +274,7 @@
             <!--구분선-->
             <!--안내-->
             <div class="alram">
-                <p>※여기부터는 사용자가 직접 편집할 수 있는 공간입니다※</p>
+                <p>※여기부터는 사용자가 추가한 내용입니다※</p>
             </div>
 
             <!--기타-->
@@ -361,106 +325,514 @@
     <!--로그아웃 상태일 때-->
     <script src="../js/logout_state.js"></script>
 
-
+    <!-- 주소창에서 url 정보 받아오기 -->
     <script>
         const path_url = window.location.pathname;
         const path_decode = decodeURI(path_url);
-        // const temp = decodeURI("%EB%A9%94%EB%89%B4_%EB%8B%AB%ED%9E%");
-        // console.log(temp);
-        // console.log(path_url);
-        // console.log(path_decode);
         const document_name = path_decode.split('/');
-        document.getElementById('document_name').innerText = document_name[2];
-
-        db.collection('novel_document').doc(document_name[2]).get().then((결과) => {
-            // 불러온 내용 바탕으로 내용 바꾸기
-            console.log(결과.data())
-            
-            // DB에 저장되어있는 내용 가져와서 DB에 저장
-            var document_bookcover = 결과.data().bookcover;
-            var document_information_title = 결과.data().name;
-            var document_information_publisher = 결과.data().publisher;
-            var document_information_author = 결과.data().author;
-            var document_information_genre = 결과.data().genre;
-            var document_information_buy_series_name = 결과.data().buy_series;
-            var document_information_buy_series_address = 결과.data().address;
-            var document_information_publish_date = 결과.data().publish_date;
-            var document_summary_content = 결과.data().summary;
-            
-            
-            // 추후에 입력, 순서대로 좋아요개수, 업로드 날짜, 조회수, 태그, 기타
-            var document_like = 결과.data().like;
-            var document_upload_date = 결과.data().upload_date;
-            var document_view = 결과.data().view;
-            var document_tag = 결과.data().tag;
-            var document_other = 결과.data().other;
-
-            // 줄거리 더보기 버튼 제거
-            if(document_summary_content.length<850){
-                document.getElementById("more_button").style.display = 'none';
-                document.getElementById("summary_content").style.borderBottomRightRadius = '15px';
-                document.getElementById("summary_content").style.borderBottomLeftRadius = '15px';
-            }
-
-            // 타이틀 변경
-            document.title = document_name[2];
-            
-            // 편집, 역사 페이지 버튼 주소 초기화
-            document.getElementById("go_edit").href = "../e/" + document_name[2];
-            document.getElementById("go_history").href = "../h/" + document_name[2];
-
-            // 표지변경
-            console.log(document_bookcover);
-            document.getElementById("document_bookcover").src = document_bookcover;
-
-            document.getElementById("document_information_title").innerText = document_information_title;
-            document.getElementById("document_information_author").innerText = document_information_author;
-            document.getElementById("document_information_author").href = '../a/' + document_information_author;
-            document.getElementById("document_information_publisher").innerText = document_information_publisher;
-            document.getElementById("document_information_publisher").href = '../p/' + document_information_publisher;
-
-            document.getElementById("document_information_genre").innerText = document_information_genre;
-            
-            document.getElementById("document_information_buy_series").innerText = document_information_buy_series_name;
-
-            const address_analze = document_information_buy_series_address.split(":");
-            console.log(address_analze[0]);
-
-            if(address_analze[0]==="http" || address_analze[0]==="https"){
-                document.getElementById("document_information_buy_series").href = document_information_buy_series_address;
-            }
-            else{
-                document.getElementById("document_information_buy_series").href = "https://www.google.com/search?q=" + document_information_buy_series_address;
-            }
-
-            document.getElementById("document_information_publish_date").innerText = document_information_publish_date;
-            document.getElementById("document_summary_content").innerText = document_summary_content;
-
-            document.getElementById("document_other").innerText = document_other;
-            // document.getElementById("document_information_author").innerText = document_information_author;
-            // document.getElementById("document_information_author").innerText = document_information_author;
-            // document.getElementById("document_information_author").innerText = document_information_author;
-        }).catch((err) => {
-            console.log(err);
-            document.getElementById("document_section").style.display = "none";
-            const empty = `<div class="empty_page"> <div class="empty_result_area"> <div class="empty_none">
-                    <div class="text_bundle">
-                        <p class="warning">ⓘ</p><p id ="this_document">해당문서</p><p class="alram">에 대한 문서 정보가 없습니다.</p>
-                    </div>
-                    <div class="button_bundle">
-                        <a href="#" class="new_document" id="new_document">새 문서 작성하기</a>
-                        <a href="#" class="history">역사</a>
-                    </div>
-                </div>
-            </div></div>`
-            
-            document.getElementById('section_empty').style.display = 'block';
-            document.getElementById('empty').innerHTML = empty;
-            document.getElementById('this_document').innerText = document_name[2];
-            document.getElementById('new_document').href = '../e/' + document_name[2];
-        });
     </script>
 
+    <!-- 문서 열면서 동기적으로 실행할 함수 -->
+    <script>
+        async function start_novel(){
+                await getUser();
+                await getInformation();
+                await getReviewInfor()
+                console.log(login_user_information);
+            }
+
+        start_novel();
+    </script>
+    
+    <!-- 리뷰 -->
+    <script>
+        var user_star_rating = 0;
+        async function getReviewInfor() {
+            const getDocRef = db.collection('review').doc(document_name[2]).collection('short').doc(login_user_information);
+            try{
+                const doc = await getDocRef.get();
+                if (doc.exists) {
+                    // 이미 리뷰목록에 있는 경우
+                    user_star_rating = doc.data().star;
+                    console.log("review exists true");
+                    document.getElementById('review_input').remove();
+                    document.getElementById('review_line').remove();
+                    
+                } else {
+                    // 리뷰 목록에 없는 경우
+                    console.log("review exists false");
+                }
+            }
+            catch(error){
+                console.log('Error getting document:', error);
+            }
+        }
+
+        // 리뷰작성
+        function review(){
+            let review_path = db.collection('review').doc(document_name[2]).collection('short').doc(login_user_information);
+            var star_rating = 0;
+
+            document.getElementsByName('rating').forEach((node) => {
+                if(node.checked)  {
+                    star_rating  = node.value;
+                }
+            });
+            if(login_check == true){
+                if(star_rating===0){
+                    alert("평점을 입력하세요");
+                }
+                else if($('#char_content').val().length<1){
+                    alert("아무 내용도 입력되지 않았습니다");
+                }
+                else{
+                    console.log(star_rating);
+                    var n_name = document_name[2].split('(');
+                    var n_author = n_name[1].split(')');
+
+                    var review_data = {
+                        id : user_id,
+                        nick: nickname,
+                        name: n_name[0],
+                        author: n_author[0],
+                        content: $('#char_content').val(),
+                        star: star_rating,
+                        date: new Date()
+                    };
+                    review_path.set(review_data).then(async (result) => {
+                        await reviewIncCounter(star_rating);
+                        await review_add_user(star_rating);
+                        location.reload();
+                    }).catch((error) => {
+                        console.log(error);
+                        alert("review failed.");
+                    });
+                }
+            }
+            else{
+                alert("로그인 후 이용해주세요");
+            }
+        }
+
+        function review_delete(){
+            let review_path = db.collection('review').doc(document_name[2]).collection('short').doc(login_user_information);
+
+            console.log(user_star_rating);
+
+            review_path.delete().then(async (result) => {
+                await reviewDimCounter(user_star_rating);
+                await review_delete_user();
+                location.reload();
+            }).catch((error) => {
+                console.log(error);
+                alert("delete failed.");
+            });
+        }
+
+        // 리뷰가져오기
+        db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "desc").get().then((결과) => {
+            var review_count = 0;
+            var temp = `<div class="review_pre"><div class="review_pre_set"><p>※리뷰가 존재하지 않습니다.※</p></div></div>`;
+
+            결과.forEach((result) => {
+                review_count = review_count + 1;
+                if(review_count>0){
+                    if(result.data().id == user_id){
+                        temp = 
+                        `<div class="review_pre">
+                            <div class="review_pre_set">
+                                <p>${result.data().nick + "(" + result.data().id + ")"}</p>
+                                <p>|</p>
+                                <p>${result.data().star + ".0"}</p>
+                                <div class="balloon">
+                                    <p>${result.data().content}</p>
+                                </div>
+                                <div id="review_delete" onclick="review_delete()"><p>삭제</p></div>
+                            </div>
+                        </div>`;
+                    }
+                    else{
+                        temp = 
+                        `<div class="review_pre">
+                            <div class="review_pre_set">
+                                <p>${result.data().nick + "(" + result.data().id + ")"}</p>
+                                <p>|</p>
+                                <p>${result.data().star + ".0"}</p>
+                                <div class="balloon">
+                                    <p>${result.data().content}</p>
+                                </div>
+                            </div>
+                        </div>`;
+                    }
+                }
+
+                $('#review_add').append(temp);
+            });
+
+            if(review_count==0){
+                $('#review_add').append(temp);
+            }
+        }).catch((err) => {
+                console.log(err);
+        })
+
+        // 리뷰 추가시 작품문서 평점 초기화
+        async function reviewIncCounter(star_t){
+            const docRef = db.collection('novel_document').doc(document_name[2]);
+            return await docRef.update({
+                star: firebase.firestore.FieldValue.increment(star_t),
+                star_count: firebase.firestore.FieldValue.increment(1)
+            }).then(() => {
+                console.log("좋아요 증가 성공");
+                // history(document_bookcover);
+                // console.log("Document successfully updated!");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        // 리뷰 삭제시 작품문서 평점 초기화
+        async function reviewDimCounter(star_t){
+            const docRef = db.collection('novel_document').doc(document_name[2]);
+            return await docRef.update({
+                star: firebase.firestore.FieldValue.increment(-star_t),
+                star_count: firebase.firestore.FieldValue.increment(-1)
+            }).then(() => {
+                console.log("좋아요 제거 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        async function review_add_user(star_t){
+            const docRef = db.collection('user').doc(login_user_information).collection('review').doc(document_name[2]);
+            var name_information = document_name[2].split('(');
+            var author_information = name_information[1].split(')');
+            var info = {
+                d_name: document_name[2],
+                name:name_information[0],
+                author: author_information[0],
+                content: $('#char_content').val(),
+                star: star_t,
+                date: new Date()
+            };
+            await docRef.set(info).then((result) => {
+                console.log("user에 저장완료");
+            }).catch((error) => {
+                alert("user save failed.", error);
+            });
+
+        }
+
+        async function review_delete_user(){
+            const docRef = db.collection('user').doc(login_user_information).collection('review').doc(document_name[2]);
+            await docRef.delete().then(async (result) => {
+                console.log("user 정보 삭제 완료");
+            }).catch((error) => {
+                console.log(error);
+                alert("user delete failed.");
+            });
+        }
+    </script>
+
+    <script>
+        var like_state = false;
+
+        async function getInformation() {
+            console.log("loging : " + login_user_information);
+            const getDocRef = db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]);
+            try{
+                const doc = await getDocRef.get();
+                if (doc.exists) {
+                    // 이미 좋아요 목록에 있는 경우
+                    console.log("exists true");
+                    document.getElementById('like_button').checked = true;
+                    like_state = true;
+                } else {
+                    // 좋아요 목록에 없는 경우
+                    console.log("exists false");
+                    like_state = false;
+                }
+            }
+            catch(error){
+                console.log('Error getting document:', error);
+            }
+        }
+
+        function like(){
+            if(login_check == true){
+                if(like_state == true) {
+                    // 이미 좋아요 목록에 있는 경우
+                    db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).delete().then(function() {
+                        likeDimCounter();
+                        console.log("문서 삭제 완료");
+                        like_state = false;
+                    }).catch(function(error) {
+                        console.error("Error removing document: ", error);
+                    });
+                } else {
+                    // 좋아요 목록에 없는 경우
+                    var name_information = document_name[2].split('(');
+                    var author_information = name_information[1].split(')');
+                    var info = {
+                        name: name_information[0],
+                        author: author_information[0],
+                        date: new Date(),
+                        classification: "n"
+                    };
+                    db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).set(info).then((result) => {
+                        likeIncCounter();
+                        alert("추가 완료");
+                        like_state = true;
+                    }).catch((error) => {
+                        alert("failed.", error);
+                    });
+                }
+            }
+            else{
+                alert("로그인 후 이용해주세요");
+                document.getElementById("like_button").checked = true;
+            }
+        }
+
+        // 좋아요 추가 업데이트
+        function likeIncCounter(){
+            const docRef = db.collection('novel_document').doc(document_name[2]);
+            return docRef.update({
+                like: firebase.firestore.FieldValue.increment(1),
+            }).then(() => {
+                console.log("좋아요 증가 성공");
+                document.getElementById("like_count").innerText = Number($("label[id='like_count']").text()) + 1;
+                // history(document_bookcover);
+                // console.log("Document successfully updated!");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        // 좋아요 제거 업데이트
+        function likeDimCounter(){
+            const docRef = db.collection('novel_document').doc(document_name[2]);
+            return docRef.update({
+                like: firebase.firestore.FieldValue.increment(-1),
+            }).then(() => {
+                document.getElementById("like_count").innerText = Number($("label[id='like_count']").text()) - 1;
+                console.log("좋아요 제거 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    </script>
+
+    <script>
+
+        var ip_address_info;
+        var cookie_name
+
+        if(document_name[1]=="hn"){
+
+        }
+        else{
+            $.getJSON("https://ipinfo.io", function(data) {
+                ip_address_info = data.ip;
+                //setCookie 함수를 콜백 안에서 호출 
+            })
+
+            function setCookie(name, day) {
+                var date = new Date();
+                date.setDate(date.getDate() + day); //하루 뒤 만료
+                                
+                var mycookie = '';
+                mycookie += name //이름
+                // mycookie += name + '=' + value + ';';
+                mycookie += 'Expires=' + date.toUTCString(); //만료 + 문자형식변환
+                                
+                document.cookie = mycookie; //쿠키 설정, 생성
+
+            }
+
+            // (수정)쿠키생성여부 관련 이벤트 함수
+
+            window.addEventListener("load", async function() { //새로고침 함수
+                await data_loading();
+                await getCookie();
+                // countSpan.textContent = view;
+                            
+            });
+
+            async function getCookie() {
+                var cookies = document.cookie.split(';');
+                console.log(cookies);
+
+                var currentCookie = document.cookie;
+                var cookieCheck = currentCookie.indexOf(document_name[2]);
+                console.log(cookieCheck);
+
+                if(cookieCheck > - 1){
+                    console.log("이미 조회한 게시물");
+                }
+                else {
+                    cookie_name = "NovelPedia" + document_name[2]
+                    await setCookie(cookie_name, 1);
+                    await viewIncCounter();
+                    console.log("처음 조회하는 게시물");
+                }
+            }
+        }
+
+        async function viewIncCounter(){
+            const docRef = db.collection('novel_document').doc(document_name[2]);
+            return await docRef.update({
+                view: firebase.firestore.FieldValue.increment(1),
+            }).then(() => {
+                console.log("조회수 증가 성공");
+                
+                // history(document_bookcover);
+                // console.log("Document successfully updated!");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+     
+      </script>
+
+    <script>
+
+        var docPath;
+        var document_view;
+        var star_cal;
+
+        async function data_loading(){
+            if(document_name[1]=="hn"){
+                var document_url_version = document_name[2].split('=');
+                document_name[2] = document_url_version[0];
+                docPath = db.collection('history').doc(document_name[2]).collection('version').doc(document_url_version[1]);
+                
+                document.getElementById('go_delete').remove();
+            }
+            else{
+                docPath = db.collection('novel_document').doc(document_name[2]);
+            }
+
+            document.getElementById('document_name').innerText = document_name[2];
+
+            await docPath.get().then((결과) => {
+                // 불러온 내용 바탕으로 내용 바꾸기
+                console.log(결과.data())
+                
+                // DB에 저장되어있는 내용 가져와서 DB에 저장
+                var document_bookcover = 결과.data().bookcover;
+                var document_information_title = 결과.data().name;
+                var document_information_publisher = 결과.data().publisher;
+                var document_information_author = 결과.data().author;
+                var document_information_genre = 결과.data().genre;
+                var document_information_buy_series_name = 결과.data().buy_series;
+                var document_information_buy_series_address = 결과.data().address;
+                var document_information_publish_date = 결과.data().publish_date;
+                var document_summary_content = 결과.data().summary;
+                var document_information_birthday = 결과.data().author_birthday;
+                
+                
+                // 추후에 입력, 순서대로 좋아요개수, 업로드 날짜, 조회수, 태그, 기타
+                var document_like = 결과.data().like;
+                var document_update_date = 결과.data().update_date;
+                document_view = 결과.data().view;
+                var document_tag = 결과.data().tag;
+                var document_other = 결과.data().other;
+
+                // 평점 불러오기
+                star_cal = 결과.data().star / 결과.data().star_count;
+
+                document.getElementById("document_information_star").innerText= star_cal;
+
+                // 태그 불러오기 영역
+                console.log(typeof(document_tag));
+                document_tag.forEach(function(tag_element){
+                    var tag_temp = `<a href="../search?q=${tag_element}">${"#"+tag_element}</a>`
+                    $('#document_tag_area').append(tag_temp);
+                });
+
+                // 타임스템프 변환
+                var timestamp_second = document_update_date.seconds * 1000;
+                var time = new Date(timestamp_second);
+                var year = time.getFullYear().toString().slice(-4) + "년 ";
+                var month = ("0" + (time.getMonth() + 1)).slice(-2) + "월 ";
+                var day = ("0" + time.getDate()).slice(-2) + "일 ";
+                var hour = ("0" + time.getHours()).slice(-2) + "시 ";
+                var minute = ("0" + time.getMinutes()).slice(-2) + "분 ";
+                var second = ("0" + time.getSeconds()).slice(-2) + "초";
+
+                // 줄거리 더보기 버튼 제거
+                if(document_summary_content.length<650){
+                    document.getElementById("more_button").style.display = 'none';
+                    document.getElementById("summary_content").style.borderBottomRightRadius = '15px';
+                    document.getElementById("summary_content").style.borderBottomLeftRadius = '15px';
+                }
+
+                // 타이틀 변경
+                document.title = document_name[2];
+                
+                // 편집, 역사 페이지 버튼 주소 초기화
+                document.getElementById("go_edit").href = "../e/" + document_name[2];
+                document.getElementById("go_history").href = "../h/" + document_name[2];
+
+                // 표지변경
+                console.log(document_bookcover);
+                document.getElementById("document_bookcover").src = document_bookcover;
+
+                document.getElementById("document_information_title").innerText = document_information_title;
+                document.getElementById("document_information_author").innerText = document_information_author;
+                document.getElementById("document_information_author").href = '../a/' + document_information_author + '(' + document_information_birthday + ')';
+                document.getElementById("document_information_publisher").innerText = document_information_publisher;
+                document.getElementById("document_information_publisher").href = '../p/' + document_information_publisher;
+
+                document.getElementById("document_information_genre").innerText = document_information_genre;
+                
+                document.getElementById("document_information_buy_series").innerText = document_information_buy_series_name;
+
+                document.getElementById("view_get").innerText = document_view + "회";
+                document.getElementById("update_get").innerText = year + month + day + hour + minute + second;
+                document.getElementById("like_count").innerText = document_like;
+                // document.getElementById("like_count").value = document_like;
+
+                const address_analze = document_information_buy_series_address.split(":");
+                console.log(address_analze[0]);
+
+                if(address_analze[0]==="http" || address_analze[0]==="https"){
+                    document.getElementById("document_information_buy_series").href = document_information_buy_series_address;
+                }
+                else{
+                    document.getElementById("document_information_buy_series").href = "https://www.google.com/search?q=" + document_information_buy_series_address;
+                }
+
+                document.getElementById("document_information_publish_date").innerText = document_information_publish_date;
+                document.getElementById("document_summary_content").innerText = document_summary_content;
+
+                document.getElementById("document_other").innerText = document_other;
+                // document.getElementById("document_information_author").innerText = document_information_author;
+                // document.getElementById("document_information_author").innerText = document_information_author;
+                // document.getElementById("document_information_author").innerText = document_information_author;
+            }).catch((err) => {
+                console.log(err);
+                document.getElementById("document_section").style.display = "none";
+                const empty = `<div class="empty_page"> <div class="empty_result_area"> <div class="empty_none">
+                        <div class="text_bundle">
+                            <p class="warning">ⓘ</p><p id ="this_document">해당문서</p><p class="alram">에 대한 문서 정보가 없습니다.</p>
+                        </div>
+                        <div class="button_bundle">
+                            <a href="#" class="new_document" id="new_document">새 문서 작성하기</a>
+                            <a href="#" class="history">역사</a>
+                        </div>
+                    </div>
+                </div></div>`
+                
+                document.getElementById('section_empty').style.display = 'block';
+                document.getElementById('empty').innerHTML = empty;
+                document.getElementById('this_document').innerText = document_name[2];
+                document.getElementById('new_document').href = '../e/' + document_name[2];
+            });
+        }
+    </script>
     <style>
         .section_empty {
             margin-top: 100px;
@@ -556,6 +928,7 @@
         }
     </style>
     
+    <!-- <script src="../js/like.js"></script> -->
 
 </body>
 

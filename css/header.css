@@ -62,8 +62,8 @@
 }
 
 .bar_menu li {
-    margin-left: 10px;
-    margin-right: 10px;
+    /* margin-left: 10px;
+    margin-right: 10px; */
     padding: 8px 12px;
     font-weight: bold;
 }

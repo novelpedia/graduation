@@ -15,7 +15,7 @@
 
 <body>
     <header class="header">
-        <a class="logo_a" href="https://novelpedia2223-2ce3c.web.app/">
+        <a class="logo_a" href="https://novelpedia.co.kr/">
             <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
             <img class="logo_icon" src="../image/logo.png">
         </a>
@@ -27,9 +27,9 @@
                 <div class="inner_inner_item">
                     <div class="search">
                         <div class="icon"></div>
-                        <form method="get" action="../search.html">
+                        <form method="get" action="../search">
                             <div class="input">
-                                <input type="text" placeholder="Search" id="mysearch">
+                                <input type="text" placeholder="Search" id="mysearch" name="q">
                             </div>
                             <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
                             <input type="submit" value="" class="search_btn">
@@ -123,10 +123,35 @@
                     <label for="author">작가</label>
                     <input id="author" type="text" autocomplete="off">
                 </div>
+                <!--생년월일-->
+                <div class="document_birthday_edit">
+                    <label for="birthday">작가 생년월일</label>
+                    <div class="birthday_warning">
+                        <input id="birthday" type="date" autocomplete="off">
+                        <div class="checkbox_pakage">
+                            <input id="birthday_check" type="checkbox" onclick="isCheck()">
+                            <span> ※생년월일을 알 수 없는 경우 체크해주십시오※</span>
+                        </div>
+                    </div>
+                </div>
                 <!--출판사-->
                 <div class="document_publisher_edit">
                     <label for="publisher">출판사</label>
                     <input id="publisher" type="text" autocomplete="off">
+                </div>
+                <!-- 분류선택 -->
+                <!-- 장르 디자인 그대로 사용 -->
+                <div class="document_genre_edit"> 
+                    <label for="n_category">분류</label>
+                    <select id="n_category">
+                        <option></option>
+                        <option>소설</option>
+                        <option>만화</option>
+                        <option>웹소설</option>
+                        <option>웹툰</option>
+                        <option>에세이</option>
+                        <option>잡지</option>
+                    </select>
                 </div>
                 <!--장르선택-->
                 <div class="document_genre_edit">
@@ -167,8 +192,18 @@
                 <!--태그-->
                 <div class="document_tag_edit">
                     <label for="tag">태그</label>
-                    <input id="tag" type="text" autocomplete="off">
+                    <div class="content">
+                        <!--<p>Enter 키를 누르거나 쉼표(,) 키를 추가하십시오.</p>-->
+                        <ul id="tag_area"><textarea id="tag" maxlength="50"></textarea></ul>
+                        <div class="details">
+                            <p><span>0</span> / 30</p>
+                            <!--<button>모두 제거</button>-->
+                        </div>
+                    </div>
                 </div>
+                <!-- <div class="document_tag_edit">
+                    <input id="tag" type="text" autocomplete="off">
+                </div> -->
             </div>
             <!--사용자편집영역-->
             <div class="document_other_edit">
@@ -232,12 +267,28 @@
     <!--로그아웃 상태일 때-->
     <script src="../js/logout_state.js"></script>
 
+    <!--태그 입력-->
+    <script src="../js/tag.js"></script>
+
+    <!-- 작성자 아이피주소 가져오기 -->
+    <script>
+        var ip_address_info;
+        $.getJSON("https://ipinfo.io", function(data) {
+            ip_address_info = data.ip;
+        })
+    </script>
+
     <script>
         const path_url = window.location.pathname;
         const path_decode = decodeURI(path_url);
         const document_name = path_decode.split('/');
         document.getElementById('document_name').innerText = document_name[2];
         document.getElementById("document_name").href = "../n/" + document_name[2];
+
+        var document_bookcover = 'https://novelpedia2223-2ce3c.web.app/image/%ED%91%9C%EC%A7%80_%EB%AF%B8%EB%93%B1%EB%A1%9D.png';
+        var document_version = 0;
+        var document_the_first_date = new Date();
+        var document_category = "n";
 
         // 타이틀 변경
         console.log(document_name[2]);
@@ -248,26 +299,38 @@
             console.log(결과.data())
             
             // DB에 저장되어있는 내용 가져와서 DB에 저장
-            var document_bookcover = 결과.data().bookcover;
+            document_bookcover = 결과.data().bookcover;
             var document_information_title = 결과.data().name;
             var document_information_publisher = 결과.data().publisher;
             var document_information_author = 결과.data().author;
+            var document_information_n_category = 결과.data().n_category;
             var document_information_genre = 결과.data().genre;
             var document_information_buy_series_name = 결과.data().buy_series;
             var document_information_buy_series_address = 결과.data().address;
             var document_information_publish_date = 결과.data().publish_date;
             var document_summary_content = 결과.data().summary;
+            var document_information_birthday = 결과.data().author_birthday;
             
             
             // 추후에 입력, 순서대로 좋아요개수, 업로드 날짜, 조회수, 태그, 기타
             var document_like = 결과.data().like;
-            var document_upload_date = 결과.data().upload_date;
+            var document_update_date = 결과.data().update_date;
             var document_view = 결과.data().view;
             var document_tag = 결과.data().tag;
             var document_other = 결과.data().other;
+            document_version = 결과.data().version;
+            document_the_first_date = 결과.data().the_first_date;
+            document_category = 결과.data().category;
+
+            if(document_information_birthday=='0001-01-01'){
+                document.getElementById("birthday_check").checked = true;
+            }
+            else{
+                document.getElementById("birthday_check").checked = false;                
+            }
 
             // 타이틀 변경
-            document.title = document_name[2];
+            // document.title = document_name[2];
             
             // 편집, 역사 페이지 버튼 주소 초기화
             // document.getElementById("go_history").href = "../h/" + document_name[2];
@@ -280,8 +343,10 @@
             document.getElementById("name").disabled = true;
             document.getElementById("author").value = document_information_author;
             document.getElementById("author").disabled = true;
+            document.getElementById("birthday").value = document_information_birthday;
             document.getElementById("publisher").value = document_information_publisher;
 
+            document.getElementById("n_category").value = document_information_n_category;
             document.getElementById("genre").value = document_information_genre
             
             document.getElementById("sale_name").value = document_information_buy_series_name;
@@ -289,8 +354,15 @@
 
             document.getElementById("publishdate").value = document_information_publish_date;
             document.getElementById("summary").value = document_summary_content;
-            document.getElementById("tag").value = document_tag
-            document.getElementById("document_other").value = document_other
+
+            // 태그 입력
+            document_tag.forEach(function(tag_element){
+                tags.push(tag_element);
+            });
+            countTags();
+            createTag();
+            // document.getElementById("tag").value = document_tag;
+            document.getElementById("document_other").value = document_other;
         }).catch((err) => {
             console.log(err);
         });
@@ -299,11 +371,300 @@
     <!-- 파이어베이스 데이터 등록 -->
     <script>
         const storage = firebase.storage();
+        // 영어는 소문자로 저장
+        var name_keyword_temp_lower = [];
 
         $('#send').click(function() {
 
             var file = document.querySelector('#bookcover_file').files[0];
             var storageRef = storage.ref();
+
+            var name_keyword_temp = [
+                ...$('#name').val().split(' '),
+                ...$('#name').val().split('은'),
+                ...$('#name').val().split('의'),
+                ...$('#name').val().split('에'),
+                ...$('#name').val().split('는'),
+                ...$('#name').val().split('이'),
+                ...$('#name').val().split('가'),
+                ...$('#name').val().split('만'),
+                ...$('#name').val().split('뿐'),
+                ...$('#name').val().split('밖에'),
+                ...$('#name').val().split('도'),
+                ...$('#name').val().split('까지'),
+                ...$('#name').val().split('마저'),
+                ...$('#name').val().split('조차'),
+                ...$('#name').val().split('은'),
+                ...$('#name').val().split('나'),
+                ...$('#name').val().split('이나'),
+                ...$('#name').val().split('라도'),
+                ...$('#name').val().split('이라도'),
+                ...$('#name').val().split('든지'),
+                ...$('#name').val().split('이든지'),
+                ...$('#name').val().split('이나마'),
+                ...$('#name').val().split('나마'),
+                ...$('#name').val().split(','),
+                ...$('#name').val().split('"'),
+                ...$('#name').val().split('/'),
+                ...$('#name').val().split('?'),
+                ...$('#name').val().split('!'),
+                ...$('#name').val().split('@'),
+                ...$('#name').val().split('#'),
+                ...$('#name').val().split('$'),
+                ...$('#name').val().split('%'),
+                ...$('#name').val().split('^'),
+                ...$('#name').val().split('&'),
+                ...$('#name').val().split('*'),
+                ...$('#name').val().split('('),
+                ...$('#name').val().split(')'),
+                ...$('#name').val().split('-'),
+                ...$('#name').val().split('_'),
+                ...$('#name').val().split('+'),
+                ...$('#name').val().split('='),
+                ...$('#name').val().split('<'),
+                ...$('#name').val().split('>'),
+                ...$('#name').val().split('.'),
+                ...$('#name').val().split('|'),
+                ...$('#name').val().split('`'),
+                ...$('#name').val().split('~'),
+                ...$('#name').val().split('['),
+                ...$('#name').val().split(']'),
+                ...$('#name').val().split('{'),
+                ...$('#name').val().split('}'),
+                ...$('#name').val().split('」'),
+                ...$('#name').val().split('「'),
+                ...$('#name').val().split(', '),
+                ...$('#name').val().split("'"),
+                ...$('#name').val().split('1'),
+                ...$('#name').val().split('2'),
+                ...$('#name').val().split('3'),
+                ...$('#name').val().split('4'),
+                ...$('#name').val().split('5'),
+                ...$('#name').val().split('6'),
+                ...$('#name').val().split('7'),
+                ...$('#name').val().split('8'),
+                ...$('#name').val().split('9'),
+                ...$('#name').val().split('0')
+            ];
+            // console.log(name_keyword_temp);
+
+            // 중복체크
+            name_keyword_temp = [...new Set(name_keyword_temp)];
+
+            var name_keyword_temp2 = [];
+
+            // 구분 다시한번 실행
+            name_keyword_temp.forEach(element => {
+                element.split(' ').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('은').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('의').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('에').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('는').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('이').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('가').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('만').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('뿐').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('밖에').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('도').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('까지').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('마저').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('조차').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('은').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('나').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('이나').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('라도').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('이라도').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('이든지').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('든지').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('이나마').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('나마').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split(',').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('"').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('/').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('?').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('!').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('@').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('#').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('$').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('%').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('^').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('&').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('*').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('(').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split(')').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('-').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('+').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('=').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('<').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('>').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('.').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('|').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('`').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('~').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('[').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split(']').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('{').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('}').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('「').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('」').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split(', ').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split("'").forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('1').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('2').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('3').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('4').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('5').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('6').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('7').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('8').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('9').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+                element.split('0').forEach(temp =>{
+                    name_keyword_temp2.push(temp);
+                });
+            });
+
+            name_keyword_temp2 = [...new Set(name_keyword_temp2)];
+            console.log(name_keyword_temp2);
+
+            
+            name_keyword_temp2.forEach(element => {
+                if(element.length === 0){
+                }
+                else{
+                    name_keyword_temp_lower.push(element.toLowerCase().replace(/ /g, ''));
+                }
+            });
+
+            // 원래 제목 맨 앞에 추가
+            name_keyword_temp_lower.unshift($('#name').val().toLowerCase().replace(/ /g, ''));
+            // 중복체크
+            name_keyword_temp_lower = [...new Set(name_keyword_temp_lower)];
 
             // 첨부파일 여부 확인
             var bookcover_chk = document.getElementById("bookcover_file").value;
@@ -318,8 +679,12 @@
                         alert("제목이 입력되지 않았습니다.");
                     } else if ($('#author').val().length === 0) {
                         alert("작가명이 입력되지 않았습니다.");
+                    } else if ($('#birthday').val().length === 0) {
+                        alert("생년월일이 입력되지 않았습니다.");
                     } else if ($('#publisher').val().length === 0) {
                         alert("출판사 정보가 입력되지 않았습니다.");
+                    } else if ($('#n_category').val().length === 0) {
+                        alert("분류가 선택되지 않았습니다.");
                     } else if ($('#genre').val().length === 0) {
                         alert("장르가 선택되지 않았습니다.");
                     } else if ($('#sale_name').val().length === 0) {
@@ -333,20 +698,26 @@
                     } else {
                         return docRef.update({
                             name: $('#name').val(),
+                            name_keyword: name_keyword_temp_lower,
                             author: $('#author').val(),
+                            author_birthday : $('#birthday').val(),
                             publisher: $('#publisher').val(),
+                            n_category: $('#n_category').val(),
                             genre: $('#genre').val(),
                             buy_series: $('#sale_name').val(),
                             address: $('#sale_address').val(),
                             publish_date: $('#publishdate').val(),
-                            tag: $('#tag').val(),
+                            tag: tags,
                             summary: $('#summary').val(),
                             other: $('#document_other').val(),
-                            update_date:dt
+                            version: firebase.firestore.FieldValue.increment(1),
+                            update_date:dt,
+                            final_modify: ip_address_info
                         })
                         .then(() => {
-                            console.log("Document successfully updated!");
-                            window.location.href='../n/' + $('#name').val() + "(" + $('#author').val() + ")";
+                            history(document_bookcover);
+                            // console.log("Document successfully updated!");
+                            
                         })
                         .catch((error) => {
                             // The document probably doesn't exist.
@@ -355,24 +726,32 @@
                             var info = {
                                 bookcover: 'https://novelpedia2223-2ce3c.web.app/image/%ED%91%9C%EC%A7%80_%EB%AF%B8%EB%93%B1%EB%A1%9D.png',
                                 name: $('#name').val(),
+                                name_keyword: name_keyword_temp_lower,
                                 author: $('#author').val(),
+                                author_birthday : $('#birthday').val(),
                                 publisher: $('#publisher').val(),
+                                n_category: $('#n_category').val(),
                                 genre: $('#genre').val(),
                                 buy_series: $('#sale_name').val(),
                                 address: $('#sale_address').val(),
                                 publish_date: $('#publishdate').val(),
-                                tag: $('#tag').val(),
+                                tag: tags,
                                 summary: $('#summary').val(),
                                 like: 0,
                                 view: 0,
+                                star:0,
+                                version:1,
                                 other: $('#document_other').val(),
                                 update_date:dt,
-                                the_first_date:dt
+                                the_first_date:dt,
+                                category:"n",
+                                final_modify: ip_address_info
                             };
                             docRef.set(info).then((result) => {
-                                console.log(result);
-                                alert("success.");
-                                window.location.href='../n/' + $('#name').val() + "(" + $('#author').val() + ")";
+                                history(document_bookcover);
+                                // console.log(tags);
+                                // console.log(result);
+                                // alert("success.");
                             }).catch(() => {
                                 alert("failed.");
                             });
@@ -391,8 +770,12 @@
                     alert("제목이 입력되지 않았습니다.");
                 } else if ($('#author').val().length === 0) {
                     alert("작가명이 입력되지 않았습니다.");
+                } else if ($('#birthday').val().length === 0) {
+                    alert("생년월일이 입력되지 않았습니다.");
                 } else if ($('#publisher').val().length === 0) {
                     alert("출판사 정보가 입력되지 않았습니다.");
+                } else if ($('#n_category').val().length === 0) {
+                    alert("분류가 선택되지 않았습니다.");
                 } else if ($('#genre').val().length === 0) {
                     alert("장르가 선택되지 않았습니다.");
                 } else if ($('#sale_name').val().length === 0) {
@@ -416,18 +799,22 @@
                                     bookcover: url,
                                     name: $('#name').val(),
                                     author: $('#author').val(),
+                                    author_birthday : $('#birthday').val(),
                                     publisher: $('#publisher').val(),
+                                    n_category: $('#n_category').val(),
                                     genre: $('#genre').val(),
                                     buy_series: $('#sale_name').val(),
                                     address: $('#sale_address').val(),
                                     publish_date: $('#publishdate').val(),
-                                    tag: $('#tag').val(),
+                                    tag: tags,
                                     summary: $('#summary').val(),
                                     other: $('#document_other').val(),
-                                    update_date:dt
+                                    version: firebase.firestore.FieldValue.increment(1),
+                                    update_date:dt,
+                                    final_modify: ip_address_info
                                 })
                                 .then(() => {
-                                    window.location.href='../n/' + $('#name').val() + "(" + $('#author').val() + ")";
+                                    history(url);
                                     console.log("Document successfully updated!");
                                 })
                                 .catch((error) => {
@@ -436,25 +823,31 @@
                                         var info = {
                                             bookcover: url,
                                             name: $('#name').val(),
+                                            name_keyword: name_keyword_temp_lower,
                                             author: $('#author').val(),
+                                            author_birthday : $('#birthday').val(),
                                             publisher: $('#publisher').val(),
+                                            n_category: $('#n_category').val(),
                                             genre: $('#genre').val(),
                                             buy_series: $('#sale_name').val(),
                                             address: $('#sale_address').val(),
                                             publish_date: $('#publishdate').val(),
-                                            tag: $('#tag').val(),
+                                            tag: tags,
                                             summary: $('#summary').val(),
                                             like: 0,
                                             view: 0,
+                                            star:0,
+                                            version:1,
                                             other: $('#document_other').val(),
                                             the_first_date: dt,
-                                            update_date:dt                                
+                                            update_date:dt,
+                                            category:"n",
+                                            final_modify: ip_address_info                                
                                         };
                                         docRef.set(info).then((result) => {
                                             console.log(result);
-                                            alert("success.");
+                                            history(url);
                                             // window.location.reload();
-                                            window.location.href='../n/' + $('#name').val() + "(" + $('#author').val() + ")";
                                         }).catch(() => {
                                             alert("failed.");
                                         });
@@ -469,6 +862,60 @@
             
         })
     </script>
+
+    <!-- 역사_초기화 -->
+    <script>        
+        function history(url = "https://novelpedia2223-2ce3c.web.app/image/%ED%91%9C%EC%A7%80_%EB%AF%B8%EB%93%B1%EB%A1%9D.png") {
+            var docRefHistory = db.collection('history').doc($('#name').val() + "(" + $('#author').val() + ")");
+            var subHistory = docRefHistory.collection('version').doc((document_version + 1).toString());
+            var info = {
+                bookcover: url,
+                name: $('#name').val(),
+                name_keyword: name_keyword_temp_lower,
+                author: $('#author').val(),
+                author_birthday : $('#birthday').val(),
+                publisher: $('#publisher').val(),
+                n_category: $('#n_category').val(),
+                genre: $('#genre').val(),
+                buy_series: $('#sale_name').val(),
+                address: $('#sale_address').val(),
+                publish_date: $('#publishdate').val(),
+                tag: tags,
+                summary: $('#summary').val(),
+                version: document_version + 1,
+                other: $('#document_other').val(),
+                the_first_date: document_the_first_date,
+                update_date:new Date(),
+                category:document_category,
+                final_modify: ip_address_info                               
+            };
+            subHistory.set(info).then((result) => {
+                console.log(result);
+                alert("history success.");
+                window.location.href='../n/' + $('#name').val() + "(" + $('#author').val() + ")";
+            }).catch((error) => {
+                console.log(error);
+                alert("history failed.");
+            });
+        }
+    </script>
+
+    <script>
+        function isCheck(){
+            var check = document.getElementById('birthday_check').checked;
+
+            if(check == true){
+                document.getElementById("birthday").value = '0001-01-01';
+                document.getElementById("birthday").disabled = true;
+            }
+            else{
+                document.getElementById("birthday").value = "";
+                document.getElementById("birthday").disabled = false;
+            }
+        }
+    </script>
+
+    
 </body>
 
 </html>

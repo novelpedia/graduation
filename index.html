@@ -14,7 +14,7 @@
 
 <body class="main_body">
     <header class="header">
-        <a class="logo_a" href="index.html">
+        <a class="logo_a" href="http://novelpedia.co.kr">
             <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
             <img class="logo_icon" src="image/logo.png">
         </a>
@@ -26,9 +26,9 @@
                 <div class="inner_inner_item">
                     <div class="search">
                         <div class="icon"></div>
-                        <form method="get" action="search.html">
+                        <form method="get" action="search">
                             <div class="input">
-                                <input type="text" placeholder="Search" id="mysearch">
+                                <input type="text" placeholder="Search" id="mysearch" name="q">
                             </div>
                             <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
                             <input type="submit" value="" class="search_btn">
@@ -202,24 +202,6 @@
                                 <img src="./image/표지_미등록.png">
                                 <p>첫번째</p>
                             </a>
-                        </div>
-                        <div class="document_second">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>두번째</p>
-                            </a>
-                        </div>
-                        <div class="document_second">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>세번째</p>
-                            </a>
-                        </div>
-                        <div class="document_second">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>네번째</p>
-                            </a>
                         </div> -->
                     </div>
 
@@ -231,8 +213,8 @@
             <div class="explain">
                 <!--<hr />-->
                 <h1>"NovelPedia"</h1>
-                <p>노벨피디아는 검증되지 않았거나, 편향적이거나, 잘못된 서술이 있을 수 있습니다.</p>
-                <p>정식 출간되지 않은 작품도 문서로 등록할 수 있으며, 여러분이 직접 문서를 고치고 리뷰를 작성할 수 있습니다.</p>
+                <p>노벨피디아는 잘못된 정보가 포함되어 있을 수 있습니다.</p>
+                <p>정식 출간되지 않은 작품도 문서로 등록할 수 있으며, 직접 문서를 고치고 리뷰를 작성할 수 있습니다.</p>
                 <!--<hr />-->
             </div>
         </div>
@@ -332,51 +314,18 @@
                     </div>
                 </div>
             </div>
-            <div class="main_new_review">
+            <div class="main_new_review" id="recent_modify_parent">
                 <div class="name">
-                    <a href="#">새로 등록된 리뷰</a>
+                    <a href="#">최근 수정된 문서</a>
+                    <select onchange="recent_modify_document()" id="select_nap">
+                        <option value="1">작품</option>
+                        <option value="2">작가</option>
+                        <option value="3">출판사</option>
+                    </select>
                 </div>
-                <div class="review_pre">
-
-                    <div class="review_pre_set" style="margin-top:16px;">
-                        <p>닉네임</p>
-                        <p>|</p>
-                        <p>작품이름</p>
-                        <div class="balloon">
-                            <p>리뷰</p>
-                        </div>
-                    </div>
+                <div class="modify_document" id="recent_modify">
                 </div>
-                <div class="review_pre">
-                    <div class="review_pre_set">
-                        <p>닉네임</p>
-                        <p>|</p>
-                        <p>작품이름</p>
-                        <div class="balloon">
-                            <p>리뷰</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="review_pre">
-                    <div class="review_pre_set">
-                        <p>닉네임</p>
-                        <p>|</p>
-                        <p>작품이름</p>
-                        <div class="balloon">
-                            <p>리뷰</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="review_pre">
-                    <div class="review_pre_set">
-                        <p>닉네임</p>
-                        <p>|</p>
-                        <p>작품이름</p>
-                        <div class="balloon">
-                            <p>리뷰</p>
-                        </div>
-                    </div>
-                </div>
+                <!-- <span>2023.11.33. 5:20 pm 업데이트</span> -->
             </div>
         </div>
     </section>
@@ -426,10 +375,9 @@
 
     <!-- 파이어베이스 데이터 출력 -->
     <script>
-
         const dbRef = db.collection("novel_document");
         
-        dbRef.orderBy("the_first_date").limit(4).get().then((res)=>{
+        dbRef.orderBy("the_first_date", "desc").limit(4).get().then((res)=>{
             /*res 안에 든 데이터의 갯수만큼 코드 반복*/
             res.forEach((doc)=>{
                 console.log(doc.data());
@@ -437,7 +385,7 @@
                 var doc_name_temp = doc.data().name;
 
                 // 문자열이 너무 길어지면 문자열을 끊고 '...' 으로 이어지도록
-                if(doc_name_temp.length>5){
+                if(doc_name_temp.length>=5){
                     doc_name_temp = doc_name_temp.substr(0,4) + "...";
                 }
 
@@ -452,6 +400,87 @@
             })
         })
     </script>
+
+    <!-- 최근 수정된 문서 -->
+    <script>
+        dbRef.orderBy("update_date", "desc").limit(10).get().then((res)=>{
+            /*res 안에 든 데이터의 갯수만큼 코드 반복*/
+            res.forEach((doc)=>{
+                console.log(doc.data());
+                var document_name = "n/" + doc.data().name + "(" + doc.data().author + ")";
+                var doc_name_temp = doc.data().name;
+
+                // 문자열이 너무 길어지면 문자열을 끊고 '...' 으로 이어지도록
+                // if(doc_name_temp.length>=5){
+                //     doc_name_temp = doc_name_temp.substr(0,4) + "...";
+                // }
+
+                var temp = 
+                    `<a href="${document_name}">
+                        <p>${doc_name_temp}</p>
+                    </a>`;
+                    $('#recent_modify').append(temp);
+            })
+        })
+
+        function recent_modify_document(){
+            document.getElementById("recent_modify").remove();
+            var select_sort = document.getElementById("select_nap").value;
+
+            var recent_modify_temp = `<div class="modify_document" id="recent_modify"></div>`;
+            $('#recent_modify_parent').append(recent_modify_temp);
+
+            if(select_sort == 1){
+                db.collection("novel_document").orderBy("update_date", "desc").limit(10).get().then((res)=>{
+                    res.forEach((doc)=>{
+                        console.log(doc.data());
+                        var document_name = "n/" + doc.data().name + "(" + doc.data().author + ")";
+                        var doc_name_temp = doc.data().name;
+
+                        var temp = 
+                            `<a href="${document_name}">
+                                <p>${doc_name_temp}</p>
+                            </a>`;
+                            $('#recent_modify').append(temp);
+                    })
+                })
+            }
+            else if(select_sort == 2){
+                db.collection("author_document").orderBy("update_date", "desc").limit(10).get().then((res)=>{
+                    res.forEach((doc)=>{
+                        console.log(doc.data());
+                        var document_name = "a/" + doc.data().name + "(" + doc.data().birthday + ")";
+                        var doc_name_temp = doc.data().name;
+
+                        var temp = 
+                            `<a href="${document_name}">
+                                <p>${doc_name_temp}</p>
+                            </a>`;
+                            $('#recent_modify').append(temp);
+                    })
+                })
+            }
+            else{
+                db.collection("publisher_document").orderBy("update_date", "desc").limit(10).get().then((res)=>{
+                    res.forEach((doc)=>{
+                        console.log(doc.data());
+                        var document_name = "p/" + doc.data().name;
+                        var doc_name_temp = doc.data().name;
+
+                        var temp = 
+                            `<a href="${document_name}">
+                                <p>${doc_name_temp}</p>
+                            </a>`;
+                            $('#recent_modify').append(temp);
+                    })
+                })
+            }
+
+        }
+    </script>
+
+    <!--검색창-->
+    <script src="./js/search.js"></script>
 </body>
 
 </html>

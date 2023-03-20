@@ -100,21 +100,21 @@ body {
 }
 
 .col_3 {
-    width: 5%;
+    width: 10%;
     border: 1px solid #e5e5e5;
     height: 50px;
     vertical-align: middle;
 }
 
 .col_4 {
-    width: 13%;
+    width: 20%;
     border: 1px solid #e5e5e5;
     height: 50px;
     vertical-align: middle;
 }
 
 .col_5 {
-    width: 7%;
+    width: 10%;
     border: 1px solid #e5e5e5;
     height: 50px;
     vertical-align: middle;
@@ -126,7 +126,7 @@ body {
 }
 
 .col_6 {
-    width: 10%;
+    width: 15%;
     border: 1px solid #e5e5e5;
     height: 50px;
     vertical-align: middle;
@@ -138,21 +138,21 @@ body {
 }
 
 .col_7 {
-    width: 7%;
+    width: 20%;
     border: 1px solid #e5e5e5;
     height: 50px;
     vertical-align: middle;
 }
 
 .col_8 {
-    width: 13%;
+    width: 15%;
     border: 1px solid #e5e5e5;
     height: 50px;
     vertical-align: middle;
 }
 
 .col_9 {
-    width: 13%;
+    width: 6%;
     border: 1px solid #e5e5e5;
     height: 50px;
     vertical-align: middle;
@@ -191,11 +191,11 @@ body {
     display: flex;
 }
 
-.previous_next a {
+.previous_next button {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-decoration: none;
+    /* text-decoration: none; */
     color: black;
     margin-top: 30px;
     margin-bottom: 30px;
@@ -206,7 +206,7 @@ body {
     height: 40px;
 }
 
-.previous_next a:hover {
+.previous_next button:hover {
     background-color: #769fcd;
     color: white;
 }
@@ -259,7 +259,7 @@ body {
         justify-content: center;
     }
     
-    .previous_next a{
+    .previous_next button{
         width: 70px;
         height: 30px;
     }

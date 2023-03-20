@@ -134,7 +134,6 @@ body {
 .main_new_document .document_first {
     display: flex;
     justify-content: space-evenly;
-    flex-direction: row-reverse;
 }
 
 .main_new_document .document_second {
@@ -303,6 +302,18 @@ body {
     border-radius: 10px;
 }
 
+.main_new_review .name{
+    display: flex;
+    justify-content: space-between;
+}
+
+.main_new_review select{
+    height: 30px;
+    width: 80px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
 .main_new_review a {
     text-decoration: none;
     font-size: 25px;
@@ -368,6 +379,35 @@ body {
     position: relative;
 }
 
+.main_new_review .modify_document{
+    display: flex;
+    flex-direction: column;
+}
+
+.main_new_review .modify_document a{
+    display: flex;
+    margin-left: 0px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.main_new_review .modify_document a:hover{
+    color: #769fcd;
+}
+
+.main_new_review .modify_document a:nth-child(1){
+    border-top: 1px solid #e5e5e5;
+    margin-top: 25px;
+}
+
+.main_new_review .modify_document a p{
+    font-size: 16px;
+    font-weight: 100;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-left: 25px;
+}
+
+
 .main_new_review .review_pre_set {}
 
 /*슬라이드 보드*/
@@ -432,7 +472,6 @@ body {
 .main_slideboard .slidelist .textbox h3 {
     font-size: 36px;
     color: #fff;
-    ;
     transform: translateY(30px);
     transition: all .5s;
 }
@@ -749,6 +788,18 @@ body {
 
     .main_new_review .balloon {
         width: 100%;
+    }
+
+    .main_new_review .modify_document{
+        width: 100%;
+    }
+    
+    .main_new_review .modify_document a{
+
+    }
+    
+    .main_new_review .modify_document a p{
+
     }
 
 

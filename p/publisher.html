@@ -5,29 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
-    <link href="css/publisher_page.css" rel="stylesheet">
-    <link href="css/header.css" rel="stylesheet">
-    <link href="css/footer.css" rel="stylesheet">
+    <link href="../css/publisher_page.css" rel="stylesheet">
+    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/footer.css" rel="stylesheet">
     <title>출판사페이지</title>
 </head>
 
 <body>
     <header class="header">
-        <a class="logo_a" href="index.html">
+        <a class="logo_a" href="../index.html">
             <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
-            <img class="logo_icon" src="image/logo.png">
+            <img class="logo_icon" src="../image/logo.png">
         </a>
         <div class="first_line">
             <div class="inner_item">
                 <a id="open_close" href="#" class="navbar_toggleBtn">
-                    <img id="close" src="image/메뉴_검정_버튼.png">
+                    <img id="close" src="../image/메뉴_검정_버튼.png">
                 </a>
                 <div class="inner_inner_item">
                     <div class="search">
                         <div class="icon"></div>
-                        <form method="get" action="http://novelpedia.dothome.co.kr/search?">
+                        <form method="get" action="../search">
                             <div class="input">
-                                <input type="text" placeholder="Search" id="mysearch">
+                                <input type="text" placeholder="Search" id="mysearch" name="q">
                             </div>
                             <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
                             <input type="submit" value="" class="search_btn">
@@ -35,15 +35,17 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="set">
-            <div class="set_mid">
-                <ul class="bar_menu">
-                    <li><a href="#">Category</a></li>
-                    <li><a href="login.html">Login</a></li>
-                </ul>
+            <div class="set">
+                <div class="set_mid">
+                    <ul class="bar_menu">
+                        <li><a href="../listpage.html">목록페이지</a></li>
+                        <li class="mypage_header" id="mypage_button"><a href="../mypage">마이페이지</a></li>
+                        <li><a href="../login" id="login_logout">Login</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
+
     </header>
 
     <script>
@@ -94,24 +96,28 @@
         }
     </script>
 
-    <section class="document_section">
+    <section class="section_empty" id="section_empty">
+        <div id="empty"></div>
+    </section>
+
+    <section class="document_section" id="document_section">
         <div class="document_section_all">
             <!--출판사이름(설립연도)-->
             <div class="document_name">
-                <a href="#">출판사이름(설립년도)</a>
+                <a href="#" id="document_name">출판사이름(설립년도)</a>
             </div>
 
             <div class="document_bundle_button">
-                <a class="edit" href="publisher_edit.html">편집</a>
-                <a class="history" href="history.html">역사</a>
-                <a class="delete" href="#">삭제</a>
+                <a class="edit" id="go_edit" href="../ep">편집</a>
+                <a class="history" id="go_history" href="../h">역사</a>
+                <a class="delete" href="#" id="go_delete">삭제</a>
             </div>
 
             <div class="document_bundle">
                 <div class="document_bundle_cover">
                     <!--작품표지-->
                     <div class="document_profile_image">
-                        <img src="image/표지_미등록.png">
+                        <img id="document_profile_image_cover" src="image/표지_미등록.png">
                     </div>
 
                     <!--관심등록 및 버튼-->
@@ -143,21 +149,21 @@
                     <!--Work Info-->
                     <tr>
                         <td class="title">이름</td>
-                        <td class="content">출판사이름</td>
+                        <td class="content" id="document_information_name">출판사이름</td>
                     </tr>
                     <tr>
                         <td class="title">설립일</td>
-                        <td class="content">2022.09.27</td>
+                        <td class="content" id="document_information_establishdate">2022.09.27</td>
                     </tr>
 
                     <tr>
                         <td class="title">위치</td>
-                        <td class="content">경기도 파주시</td>
+                        <td class="content"><a href="#" id="document_information_location" target="_blank">경기도 파주시</a></td>
                     </tr>
 
                     <tr>
                         <td class="title">홈페이지</td>
-                        <td class="content">바로가기링크</td>
+                        <td class="content"><a href="#" id="document_information_homepage" target="_blank">바로가기링크</a></td>
                     </tr>
                 </table>
             </div>
@@ -168,73 +174,19 @@
                     <p class="p_title">작품목록</p>
                 </div>
                 <div class="content">
-                    <div class="document_first">
-                        <div class="document_list">
+                    <div class="document_first" id="publisher_document">
+                        <!-- <div class="document_list">
                             <a href="#">
                                 <img src="./image/표지_미등록.png">
                                 <p>소설제목</p>
                             </a>
-                        </div>
-                        <div class="document_list">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>소설제목</p>
-                            </a>
-                        </div>
-                        <div class="document_list">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>소설제목</p>
-                            </a>
-                        </div>
-                        <div class="document_list">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>소설제목</p>
-                            </a>
-                        </div>
-                        <div class="document_list">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>소설제목</p>
-                            </a>
-                        </div>
-                        <div class="document_list">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>소설제목</p>
-                            </a>
-                        </div>
-                        <div class="document_list">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>소설제목</p>
-                            </a>
-                        </div>
-                        <div class="document_list">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>소설제목</p>
-                            </a>
-                        </div>
-                        <div class="document_list">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>소설제목</p>
-                            </a>
-                        </div>
-                        <div class="document_list">
-                            <a href="#">
-                                <img src="./image/표지_미등록.png">
-                                <p>소설제목</p>
-                            </a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
             
             <!--작가 목록-->
-            <div id="document_author_list" class="document_author_list">
+            <!-- <div id="document_author_list" class="document_author_list">
                 <div class="title">
                     <p class="p_title">작가목록</p>
                 </div>
@@ -302,7 +254,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!--안내-->
             <div class="alram">
@@ -310,7 +262,7 @@
             </div>
 
             <!--기타-->
-            <div class="document_other"></div>
+            <div class="document_other" id="document_other"></div>
         </div>
     </section>
 
@@ -335,6 +287,288 @@
             </div>
         </div>
     </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="../js/information.js"></script>
+
+    <!--로그인 상태 체크-->
+    <script src="../js/login_check.js"></script>
+    <!--로그아웃을 위한 소스코드-->
+    <script src="../js/logout.js"></script>
+    <!--로그아웃 상태일 때-->
+    <script src="../js/logout_state.js"></script>
+
+    <script>
+        const path_url = window.location.pathname;
+        const path_decode = decodeURI(path_url);
+        const document_name = path_decode.split('/');
+    </script>
+
+    <!-- 조회수 -->
+    <script>
+        var ip_address_info;
+        if(document_name[1]=="hp"){
+        }
+        else{
+            $.getJSON("https://ipinfo.io", function(data) {
+                ip_address_info = data.ip;
+                var cookie_name = "NovelPedia" + document_name[2]
+                setCookie(cookie_name, data.ip, 1); //(수정) setCookie 함수를 콜백 안에서 호출 
+            })
+
+            function setCookie(name, value, day) {
+                var date = new Date(); //현재 날짜
+                date.setDate(date.getDate() + day); //하루 뒤 만료
+
+                var mycookie = '';
+                mycookie += name + '=' + value + ';'; //이름 + = + 값
+                mycookie += 'Expires=' + date.toUTCString(); //만료 + 문자형식변환
+                                
+                document.cookie = mycookie; //쿠키 설정, 생성
+
+            }
+
+            // (수정)쿠키생성여부 관련 이벤트 함수
+
+            window.addEventListener("load", function() { //(수정) 새로고침 함수
+                function getCookie() {
+                    var cookies = document.cookie.split(';');
+                    console.log(cookies);
+
+                    var currentCookie = document.cookie;
+                    var cookieCheck = currentCookie.indexOf(document_name[2]);
+                    console.log(cookieCheck);
+
+                        if(cookieCheck > - 1){
+                            // alert('이미 조회한 게시물입니다.');
+                            console.log("이미 조회한 게시물");
+                            // event.preventDefault(incCounter);
+                        }
+                        else {
+                            console.log("처음 조회하는 게시물");
+                            // alert('어서오세요.');
+                            viewIncCounter();    
+                        }
+                }
+
+                getCookie();
+                // countSpan.textContent = view;
+                            
+            });
+        }
+
+        function viewIncCounter(){
+            const docRef = db.collection('publisher_document').doc(document_name[2]);
+            return docRef.update({
+                view: firebase.firestore.FieldValue.increment(1),
+            }).then(() => {
+                console.log("조회수 증가 성공");
+                // history(document_bookcover);
+                // console.log("Document successfully updated!");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+     
+    </script>
+
+    <script>
+
+        var docPath;
+        if(document_name[1]=="hp"){
+            var document_url_version = document_name[2].split('=');
+            document_name[2] = document_url_version[0];
+            docPath = db.collection('history').doc(document_name[2]).collection('version').doc(document_url_version[1]);
+            
+            document.getElementById('go_delete').remove();
+        }
+        else{
+            docPath = db.collection('publisher_document').doc(document_name[2]);
+        }
+        document.getElementById('document_name').innerText = document_name[2];
+
+        docPath.get().then((결과) => {
+            // 불러온 내용 바탕으로 내용 바꾸기
+            console.log(결과.data())
+            
+            var document_profilecover = 결과.data().profilecover;
+            var document_information_name = 결과.data().name;
+            var document_information_establishdate = 결과.data().establishdate;
+            var document_information_location = 결과.data().location;
+            var document_information_homepage = 결과.data().homepage;
+            
+            
+            // 추후에 입력, 순서대로 좋아요개수, 업로드 날짜, 조회수, 태그, 기타
+            var document_like = 결과.data().like;
+            var document_upload_date = 결과.data().upload_date;
+            var document_view = 결과.data().view;
+            var document_tag = 결과.data().tag;
+            var document_other = 결과.data().other;
+
+            // 줄거리 더보기 버튼 제거
+            // if(document_summary_content.length<850){
+            //     document.getElementById("more_button").style.display = 'none';
+            //     document.getElementById("summary_content").style.borderBottomRightRadius = '15px';
+            //     document.getElementById("summary_content").style.borderBottomLeftRadius = '15px';
+            // }
+
+            // 타이틀 변경
+            document.title = document_name[2];
+            
+            // 편집, 역사 페이지 버튼 주소 초기화
+            document.getElementById("go_edit").href = "../ep/" + document_name[2];
+            document.getElementById("go_history").href = "../h/" + document_name[2];
+
+            // 표지변경
+            // console.log(document_bookcover);
+            document.getElementById("document_profile_image_cover").src = document_profilecover;
+
+            document.getElementById("document_information_name").innerText = document_information_name;
+            document.getElementById("document_information_location").innerText = document_information_location;
+            document.getElementById("document_information_establishdate").innerText = document_information_establishdate;
+            document.getElementById("document_information_homepage").innerText = '🔗';
+
+            // 출판사, 최근작품, 대표작품은 작품페이지로 연결
+            document.getElementById("document_information_location").href = 'https://www.google.com/maps/search/' + document_information_location;
+            document.getElementById("document_information_homepage").href = document_information_homepage;
+            
+            // 사용자 입력 영역 받기
+            document.getElementById("document_other").innerText = document_other;
+
+            db.collection("novel_document").where("publisher", "==", document_information_name).orderBy("publish_date", "desc").get().then((결과) => {
+                결과.forEach((result) => {
+                    var document_name_href = '../n/' + result.data().name + '(' +  result.data().author + ')';
+                    var temp = 
+                        `<div class="document_list">
+                            <a href="${document_name_href}">
+                                <img src="${result.data().bookcover}">
+                                <p>${result.data().name}</p>
+                            </a>
+                        </div>`;
+                    $('#publisher_document').append(temp);
+                });
+            }).catch((err) => {
+                    console.log(err);
+            })
+        }).catch((err) => {
+            console.log(err);
+            document.getElementById("document_section").style.display = "none";
+            const empty = `<div class="empty_page"> <div class="empty_result_area"> <div class="empty_none">
+                    <div class="text_bundle">
+                        <p class="warning">ⓘ</p><p id ="this_document">해당문서</p><p class="alram2">에 대한 문서 정보가 없습니다.</p>
+                    </div>
+                    <div class="button_bundle">
+                        <a href="#" class="new_document" id="new_document">새 문서 작성하기</a>
+                        <a href="#" class="history">역사</a>
+                    </div>
+                </div>
+            </div></div>`
+            
+            document.getElementById('section_empty').style.display = 'block';
+            document.getElementById('empty').innerHTML = empty;
+            document.getElementById('this_document').innerText = document_name[2];
+            document.getElementById('new_document').href = '../ep/' + document_name[2];
+        });
+    </script>
+    <style>
+        .section_empty {
+            margin-top: 100px;
+            margin-bottom: 100px;
+            width: 100%;
+            display: none;
+        }
+
+        .empty_page {
+            width: auto;
+            height: auto;
+            margin-left: 150px;
+            margin-right: 150px;
+        }
+
+        #empty{
+            
+        }
+
+        .empty_result_area {
+            min-height: 600px;
+            height: auto;
+            border: 1px solid black;
+            /*background-color: #f7fbfc;*/
+        }
+        .empty_none {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-top: 15px;
+            width: auto;
+            height: 100px;
+            border: 1px solid #e5e5e5;
+            background-color:#f6f6f6;
+        }
+
+        .empty_none .button_bundle {
+            display: flex;
+            justify-content: flex-end;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .empty_none .text_bundle {
+            display: flex;
+        }
+
+        .empty_none a {
+            text-decoration: none;
+            padding: 5px;
+            padding-left: 30px;
+            padding-right: 30px;
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+            border: 1px solid #c7c3c3;
+            color: gray;
+            background-color: #fff;
+        }
+
+        .empty_none .new_document {
+            color: #769fcd;
+        }
+
+        .empty_none .history {
+            border-left: none;
+            color: #1fa73b;
+        }
+
+        .empty_none p {
+            margin-bottom: 5px;
+            margin-left: 5px;
+            margin-top: 10px;
+        }
+
+        .empty_none .alram2 {
+            margin-left: 0px;
+        }
+
+        .empty_none .warning {
+            font-weight: 600;
+            margin-top: 11px;
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 870px){
+            .empty_page {
+                margin-left: 30px;
+                margin-right: 30px;
+           }
+        }
+    </style>
 </body>
 
 </html>
