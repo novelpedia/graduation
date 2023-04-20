@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <link href="../css/compare.css" rel="stylesheet">
+    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/footer.css" rel="stylesheet">
+    <link href="../css/getOther.css" rel="stylesheet">
+
+    <title>작품 편집</title>
+</head>
+
+<body>
+    <header class="header">
+        <a class="logo_a" href="https://novelpedia.co.kr/">
+            <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
+            <img class="logo_icon" src="../image/logo.png">
+        </a>
+        <div class="first_line">
+            <div class="inner_item">
+                <a id="open_close" href="#" class="navbar_toggleBtn">
+                    <img id="close" src="../image/메뉴_검정_버튼.png">
+                </a>
+                <div class="inner_inner_item">
+                    <div class="search">
+                        <div class="icon"></div>
+                        <form method="get" action="../search">
+                            <div class="input">
+                                <input type="text" placeholder="Search" id="mysearch" name="q">
+                            </div>
+                            <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
+                            <input type="submit" value="" class="search_btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="set">
+                <div class="set_mid">
+                    <ul class="bar_menu">
+                        <li><a href="../listpage.html">목록페이지</a></li>
+                        <li class="mypage_header" id="mypage_button"><a href="../mypage">마이페이지</a></li>
+                        <li><a href="../login" id="login_logout">Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <script>
+        /*메뉴버튼 바꾸기 위한 변수*/
+        const change_img = document.createElement('img');
+        change_img.setAttribute('src', '../image/메뉴_닫힘.png');
+        change_img.setAttribute('id', 'close');
+
+        const change_img_normal = document.createElement('img');
+        change_img_normal.setAttribute('src', '../image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('id', 'close');
+
+        /*검색버튼에 대한 동작 변수*/
+        const icon = document.querySelector('.search .icon');
+        const search = document.querySelector('.search');
+        const inner_item = document.querySelector('.inner_item');
+        const inner_inner_item = document.querySelector('.inner_inner_item');
+        const menu_window2 = document.querySelector('.header .set active');
+
+        /*메뉴 버튼에 따른 동작 변수*/
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.bar_menu');
+        const menu_window = document.querySelector('.header .set');
+
+        /*메뉴버튼*/
+        toggleBtn.onclick = function() {
+            menu.classList.toggle('active');
+            menu_window.classList.toggle('active');
+            const lastDiv = document.getElementById('close');
+            /*메뉴창 열림 여부에 따라 버튼 이미지 교체*/
+            if (document.querySelector('.header .set').classList.contains('active')) {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img);
+            } else {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img_normal);
+            }
+
+        }
+
+        /*검색버튼*/
+        icon.onclick = function() {
+            icon.classList.toggle('active');
+            search.classList.toggle('active');
+            inner_item.classList.toggle('active');
+            inner_inner_item.classList.toggle('active');
+            menu_window.classList.toggle('search_active');
+        }
+    </script>
+
+    <section class="document_item">
+        <div class="document_name">
+            <a href="#" id="document_name">작품제목(작가명)</a>
+        </div>
+        <div class="page_title">
+            <h4>[문서 정보 비교]</h4>
+        </div>
+        <div class="compare_set">
+            <form>
+                <div class="document_critical_edit_1">
+                    <!-- 버전 정보 -->
+                    <label id="version_a">v1</label>
+                    <!--표지-->
+                    <div class="document_bookcover_edit">
+                        <label for="bookcover_file">표지</label>
+                        <img id="bookcover_preview" class="bookcover_preview" for="bookcover_file" src="../image/표지_미등록.png">
+                    </div>
+                    <!--제목-->
+                    <div class="document_name_edit">
+                        <label for="name">이름</label>
+                        <input id="name" type="text" autocomplete="off" disabled>
+                    </div>
+                    <!--설립년도-->
+                    <div class="document_establishdate_edit">
+                        <label for="establishdate">설립일</label>
+                        <input id="establishdate" type="date" autocomplete="off" disabled>
+                    </div>
+                    <!--위치(주소)-->
+                    <div class="document_location_edit">
+                        <label for="location">위치</label>
+                        <input id="location" type="text" autocomplete="off" disabled>
+                    </div>
+                    <!--홈페이지-->
+                    <div class="document_home_edit">
+                        <label for="homepage">홈페이지(주소)</label>
+                        <input id="homepage" type="text" autocomplete="off" disabled>
+                    </div>
+                    <!--태그-->
+                    <div class="document_tag_edit">
+                        <label for="tag">태그</label>
+                        <input id="tag" type="text" autocomplete="off" disabled>
+                    </div>
+                    <div class="document_other">
+                        <label for="document_other">사용자편집영역</label>
+                        <div class="other" id="document_other" disabled></div>
+                    </div>
+                </div>
+            </form>
+
+            <form>
+                <div class="document_critical_edit_2">
+                    <!-- 버전 정보 -->
+                    <label id="version_b">v2</label>
+                    <!--표지-->
+                    <div class="document_bookcover_edit">
+                        <label for="bookcover_file">표지</label>
+                        <img id="bookcover_preview_2" class="bookcover_preview" for="bookcover_file" src="../image/표지_미등록.png">
+                    </div>
+                    <!--제목-->
+                    <div class="document_name_edit">
+                        <label for="name_2">이름</label>
+                        <input id="name_2" type="text" autocomplete="off" disabled>
+                    </div>
+                    <!--설립년도-->
+                    <div class="document_establishdate_edit">
+                        <label for="establishdate_2">설립일</label>
+                        <input id="establishdate_2" type="date" autocomplete="off" disabled>
+                    </div>
+                    <!--위치(주소)-->
+                    <div class="document_location_edit">
+                        <label for="location_2">위치</label>
+                        <input id="location_2" type="text" autocomplete="off" disabled>
+                    </div>
+                    <!--홈페이지-->
+                    <div class="document_home_edit">
+                        <label for="homepage_2">홈페이지(주소)</label>
+                        <input id="homepage_2" type="text" autocomplete="off" disabled>
+                    </div>
+                    <!--태그-->
+                    <div class="document_tag_edit">
+                        <label for="tag_2">태그</label>
+                        <input id="tag_2" type="text" autocomplete="off" disabled>
+                    </div>
+                    <div class="document_other">
+                        <label for="document_other_2">사용자편집영역</label>
+                        <div class="other" id="document_other_2" disabled></div>
+                    </div>
+                </div>
+                <!--사용자편집영역-->
+                
+                <!--각종버튼-->
+                <!-- <div class="button_bundle">
+                    <input class="save" id="send" type="button" value="저장">
+                    <a onclick="history.back()">취소</a>
+                    <input type="button" value="취소">
+                    <a class="delete" href="#">삭제</a>
+                </div> -->
+            </form>
+        </div>
+
+
+    </section>
+
+    <script>
+        function loadFile(input) {
+            var file = input.files[0];
+            var changeImage = document.getElementById("bookcover_preview");
+            changeImage.src = URL.createObjectURL(file);
+        };
+    </script>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">공지사항</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">Q&A</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">의견보내기</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="../js/information.js"></script>
+
+    <!--로그인 상태 체크-->
+    <script src="../js/login_check.js"></script>
+    <!--로그아웃을 위한 소스코드-->
+    <script src="../js/logout.js"></script>
+    <!--로그아웃 상태일 때-->
+    <script src="../js/logout_state.js"></script>
+
+    <!--태그 입력-->
+    <script src="../js/tag.js"></script>
+
+    <!-- 주소창에서 url 정보 받아오기 -->
+    <script>
+        const path_url = window.location.pathname;
+        const path_decode = decodeURI(path_url);
+        let document_name = path_decode.split('/');
+    </script>
+
+    <script>
+        var document_url_version = document_name[2].split('=');
+        document_name[2] = document_url_version[0];
+        var document_url_recent_old = document_url_version[1].split('&');
+
+        // [0]에는 항상 작은 수가 들어가도록
+        if(document_url_recent_old[0]>document_url_recent_old[1]){
+            var temp_number;
+            temp_number = document_url_recent_old[0];
+            document_url_recent_old[0] = document_url_recent_old[1];
+            document_url_recent_old[1] = temp_number;
+        }
+
+        docPath = db.collection('history').doc(document_name[2]).collection('version').doc(document_url_recent_old[0]);
+        docPath2 = db.collection('history').doc(document_name[2]).collection('version').doc(document_url_recent_old[1]);
+
+        document.getElementById('document_name').innerText = document_name[2];
+        document.getElementById("document_name").href = "../p/" + document_name[2];
+
+        // 타이틀 변경
+        console.log(document_name[2]);
+        document.title = document_name[2];
+
+        // docPath = db.collection('history').doc("Users(None)").collection('version');
+
+        var e;
+        var h;
+        var l;
+        var o;
+        var t;
+        
+        docPath.get().then((결과) => {
+            // 불러온 내용 바탕으로 내용 바꾸기
+            console.log(document_name[2]);
+            console.log(결과.data());           
+
+            // 저장해서 비교할 변수
+            e = 결과.data().establishdate;
+            h = 결과.data().homepage;
+            l = 결과.data().location;
+            o = 결과.data().other;
+            
+            
+            // 추후에 입력, 순서대로 좋아요개수, 업로드 날짜, 조회수, 태그, 기타
+            var document_update_date = 결과.data().update_date;
+            var document_tag = 결과.data().tag;
+            var document_other = 결과.data().other;
+            var document_version = 결과.data().version;
+            var document_the_first_date = 결과.data().the_first_date;
+            var document_category = 결과.data().category;
+
+            document.getElementById("version_a").innerText = "v" + 결과.data().version;
+            document.getElementById("bookcover_preview").src = 결과.data().profilecover;
+            document.getElementById("name").value = 결과.data().name;
+            document.getElementById("establishdate").value = 결과.data().establishdate;
+            document.getElementById("homepage").value = 결과.data().homepage;
+            document.getElementById("location").value = 결과.data().location;
+
+            var tag_value = "";
+            // 태그 입력
+            document_tag.forEach(function(tag_element){
+                tag_value = tag_value + "#" + tag_element;
+            });
+
+            document.getElementById("tag").value = tag_value;
+            t = tag_value;
+
+            // document.getElementById("tag").value = document_tag;
+            document.getElementById("document_other").innerHTML = document_other;
+        }).catch((err) => {
+            console.log(err);
+        });
+
+        var e_2;
+        var l_2;
+        var h_2;
+        var o_2
+        var t_2;
+
+        docPath2.get().then((결과) => {
+            // 불러온 내용 바탕으로 내용 바꾸기
+            console.log(document_name[2]);
+            console.log(결과.data());           
+
+            e_2 = 결과.data().establishdate;
+            h_2 = 결과.data().homepage;
+            l_2 = 결과.data().location;
+            o_2 = 결과.data().other;
+            
+            // 추후에 입력, 순서대로 좋아요개수, 업로드 날짜, 조회수, 태그, 기타
+            var document_update_date = 결과.data().update_date;
+            var document_tag = 결과.data().tag;
+            var document_other = 결과.data().other;
+            var document_version = 결과.data().version;
+            var document_the_first_date = 결과.data().the_first_date;
+            var document_category = 결과.data().category;
+
+            document.getElementById("version_b").innerText = "v" + 결과.data().version;
+            document.getElementById("bookcover_preview_2").src = 결과.data().profilecover;
+            document.getElementById("name_2").value = 결과.data().name;
+            document.getElementById("establishdate_2").value = 결과.data().establishdate;
+            document.getElementById("homepage_2").value = 결과.data().homepage;
+            document.getElementById("location_2").value = 결과.data().location;
+
+            var tag_value = "";
+            // 태그 입력
+            document_tag.forEach(function(tag_element){
+                tag_value = tag_value + "#" + tag_element;
+            });
+
+            document.getElementById("tag_2").value = tag_value;
+            t_2 = tag_value;
+            document.getElementById("document_other_2").innerHTML = document_other;
+            compare_change();
+        }).catch((err) => {
+            console.log(err);
+        });
+
+
+        function compare_change(){
+            if(e_2 != e){
+                document.getElementById("establishdate_2").style.backgroundColor = "#daffda";
+            }
+            if(l_2 != l){
+                document.getElementById("lomepage_2").style.backgroundColor = "#daffda";
+            }
+            if(h_2 != h){
+                document.getElementById("homepage_2").style.backgroundColor = "#daffda";
+            }
+            if(t_2 != t){
+                document.getElementById("tag_2").style.backgroundColor = "#daffda";
+            }
+            if(o_2 != o){
+                document.getElementById("document_other_2").style.backgroundColor = "#daffda";
+            }
+        }
+    </script>  
+        
+
+    
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+.webeditor [contenteditable] {
+    margin-top: 5px;
+    background: #f7fbfc;
+    min-height: 500px;
+    max-height: 500px;
+    width: 950px;
+    border: 1px solid #e5e5e5;
+    outline: none;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.webeditor .title {
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.webeditor img{
+    max-width: 910px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.webeditor .text{
+    background-color: white;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.webeditor .edit_hr {
+    position: relative;
+    background-color: black;
+    height: 0.5px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+/* hr::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: black;
+} */
+
+
+
+.webeditor .editor_button{
+    margin-left: 1px;
+    margin-bottom: -6px;
+    display: flex;
+    flex-wrap: wrap;
+    /* border: 1px solid #e5e5e5; */
+}
+
+.webeditor .editor_button .button{
+    margin-left: -1px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+    border: 1px solid #e5e5e5;
+    background-color: #f7fbfc;
+}
+/* 
+.webeditor .editor_button .button:nth-child(1){
+    margin-left: 0px;
+} */

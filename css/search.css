@@ -74,7 +74,7 @@
 .search_area .search_input_bar {
     outline: none;
     width: 250px;
-    height: 36px;
+    /* height: 36px; */
     font-size: 17px;
     border: 1px solid black;
 }
@@ -96,8 +96,15 @@
     background-color: #94c3f8;
 }
 
+.search_result_category{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
 .search_result_area {
-    min-height: 600px;
+    margin-bottom: 20px;
+    min-height: 300px;
     height: auto;
     border: 1px solid black;
     /*background-color: #f7fbfc;*/
@@ -107,6 +114,7 @@
     margin-left: 20px;
     margin-right: 20px;
     margin-top: 15px;
+    margin-bottom: 15px;
     width: auto;
     border: 1px solid #e5e5e5;
     background-color:#f6f6f6;

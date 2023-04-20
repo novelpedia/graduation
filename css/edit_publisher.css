@@ -257,6 +257,7 @@ label {
     color: red;
     border: 1px solid red;
     background-color: #fff;
+    cursor: pointer;
 }
 
 @media (max-width:640px) {

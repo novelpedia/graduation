@@ -34,6 +34,28 @@
     font-weight: 600;
 }
 
+/* 좋아요, 최종업데이트일 배치 */
+.document_view_update{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -20px;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.document_view_update #view_name{
+    margin-right: 5px;
+}
+
+.document_view_update #update_name{
+    margin-right: 5px;
+}
+
+.document_view_update .sl{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 
 /*편집, 역사 삭제 버튼*/
 .document_bundle_button {
@@ -68,6 +90,7 @@
 .document_bundle_button .delete {
     border-left: none;
     color: red;
+    cursor: pointer;
 }
 
 /*표지 + 버튼 + 목차 묶음*/
@@ -82,18 +105,22 @@
 
 
 /*표지아래 버튼*/
+/*표지아래 버튼*/
 .document_button {
     margin-top: -5px;
     width: 300px;
+    height: 50px;
     border: 1px solid #e5e5e5;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
 
-.document_button button {
+.document_button .like {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 300px;
     height: 50px;
-    /*background-color: white;*/
     background-color: #f7fbfc;
     outline: 0;
     border: 0;
@@ -102,22 +129,48 @@
     border-bottom-right-radius: 15px;
 }
 
-.document_button button:focus {
+.document_button #like_button:checked ~ .like {
     background-color: #769fcd;
     color: white;
+}
+
+.document_button .heart {
+    position: relative;
+    right: -260px;
+    top: -460px;
+    font-size: 30px;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+}
+
+.document_button .like_count{
+    position: relative;
+    right: -235px;
+    top: -430px;
+    color: black;
+    font-weight: 600;
+    text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+}
+
+.document_button #like_button:checked ~ .heart, .like_count {
+    color: #769fcd;
+    text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
 }
 
 /*표지*/
 .document_profile_image {
     width: 300px;
+    height: 430px;
     border: 1px solid #e5e5e5;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+    margin-bottom: 50px;
 }
 
 .document_profile_image img {
     text-align: center;
     width: 100%;
+    height: 100%;
+    border: 1px solid #e5e5e5;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
@@ -156,8 +209,8 @@
 
 .document_information table {
     background-color: #f7fbfc;
-    border: 1px solid #e5e5e5;
-    border-collapse: separate;
+    /* border: 1px solid #e5e5e5; */
+    border-collapse: collapse;
     border-radius: 15px;
     width: 100%;
 }
@@ -181,7 +234,7 @@
 }
 
 .document_information tr:nth-last-child(1) td {
-    border-bottom: 0px solid black;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .document_information td {
@@ -189,6 +242,15 @@
     border-bottom: 1px solid #e5e5e5;
     padding: 10px 20px;
 }
+
+.document_information td:nth-child(1){
+    border-left: 1px solid #e5e5e5;
+}
+
+.document_information td:nth-child(2){
+    border-right: 1px solid #e5e5e5;
+}
+
 
 .document_information th {
     background-color: #769fcd;
@@ -274,6 +336,40 @@
 .document_novel_list .p_title {
     font-size: 20px;
     font-weight: 600;
+}
+
+/* 태그 */
+.document_tag_area{
+    width: 950px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.document_tag_area a{
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    min-width: 50px;
+    height: 25px;
+    background-color: #e5e5e5;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 1px 2px 1px rgba(100, 100, 100, 0.2);
+    margin-top: 10px;
+}
+
+.document_tag_area a:hover{
+    transition: 0.25s;
+    transform: scale(1.2);
 }
 
 
@@ -363,6 +459,7 @@
     /*border-bottom: 1px solid #e5e5e5;
     border-top: 1px solid #e5e5e5;*/
     margin-bottom: 20px;
+    margin-top: 40px;
     border-radius: 10px;
 }
 
@@ -407,30 +504,57 @@
     .document_bundle {
         flex-direction: column;
         align-items: center;
+        width: 90%;
     }
 
     .document_bundle_cover {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
+    }
+
+    .document_view_update{
+        width: 90%;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .document_view_update .sl{
+        display: none;
     }
 
     .document_profile_image {
-        width: 90%;
+        width: 100%;
+        height: auto;
+        position: relative;
     }
 
     .document_button {
-        width: 90%;
+        width: 100%;
     }
 
-    .document_button button {
+    .document_button .like {
         width: 100%;
+    }
+
+    .document_button .heart {
+        position: absolute;
+        right: 20px;
+        top: 10px;
+        font-size: 30px;
+    }
+
+    .document_button .like_count{
+        position: absolute;
+        right: 30px;
+        top: 50px;
     }
 
     .document_index {
         margin-top: 20px;
         padding-bottom: 20px;
-        width: 90%;
+        width: 100%;
     }
 
     .document_information {
@@ -466,6 +590,10 @@
     .document_novel_list. content {
         width: 100%;
         height: 300px;
+    }
+
+    .document_tag_area{
+        width: 90%;
     }
 
     .document_award {

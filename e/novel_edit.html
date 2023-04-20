@@ -8,8 +8,7 @@
     <link href="../css/edit.css" rel="stylesheet">
     <link href="../css/header.css" rel="stylesheet">
     <link href="../css/footer.css" rel="stylesheet">
-    
-
+    <link href="../css/web_editor.css" rel="stylesheet">
     <title>작품 편집</title>
 </head>
 
@@ -209,7 +208,16 @@
             <div class="document_other_edit">
                 <!--웹에디터 추가 영역-->
                 <div class="webeditor">
-                    <textarea id="document_other"></textarea>
+                    <div class="editor_button">
+                        <input type="button" class="button" id="header" onclick="addHeader()" value="제목">
+                        <input type="button"  class="button" id="body" onclick="addBody()" value="본문">
+                        <input type="button"  class="button" id="add-horizontal-rule" value="가로줄">
+                        <input type="button"  class="button" id="link-btn" value="링크">
+                        <input type="button"  class="button" id="upload-image-btn" onclick="image_upload()" value="이미지">
+                        <input type="button"  class="button" id="convertBtn" onclick="convertFormat()" value="변환(HTML → Text)">
+                    </div>
+                    <div id="editor" contenteditable="true"></div>
+                    <!-- <textarea id="document_other"></textarea> -->
                 </div>
             </div>
             <!--각종버튼-->
@@ -217,7 +225,7 @@
                 <input class="save" id="send" type="button" value="저장">
                 <a onclick="history.back()">취소</a>
                 <!--<input type="button" value="취소">-->
-                <a class="delete" href="#">삭제</a>
+                <a class="delete" id="go_delete">삭제</a>
             </div>
         </form>
     </section>
@@ -260,6 +268,9 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="../js/information.js"></script>
 
+    <!-- 웹에디터 -->
+    <script src="../js/web_editor.js"></script>
+
     <!--로그인 상태 체크-->
     <script src="../js/login_check.js"></script>
     <!--로그아웃을 위한 소스코드-->
@@ -289,12 +300,14 @@
         var document_version = 0;
         var document_the_first_date = new Date();
         var document_category = "n";
+        let data_save_array = [];
 
         // 타이틀 변경
         console.log(document_name[2]);
         document.title = document_name[2];
         
         db.collection('novel_document').doc(document_name[2]).get().then((결과) => {
+            data_save_array = 결과;
             // 불러온 내용 바탕으로 내용 바꾸기
             console.log(결과.data())
             
@@ -362,7 +375,7 @@
             countTags();
             createTag();
             // document.getElementById("tag").value = document_tag;
-            document.getElementById("document_other").value = document_other;
+            document.getElementById("editor").innerHTML = document_other;
         }).catch((err) => {
             console.log(err);
         });
@@ -372,299 +385,162 @@
     <script>
         const storage = firebase.storage();
         // 영어는 소문자로 저장
-        var name_keyword_temp_lower = [];
+        // var name_keyword_temp_lower = [];
+        var user_class = "nu";
 
-        $('#send').click(function() {
+        $('#send').click(async function(){
+            // 로그인이 되어있다면, IP주소를 사용자의 아이디로 바꾸기
+            if(login_check == true){
+                ip_address_info = user_id;
+                user_class = login_user_class;
+            }
+            await outputKeyword();
+            await data_check();
+            await data_saving();
+        });
+
+        var view_temp = 0;
+        var like_temp = 0;
+        var star_temp = 0;
+        var star_count_temp = 0;
+        // var version_temp = 1;
+
+        // 역사에 이미 데이터가 존재하는지 확인
+        async function data_check(){
+            var docRefHistory = db.collection('history').doc($('#name').val() + "(" + $('#author').val() + ")");
+            var subHistory = docRefHistory.collection('data').doc('count');
+
+            subHistory.get().then((doc) => {
+                if(doc.exists){
+                    view_temp = doc.data().view;
+                    like_temp = doc.data().like;
+                    star_temp = doc.data().star;
+                    star_count_temp = doc.data().star_count;
+                    document_version = doc.data().version;
+                    document_the_first_date = doc.data().the_first_date;
+                    console.log("exists 실행");
+                }
+                else{
+                    alert("NO");
+                }
+            }).catch((err) =>{
+                console.log("data loading error : " + err);
+            })
+        }
+
+        let keywordTemp3 = [];
+
+        function outputKeyword() {
+            const keyword = document.getElementById("name").value.toLowerCase();
+            const keywordLen = keyword.length;
+            const keywordTemp = [];
+
+            for(let i=0; i< keywordLen; i++) {
+                for(let j=i+1; j<=keywordLen; j++){
+                    // 글자 수 만큼 분리
+                    const temp = keyword.substr(i, j-i).trim();
+                    const regex = /[^a-zA-Z0-9가-힣]/g;
+                    const filteredSubstr = temp.replace(regex, "");
+                    if(filteredSubstr !== "") {
+                        keywordTemp.push(filteredSubstr);
+                    }
+                }
+            }
+            
+            const name_keyword_temp = [ 
+                keyword.split(/[\s]+/),
+                keyword.split(/은\s+/),
+                keyword.split(/의\s+/),
+                keyword.split(/에\s+/),
+                keyword.split(/는\s+/),
+                keyword.split(/이\s+/),
+                keyword.split(/가\s+/),
+                keyword.split(/만\s+/),
+                keyword.split(/뿐\s+/),
+                keyword.split(/밖에\s+/),
+                keyword.split(/도\s+/),
+                keyword.split(/까지\s+/),
+                keyword.split(/마저\s+/),
+                keyword.split(/조차\s+/),
+                keyword.split(/은\s+/),
+                keyword.split(/나\s+/),
+                keyword.split(/이나\s+/),
+                keyword.split(/라도\s+/),
+                keyword.split(/이라도\s+/),
+                keyword.split(/든지\s+/),
+                keyword.split(/이든지\s+/),
+                keyword.split(/이나마\s+/),
+                keyword.split(/나마\s+/),
+                keyword.split(/,\s+/),
+                keyword.split(/"\s+/),
+                keyword.split(/,\s+&\s+/),
+                keyword.split('/'),
+                keyword.split('?'),
+                keyword.split(/!\s+/),
+                keyword.split(/@\s+/),
+                keyword.split(/#\s+/),
+                keyword.split('$'),
+                keyword.split(/%\s+/),
+                keyword.split('^'),
+                keyword.split(/&\s+/),
+                keyword.split('*'),
+                keyword.split('('),
+                keyword.split(')'),
+                keyword.split(/-\s+/),
+                keyword.split(/_\s+/),
+                keyword.split('+'),
+                keyword.split(/=\s+/),
+                keyword.split(/<\s+/),
+                keyword.split(/>\s+/),
+                keyword.split(/.\s+/),
+                keyword.split('|'),
+                keyword.split(/`\s+/),
+                keyword.split(/~\s+/),
+                keyword.split('['),
+                keyword.split(']'),
+                keyword.split('{'),
+                keyword.split('}'),
+                keyword.split(/」\s+/),
+                keyword.split(/「\s+/),
+                keyword.split(/,[\s]+/),
+                keyword.split(/"\s+/),
+                keyword.split(/1\s+/),
+                keyword.split(/2\s+/),
+                keyword.split(/3\s+/),
+                keyword.split(/4\s+/),
+                keyword.split(/5\s+/),
+                keyword.split(/6\s+/),
+                keyword.split(/7\s+/),
+                keyword.split(/8\s+/),
+                keyword.split(/9\s+/),
+                keyword.split(/0\s+/)
+            ];
+
+            const name_keyword_temp2 = flattenArray(name_keyword_temp).filter(element => element.trim() !== '').map(element => element.replace(/[^\w\s]/gi, '')).map(element => element.replace(/[\s]/gi, ''));
+            // 공백 또는 빈 문자열 제거
+            keywordTemp3 = [...new Set(name_keyword_temp2.concat(keywordTemp))].filter(element => element.trim() !== '');
+            // 분리된 문자열 최종 출력
+            console.log(keywordTemp3);
+        }
+
+        // 주어진 배열을 1차원 배열로 만드는 함수 -> 재귀적 함수
+        function flattenArray(arr) {
+            let result = [];
+            arr.forEach(element => {
+                // 만약 요소가 배열인 경우 재귀적으로 결과 배열에 추가
+                if(Array.isArray(element)) {
+                    result = result.concat(flattenArray(element));
+                } else {  // 요소가 배열이 아닌 경우 결과 배열에 직접 추가
+                    result.push(element);
+                }
+            });
+            return result;
+        }
+            
+        async function data_saving() {
 
             var file = document.querySelector('#bookcover_file').files[0];
             var storageRef = storage.ref();
-
-            var name_keyword_temp = [
-                ...$('#name').val().split(' '),
-                ...$('#name').val().split('은'),
-                ...$('#name').val().split('의'),
-                ...$('#name').val().split('에'),
-                ...$('#name').val().split('는'),
-                ...$('#name').val().split('이'),
-                ...$('#name').val().split('가'),
-                ...$('#name').val().split('만'),
-                ...$('#name').val().split('뿐'),
-                ...$('#name').val().split('밖에'),
-                ...$('#name').val().split('도'),
-                ...$('#name').val().split('까지'),
-                ...$('#name').val().split('마저'),
-                ...$('#name').val().split('조차'),
-                ...$('#name').val().split('은'),
-                ...$('#name').val().split('나'),
-                ...$('#name').val().split('이나'),
-                ...$('#name').val().split('라도'),
-                ...$('#name').val().split('이라도'),
-                ...$('#name').val().split('든지'),
-                ...$('#name').val().split('이든지'),
-                ...$('#name').val().split('이나마'),
-                ...$('#name').val().split('나마'),
-                ...$('#name').val().split(','),
-                ...$('#name').val().split('"'),
-                ...$('#name').val().split('/'),
-                ...$('#name').val().split('?'),
-                ...$('#name').val().split('!'),
-                ...$('#name').val().split('@'),
-                ...$('#name').val().split('#'),
-                ...$('#name').val().split('$'),
-                ...$('#name').val().split('%'),
-                ...$('#name').val().split('^'),
-                ...$('#name').val().split('&'),
-                ...$('#name').val().split('*'),
-                ...$('#name').val().split('('),
-                ...$('#name').val().split(')'),
-                ...$('#name').val().split('-'),
-                ...$('#name').val().split('_'),
-                ...$('#name').val().split('+'),
-                ...$('#name').val().split('='),
-                ...$('#name').val().split('<'),
-                ...$('#name').val().split('>'),
-                ...$('#name').val().split('.'),
-                ...$('#name').val().split('|'),
-                ...$('#name').val().split('`'),
-                ...$('#name').val().split('~'),
-                ...$('#name').val().split('['),
-                ...$('#name').val().split(']'),
-                ...$('#name').val().split('{'),
-                ...$('#name').val().split('}'),
-                ...$('#name').val().split('」'),
-                ...$('#name').val().split('「'),
-                ...$('#name').val().split(', '),
-                ...$('#name').val().split("'"),
-                ...$('#name').val().split('1'),
-                ...$('#name').val().split('2'),
-                ...$('#name').val().split('3'),
-                ...$('#name').val().split('4'),
-                ...$('#name').val().split('5'),
-                ...$('#name').val().split('6'),
-                ...$('#name').val().split('7'),
-                ...$('#name').val().split('8'),
-                ...$('#name').val().split('9'),
-                ...$('#name').val().split('0')
-            ];
-            // console.log(name_keyword_temp);
-
-            // 중복체크
-            name_keyword_temp = [...new Set(name_keyword_temp)];
-
-            var name_keyword_temp2 = [];
-
-            // 구분 다시한번 실행
-            name_keyword_temp.forEach(element => {
-                element.split(' ').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('은').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('의').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('에').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('는').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('이').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('가').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('만').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('뿐').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('밖에').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('도').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('까지').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('마저').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('조차').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('은').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('나').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('이나').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('라도').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('이라도').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('이든지').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('든지').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('이나마').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('나마').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split(',').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('"').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('/').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('?').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('!').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('@').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('#').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('$').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('%').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('^').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('&').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('*').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('(').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split(')').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('-').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('+').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('=').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('<').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('>').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('.').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('|').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('`').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('~').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('[').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split(']').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('{').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('}').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('「').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('」').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split(', ').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split("'").forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('1').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('2').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('3').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('4').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('5').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('6').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('7').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('8').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('9').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('0').forEach(temp =>{
-                    name_keyword_temp2.push(temp);
-                });
-            });
-
-            name_keyword_temp2 = [...new Set(name_keyword_temp2)];
-            console.log(name_keyword_temp2);
-
-            
-            name_keyword_temp2.forEach(element => {
-                if(element.length === 0){
-                }
-                else{
-                    name_keyword_temp_lower.push(element.toLowerCase().replace(/ /g, ''));
-                }
-            });
-
-            // 원래 제목 맨 앞에 추가
-            name_keyword_temp_lower.unshift($('#name').val().toLowerCase().replace(/ /g, ''));
-            // 중복체크
-            name_keyword_temp_lower = [...new Set(name_keyword_temp_lower)];
 
             // 첨부파일 여부 확인
             var bookcover_chk = document.getElementById("bookcover_file").value;
@@ -695,10 +571,13 @@
                         alert("출간일이 입력되지 않았습니다.");
                     } else if ($('#summary').val().length === 0) {
                         alert("줄거리가 입력되지 않았습니다.");
+                    } else if (tags.length === 0) {
+                        alert("태그가 입력되지 않았습니다.");
                     } else {
-                        return docRef.update({
+                        console.log(editor.innerHTML);
+                        return await docRef.update({
                             name: $('#name').val(),
-                            name_keyword: name_keyword_temp_lower,
+                            name_keyword: keywordTemp3,
                             author: $('#author').val(),
                             author_birthday : $('#birthday').val(),
                             publisher: $('#publisher').val(),
@@ -709,24 +588,26 @@
                             publish_date: $('#publishdate').val(),
                             tag: tags,
                             summary: $('#summary').val(),
-                            other: $('#document_other').val(),
+                            other: editor.innerHTML,
                             version: firebase.firestore.FieldValue.increment(1),
                             update_date:dt,
-                            final_modify: ip_address_info
+                            final_modify: ip_address_info,
+                            user_class: user_class,
                         })
-                        .then(() => {
-                            history(document_bookcover);
+                        .then(async () => {
+                            await history_version_update();
+                            await history(document_bookcover);
                             // console.log("Document successfully updated!");
                             
                         })
-                        .catch((error) => {
+                        .catch(async(error) => {
                             // The document probably doesn't exist.
                             // 새문서의 경우
                             console.error("Error updating document: ", error);
                             var info = {
                                 bookcover: 'https://novelpedia2223-2ce3c.web.app/image/%ED%91%9C%EC%A7%80_%EB%AF%B8%EB%93%B1%EB%A1%9D.png',
                                 name: $('#name').val(),
-                                name_keyword: name_keyword_temp_lower,
+                                name_keyword: keywordTemp3,
                                 author: $('#author').val(),
                                 author_birthday : $('#birthday').val(),
                                 publisher: $('#publisher').val(),
@@ -737,18 +618,21 @@
                                 publish_date: $('#publishdate').val(),
                                 tag: tags,
                                 summary: $('#summary').val(),
-                                like: 0,
-                                view: 0,
-                                star:0,
-                                version:1,
-                                other: $('#document_other').val(),
+                                like: like_temp,
+                                view: view_temp,
+                                star:star_temp,
+                                star_count:star_count_temp,
+                                version:document_version + 1,
+                                other: editor.innerHTML,
                                 update_date:dt,
-                                the_first_date:dt,
+                                the_first_date:document_the_first_date,
                                 category:"n",
-                                final_modify: ip_address_info
+                                final_modify: ip_address_info,
+                                user_class: user_class,
                             };
-                            docRef.set(info).then((result) => {
-                                history(document_bookcover);
+                            await docRef.set(info).then(async (result) => {
+                                await history_data();
+                                await history(document_bookcover);
                                 // console.log(tags);
                                 // console.log(result);
                                 // alert("success.");
@@ -786,18 +670,21 @@
                     alert("출간일이 입력되지 않았습니다.");
                 } else if ($('#summary').val().length === 0) {
                     alert("줄거리가 입력되지 않았습니다.");
+                } else if (tags.length === 0) {
+                    alert("태그가 입력되지 않았습니다.");
                 } else{
-                    uploading.on('state_changed',
+                    await uploading.on('state_changed',
                         null,
                         (error) => {
                             console.error('fail reason: ', error);
                         },
 
                         () => {
-                            uploading.snapshot.ref.getDownloadURL().then((url) => {
-                                return docRef.update({
+                            uploading.snapshot.ref.getDownloadURL().then(async (url) => {
+                                return await docRef.update({
                                     bookcover: url,
                                     name: $('#name').val(),
+                                    name_keyword: keywordTemp3,
                                     author: $('#author').val(),
                                     author_birthday : $('#birthday').val(),
                                     publisher: $('#publisher').val(),
@@ -808,22 +695,24 @@
                                     publish_date: $('#publishdate').val(),
                                     tag: tags,
                                     summary: $('#summary').val(),
-                                    other: $('#document_other').val(),
+                                    other: editor.innerHTML,
                                     version: firebase.firestore.FieldValue.increment(1),
                                     update_date:dt,
-                                    final_modify: ip_address_info
+                                    final_modify: ip_address_info,
+                                    user_class: user_class,
                                 })
-                                .then(() => {
-                                    history(url);
+                                .then(async() => {
+                                    await history_version_update();
+                                    await history(url);
                                     console.log("Document successfully updated!");
                                 })
-                                .catch((error) => {
+                                .catch(async(error) => {
                                     // The document probably doesn't exist.
                                     console.error("Error updating document: ", error);
                                         var info = {
                                             bookcover: url,
                                             name: $('#name').val(),
-                                            name_keyword: name_keyword_temp_lower,
+                                            name_keyword: keywordTemp3,
                                             author: $('#author').val(),
                                             author_birthday : $('#birthday').val(),
                                             publisher: $('#publisher').val(),
@@ -834,19 +723,22 @@
                                             publish_date: $('#publishdate').val(),
                                             tag: tags,
                                             summary: $('#summary').val(),
-                                            like: 0,
-                                            view: 0,
-                                            star:0,
-                                            version:1,
-                                            other: $('#document_other').val(),
-                                            the_first_date: dt,
+                                            like: like_temp,
+                                            view: view_temp,
+                                            star:star_temp,
+                                            star_count:star_count_temp,
+                                            version:document_version+1,
+                                            other: editor.innerHTML,
+                                            the_first_date: document_the_first_date,
                                             update_date:dt,
                                             category:"n",
-                                            final_modify: ip_address_info                                
+                                            final_modify: ip_address_info,
+                                            user_class: user_class,                                
                                         };
-                                        docRef.set(info).then((result) => {
+                                        await docRef.set(info).then(async(result) => {
                                             console.log(result);
-                                            history(url);
+                                            await history_data();
+                                            await history(url);
                                             // window.location.reload();
                                         }).catch(() => {
                                             alert("failed.");
@@ -860,18 +752,20 @@
             }
             // 입력여부 확인, 태그는 입력하지 않아도 통과
             
-        })
+        }
+
+        console.log($('#editor').innerHTML);
     </script>
 
     <!-- 역사_초기화 -->
     <script>        
-        function history(url = "https://novelpedia2223-2ce3c.web.app/image/%ED%91%9C%EC%A7%80_%EB%AF%B8%EB%93%B1%EB%A1%9D.png") {
+        async function history(url = "https://novelpedia2223-2ce3c.web.app/image/%ED%91%9C%EC%A7%80_%EB%AF%B8%EB%93%B1%EB%A1%9D.png") {
             var docRefHistory = db.collection('history').doc($('#name').val() + "(" + $('#author').val() + ")");
             var subHistory = docRefHistory.collection('version').doc((document_version + 1).toString());
             var info = {
                 bookcover: url,
                 name: $('#name').val(),
-                name_keyword: name_keyword_temp_lower,
+                name_keyword: keywordTemp3,
                 author: $('#author').val(),
                 author_birthday : $('#birthday').val(),
                 publisher: $('#publisher').val(),
@@ -883,19 +777,54 @@
                 tag: tags,
                 summary: $('#summary').val(),
                 version: document_version + 1,
-                other: $('#document_other').val(),
+                other: editor.innerHTML,
                 the_first_date: document_the_first_date,
                 update_date:new Date(),
                 category:document_category,
-                final_modify: ip_address_info                               
+                final_modify: ip_address_info,
+                user_class: user_class,
+                action: "m",                               
             };
-            subHistory.set(info).then((result) => {
+            await subHistory.set(info).then((result) => {
                 console.log(result);
                 alert("history success.");
                 window.location.href='../n/' + $('#name').val() + "(" + $('#author').val() + ")";
             }).catch((error) => {
                 console.log(error);
                 alert("history failed.");
+            });
+        }
+
+        async function history_version_update(){
+            var docRefHistory = db.collection('history').doc($('#name').val() + "(" + $('#author').val() + ")");
+            var subHistory = docRefHistory.collection('data').doc('count');
+            return await subHistory.update({
+                version: document_version + 1,
+            }).then(() => {
+                console.log("역사 버전 업데이트 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        // 역사 data 최초 저장
+        async function history_data() {
+            var docRefHistory = db.collection('history').doc($('#name').val() + "(" + $('#author').val() + ")");
+            var subHistory = docRefHistory.collection('data').doc('count');
+            var info = {
+                star:star_temp,
+                star_count:star_count_temp,
+                version:document_version + 1,
+                view:view_temp,
+                like:like_temp,
+                the_first_date: document_the_first_date,                           
+            };
+            await subHistory.set(info).then((result) => {
+                console.log(result);
+                alert("history data success.");
+            }).catch((error) => {
+                console.log(error);
+                alert("history data failed.");
             });
         }
     </script>
@@ -912,6 +841,76 @@
                 document.getElementById("birthday").value = "";
                 document.getElementById("birthday").disabled = false;
             }
+        }
+    </script>
+
+    <script>
+        var user_class = "nu";
+
+        $('#go_delete').click(function(){
+            if(confirm("정말 '" + document_name[2] + "'문서를 삭제하시겠습니까?")){
+                db.collection('novel_document').doc(document_name[2]).delete().then(async function() {
+                    if(login_check == true){
+                        ip_address_info = user_id;
+                        user_class = login_user_class;
+                    }
+                    await history_data_update();
+                    await history_update();
+                    console.log("문서 삭제 완료");
+                }).catch(function(error) {
+                    console.error("Error removing document: ", error);
+                });
+            }
+            else{
+
+            }
+        });
+
+        async function history_data_update(){
+            return await db.collection('history').doc(document_name[2]).collection('data').doc('count').update({
+                version: firebase.firestore.FieldValue.increment(1),
+            })
+            .then(async () => {
+                alert("history data 업데이트 성공!");                
+            }).catch((err)=>{
+                console.log(err + "history data 업데이트 실패!")
+            });
+        }
+
+        async function history_update(){
+            var info = {
+                bookcover: data_save_array.data().bookcover,
+                name: data_save_array.data().name,
+                name_keyword: data_save_array.data().name_keyword,
+                author: data_save_array.data().author,
+                author_birthday : data_save_array.data().author_birthday,
+                publisher: data_save_array.data().publisher,
+                n_category: data_save_array.data().n_category,
+                genre: data_save_array.data().genre,
+                buy_series: data_save_array.data().buy_series,
+                address: data_save_array.data().address,
+                publish_date: data_save_array.data().publish_date,
+                tag: data_save_array.data().tag,
+                summary: data_save_array.data().summary,
+                other: data_save_array.data().other,
+                the_first_date: data_save_array.data().the_first_date,
+                version: data_save_array.data().version + 1,
+                update_date:new Date(),
+                category: data_save_array.data().category,
+                final_modify: ip_address_info,
+                user_class: user_class,
+                action: "d",                               
+            };
+            console.log(document_name[2]);
+            await db.collection('history').doc(document_name[2]).collection('version').doc((data_save_array.data().version + 1).toString()).set(info).then((result) => {
+                console.log(result);
+                alert("history data success.");
+                location.reload();
+            }).catch((error) => {
+                console.log(error);
+                alert("history data failed.");
+            });
+
         }
     </script>
 

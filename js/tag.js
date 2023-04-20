@@ -23,7 +23,8 @@ function remove(element, tag){
 }
 function addTag(e){
     if(e.key == "," || e.key == "Enter"){
-        let tag = e.target.value.replace(/\s+/g, ' ').replace(',', ' ');
+        const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+        let tag = e.target.value.replace(/\s+/g, '').replace(',', '').replace(/ /g, '').replace(reg,'').toLowerCase();
         if(tag.length > 1 && !tags.includes(tag)){
             if(tags.length < 30){
                 tags.push(tag);

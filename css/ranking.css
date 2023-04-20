@@ -31,16 +31,17 @@ body {
     color: black;
 }
 
-.first_month_tab input[type=radio] {
+
+.first_category_tab input[type=radio] {
     display: none;
 }
 
-.first_month_tab input[type=radio] + label {
+.first_category_tab input[type=radio] + label {
     margin-top: 15px;
     display: inline-block;
     cursor: pointer;
     height: 30px;
-    width: 236.3px;
+    width: 317px;
     border: 1px solid #e5e5e5;
     line-height: 30px;
     text-align: center;
@@ -50,26 +51,31 @@ body {
     margin-right: -6px;
 }
 
-.first_month_tab input[type=radio] + label {
+.first_category_tab input[type=radio] + label {
     background-color: #f7fbfc;
     color: #333;
 }
 
-.first_month_tab input[type=radio]:checked + label {
+.first_category_tab input[type=radio]:checked + label {
     background-color: #769fcd;
     color: white;
 }
 
-.second_genre_tab input[type=radio] {
+.first_category_tab input[type=radio]:disabled + label {
+    color: gray;
+    background-color: lightgray;
+}
+
+.second_sort_tab input[type=radio] {
     display: none;
 }
 
-.second_genre_tab input[type=radio] + label {
-
+.second_sort_tab input[type=radio] + label {
+    /* margin-top: 15px; */
     display: inline-block;
     cursor: pointer;
     height: 30px;
-    width: 117.3px;
+    width: 317px;
     border: 1px solid #e5e5e5;
     line-height: 30px;
     text-align: center;
@@ -78,17 +84,22 @@ body {
     margin-right: -6px;
 }
 
-.second_genre_tab input[type=radio] + label {
+.second_sort_tab input[type=radio] + label {
     background-color: #f7fbfc;
     color: #333;
 }
 
-.second_genre_tab input[type=radio]:checked + label {
+.second_sort_tab input[type=radio]:checked + label {
     background-color: #769fcd;
     color: white;
 }
 
-.third_sort_tab input[type=radio] {
+.second_sort_tab input[type=radio]:disabled + label {
+    color: gray;
+    background-color: lightgray;
+}
+
+/* .third_sort_tab input[type=radio] {
     display: none;
 }
 
@@ -114,7 +125,7 @@ body {
 .third_sort_tab input[type=radio]:checked + label {
     background-color: #769fcd;
     color: white;
-}
+} */
 
 
 .novel_rank {
@@ -353,22 +364,29 @@ body {
         width: 100%;
     }
 
-    .first_month_tab input[type=radio] + label {
-        width: 24.7%;
+    .novel_top_rank li{
+        height: auto;
+    }
+
+    .first_category_tab input[type=radio] + label {
+        width: 33.3%;
         margin-right: -6px;
     }
 
-    .second_genre_tab input[type=radio] + label {
-        width: 24.7%;
-        margin-right: -6px;
-    }
-
-    .third_sort_tab input[type=radio] + label {
-        width: 33%;
+    .second_sort_tab input[type=radio] + label {
+        width: 33.3%;
         margin-left: auto;
         margin-right: auto;
         margin-right: -6px;
     }
+    
+
+    /* .third_sort_tab input[type=radio] + label {
+        width: 33%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-right: -6px;
+    } */
 
     .dot_1 {
         width: 23%

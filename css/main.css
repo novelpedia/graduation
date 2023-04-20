@@ -66,6 +66,7 @@ body {
 }
 
 .main_go .button {
+    font-weight: 600;
     cursor: pointer;
     padding: 0;
     margin-right: -7px;
@@ -95,11 +96,25 @@ body {
 
 .main_go .line_two .button:nth-of-type(1) {
     margin-left: 35px;
-    background-image: url(../image/게시판.png);
+    /* background-image: url(../image/작품.png); */
     background-repeat: no-repeat;
     background-size: 40px;
     background-position: center;
     border-bottom-left-radius: 5px;
+}
+
+.main_go .line_two .button:nth-of-type(2) {
+    /* background-image: url(../image/작가.png); */
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position: center;
+}
+
+.main_go .line_two .button:nth-of-type(3) {
+    /* background-image: url(../image/출판사.png); */
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position: center;
 }
 
 .main_go .line_two .button:nth-of-type(4) {
@@ -180,9 +195,9 @@ body {
     border-radius: 10px;
 }
 
-.main_ranking > a {
+.main_ranking .select_div > a { /*2023-04-03 select와 a태그 div에 포함 */
     position: relative;
-    top: 10px;
+    top: 1px; /*a태그 위치 조정*/
     margin-left: 15px;
     color: black;
     text-decoration: none;
@@ -190,7 +205,7 @@ body {
     font-weight: 600;
 }
 
-.main_ranking .document_first {
+.main_ranking .document_rank_first {
     display: flex;
     justify-content: space-evenly;
     align-items: flex-end;
@@ -239,58 +254,90 @@ body {
     width: 200px;
 }
 
-.main_ranking .document_second {
+.main_ranking .document_rank_second {
     display: flex;
     flex-direction: column;
 }
 
-.main_ranking .document_rank img {
+/* .main_ranking .document_rank img {
+
+    width: 100px;
+    height:auto;
+    margin-top: 35px;
+} */
+
+.coverimg { /*2023-04-02 추가*/
     display: block;
     width: 100px;
+    height: 140px; /*이미지 크기 고정*/
     margin-top: 35px;
     border-radius: 5px;
-    border: 3px solid #769fcd
+    border: 2px solid hsl(212, 47%, 63%);
+    object-fit: cover; /*이미지 크기 고정*/
 }
 
-.main_ranking .document_rank .rank1 {
+.main_ranking .document_rank .rank1 { /*2023-04-06 수정*/
     display: block;
-    width: 120px;
+    width: 100px;
     margin-top: 35px;
 }
 
-.main_ranking .document_rank .rankimg1 {
-    position: absolute;
-    width: 120px;
-    margin-top: 35px;
-}
-
-.main_ranking .document_rank .rankimg {
+.main_ranking .document_rank .rankimg1 { /*2023-04-06 수정*/
     position: absolute;
     width: 100px;
     margin-top: 35px;
+}
+
+.main_ranking .document_rank .rankimg { /*2023-04-03 수정*/
+    display: block;
+    position: absolute;
+    width: 100px;
+    margin-top: 40px;
 }
 
 .main_ranking .document_rank a {
     text-decoration: none;
 }
 
-.main_ranking .document_rank p {
+.main_ranking .document_rank p { /*2023-04-06 수정*/
     display: block;
     width: 100px;
     margin: 0;
     text-align: left;
     color: black;
+    font-size: 15px;
 }
 
-.main_ranking .document_rank .rankp1 {
+.main_ranking .document_rank .rankp1 { /*2023-04-06 수정*/
     display: block;
-    width: 120px;
+    width: 100px; 
     margin: 0;
     text-align: left;
     color: black;
     font-weight: 600;
 }
 
+.select_div {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10px;
+    margin-top: 10px;
+
+}
+
+.select_div select { /*2023-04-03 수정*/
+    display: flex;
+    height: 30px;
+    width: 80px;
+}
+
+.p_title:hover{
+    color: #769fcd;
+}
+
+.doc_name:hover{
+    color: #769fcd;
+}
 /*새로운 리뷰*/
 .main_new_review {
     border: 1px solid #e5e5e5;
@@ -738,7 +785,7 @@ body {
         height: auto;
     }
 
-    .main_ranking .document_first {
+    .main_ranking .document_rank_first {
         justify-content: space-evenly;
         flex-wrap: wrap;
     }
@@ -763,7 +810,7 @@ body {
     .main_ranking .document_rank2 .p_writer {
         width: 100px;
     }
-
+    
     .main_new_review {
         margin: 0;
         margin-top: 20px;

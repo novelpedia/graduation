@@ -2,6 +2,7 @@ var login_check = false;
 var login_user_information;
 var nickname;
 var user_id;
+var login_user_class;
 
 
 async function getDocument(userEmail, uid) {
@@ -14,6 +15,7 @@ async function getDocument(userEmail, uid) {
         document.getElementById("mypage_button").style.display = 'flex';
         login_check = true;
         nickname = 결과.data().닉네임;
+        login_user_class = 결과.data().등급;
         // login_user_information = userEmail + uid;
     }
     catch(error){

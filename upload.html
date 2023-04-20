@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <input type="file" id="image-input" accept="image/*" />
+        <button id="upload-btn">Upload Image</button>
+    </form>
+
+
+    <script>
+        const form = document.querySelector("form");
+        const imageInput = document.querySelector("#image-input");
+        const uploadBtn = document.querySelector("#upload-btn");
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const file = imageInput.files[0];
+            const message = { type: "image-upload", data: file };
+            window.opener.postMessage(message, "*");
+            window.close();
+        });
+        
+        imageInput.addEventListener("change", () => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+            const img = document.createElement("img");
+            img.src = event.target.result;
+            document.body.appendChild(img);
+            };
+            reader.readAsDataURL(imageInput.files[0]);
+        });
+    </script>
+</body>
+<style>
+    body{
+        margin: 10px;
+    }
+
+    img {
+        max-width: 160px;
+    }
+</style>
+</html>

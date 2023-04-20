@@ -95,7 +95,7 @@ $('#register').click(function () {
     var name = $('#name').val();
     var nick = $('#nickname').val();
     var gender = $('input[name=genderchoice]:checked').val();
-    var email = $('#email').val();
+    var email = $('#email').val() + $('#email2 option:selected').text();
     var phone = $('#phonenumber').val();
     var birthday = $('#userBirthday').val();
     /*이름, 생일 등 개인정보를 저장할 수 있는 방법 필요*/
@@ -134,6 +134,7 @@ $('#register').click(function () {
                 전화번호: phone,
                 생년월일: birthday,
                 가입날짜: new Date(),
+                등급: "u",
             };
 
             var docname = $('#signupid').val() + result.user.uid;
@@ -141,7 +142,6 @@ $('#register').click(function () {
             db.collection('user').doc(docname).set(사용자데이터).then((result) => {
                 console.log(result);
                 alert(name + "님 환영합니다.");
-                /*window.location.reload();*/
                 window.location.href = 'index.html';
             }).catch(() => {
                 alert("DB접근 불가");

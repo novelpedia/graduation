@@ -39,7 +39,22 @@
             <div class="set">
                 <div class="set_mid">
                     <ul class="bar_menu">
-                        <li><a href="listpage.html">목록페이지</a></li>
+                        <input type="checkbox" id="list_open">
+                        <label for="list_open" class="list_page_label">
+                            <li class="list_li">목록페이지</li>
+                            <div class="header_list">
+                                <div class="header_set1">
+                                    <div class="header_picture"><a href="list/novel">작품</a></div>
+                                </div>
+                                <div class="header_set1">
+                                    <div class="header_author"><a href="list/author">작가</a></div>
+                                </div>
+            
+                                <div class="header_set1">
+                                    <div class="header_publisher"><a href="list/publisher">출판사</a></div>
+                                </div>
+                            </div>
+                        </label>
                         <li class="mypage_header" id="mypage_button"><a href="mypage">마이페이지</a></li>
                         <li><a href="login" id="login_logout">Login</a></li>
                     </ul>
@@ -182,16 +197,16 @@
                 <div class="main_go">
                     <p>바로가기</p>
                     <div class="line_one">
-                        <input type="button" class="button" onclick="location.href='ranking.html'">
+                        <input type="button" class="button" onclick="location.href='/rank'">
                         <input type="button" class="button" onclick="location.href='#'">
                         <input type="button" class="button" onclick="location.href='#'">
                         <input type="button" class="button" onclick="location.href='#'">
                     </div>
                     <div class="line_two">
-                        <input type="button" class="button" onclick="location.href='#'">
-                        <input type="button" class="button" onclick="location.href='#'">
-                        <input type="button" class="button" onclick="location.href='#'">
-                        <input type="button" class="button" onclick="location.href='#'">
+                        <input type="button" class="button" onclick="location.href='e/'" value="작품 생성">
+                        <input type="button" class="button" onclick="location.href='ea/'" value="작가 생성">
+                        <input type="button" class="button" onclick="location.href='ep/'" value="출판사 생성">
+                        <input type="button" class="button" onclick="location.href='#'" value=" ">
                     </div>
                 </div>
                 <div class="main_new_document">
@@ -221,102 +236,28 @@
 
         <div class="main_second">
             <div class="main_ranking">
-                <a href="#">노벨피디아 순위</a>
-                <div class="document_first">
-                    <div class="document_rank">
-                        <a href="#">
-                            <img class="rankimg" src="./image/rank1.png">
-                            <img src="./image/표지_미등록.png">
-                            <p>1위</p>
-                            <p>소설제목</p>
-                            <p>작가</p>
-                        </a>
-                    </div>
-                    <div class="document_rank">
-                        <a href="#">
-                            <img class="rankimg" src="./image/rank2.png">
-                            <img src="./image/표지_미등록.png">
-                            <p>2위</p>
-                            <p>소설제목</p>
-                            <p>작가</p>
-                        </a>
-                    </div>
-                    <div class="document_rank">
-                        <a href="#">
-                            <img class="rankimg" src="./image/rank3.png">
-                            <img src="./image/표지_미등록.png">
-                            <p>3위</p>
-                            <p>소설제목</p>
-                            <p>작가</p>
-                        </a>
-                    </div>
+                <div class="select_div">
+                    <a href="#">노벨피디아 순위</a>
+                    <select id="sort_value">
+                        <option value="view" selected>조회수</option>
+                        <option value="like">좋아요수</option>
+                        <option value="review">리뷰수</option>
+                    </select>
                 </div>
-                <div class="document_second">
-                    <div class="document_rank2">
-                        <a href="#" class="a_first">
-                        </a>
-                    </div>
-                    <div class="document_rank2">
-                        <a href="#">
-                            <!--<img src="./image/표지_미등록.png">-->
-                            <p class="p_rank">4위</p>
-                            <p class="p_title">너의 목소리가 들려</p>
-                            <p class="p_writer">김영하</p>
-                        </a>
-                    </div>
-                    <div class="document_rank2">
-                        <a href="#">
-                            <!--<img src="./image/표지_미등록.png">-->
-                            <p class="p_rank">5위</p>
-                            <p class="p_title">최선의 삶</p>
-                            <p class="p_writer">임솔아</p>
-                        </a>
-                    </div>
-                    <div class="document_rank2">
-                        <a href="#">
-                            <!--<img src="./image/표지_미등록.png">-->
-                            <p class="p_rank">6위</p>
-                            <p class="p_title">살인자의 기억법</p>
-                            <p class="p_writer">김영하</p>
-                        </a>
-                    </div>
-                    <div class="document_rank2">
-                        <a href="#">
-                            <!--<img src="./image/표지_미등록.png">-->
-                            <p class="p_rank">7위</p>
-                            <p class="p_title">대학일기</p>
-                            <p class="p_writer">자까</p>
-                        </a>
-                    </div>
-                    <div class="document_rank2">
-                        <a href="#">
-                            <!--<img src="./image/표지_미등록.png">-->
-                            <p class="p_rank">8위</p>
-                            <p class="p_title">아몬드</p>
-                            <p class="p_writer">손원평</p>
-                        </a>
-                    </div>
-                    <div class="document_rank2">
-                        <a href="#">
-                            <!--<img src="./image/표지_미등록.png">-->
-                            <p class="p_rank">9위</p>
-                            <p class="p_title">농무</p>
-                            <p class="p_writer">신경림</p>
-                        </a>
-                    </div>
-                    <div class="document_rank2">
-                        <a href="#">
-                            <!--<img src="./image/표지_미등록.png">-->
-                            <p class="p_rank">10위</p>
-                            <p class="p_title">누가 하늘을 보았다 하는가</p>
-                            <p class="p_writer">신동엽</p>
-                        </a>
-                    </div>
+
+                <div class="document_rank_first">
+                </div>
+
+                <div class="document_rank2">
+                    <a href="#" class="a_first"></a>
+                </div>
+
+                <div class="document_rank_second">
                 </div>
             </div>
             <div class="main_new_review" id="recent_modify_parent">
                 <div class="name">
-                    <a href="#">최근 수정된 문서</a>
+                    <a>최근 수정된 문서</a>
                     <select onchange="recent_modify_document()" id="select_nap">
                         <option value="1">작품</option>
                         <option value="2">작가</option>
@@ -476,6 +417,78 @@
                 })
             }
 
+        }
+
+
+
+        const sortValue = document.querySelector("#sort_value");
+        let select_name = 'view';
+
+        updateList();
+
+        sortValue.addEventListener('change', (event) => {
+            if (event.target.value == 'view'){
+                select_name = 'view';
+            } else if (event.target.value == 'like'){
+                select_name = 'like';
+            } else if (event.target.value == 'review'){
+                select_name = 'star_count'
+            }
+
+            updateList();
+        });
+        
+        // 데이터 출력
+        function updateList() {
+            db.collection("novel_document").orderBy(select_name, 'desc').limit(10).get().then((querySnapshot) => {
+
+                $('.document_rank_first').empty();
+                $('.document_rank_second').empty();
+                
+                let index = 1; // 순위 번호
+                querySnapshot.forEach((doc) => {
+                    let doc_name = doc.data().name;
+                    let doc_name2 = doc.data().name;
+            
+                    if(doc_name.length > 8) {
+                        doc_name = doc_name.substr(0, 7) + "⋯";
+                    }
+                    if(doc_name2.length > 15) {
+                        doc_name2 = doc_name2.substr(0, 14) + "⋯";
+                    }
+                    var temp = `
+                    <div class="document_rank">
+                        <a href="https://novelpedia.co.kr/n/${doc.data().name+"("+doc.data().author+")"}">
+                            <img class="rankimg" src="./image/rank${index}.png">
+                            <img class="coverimg" src="${doc.data().bookcover}">
+                            <p>${index}위</p>
+                            <p class="doc_name">${doc_name}</p>
+                            <p>${doc.data().author}</p>
+                        </a>
+                    </div>`;
+                    if(index >=4 && index <= 10){
+                        var temp = `
+                            <div class="document_rank2">
+                                <a href="https://novelpedia.co.kr/n/${doc.data().name+"("+doc.data().author+")"}">
+                                    <p class="p_rank">${index}위</p>
+                                    <p class="p_title">${doc_name2}</p>
+                                    <p class="p_writer">${doc.data().author}</p>
+                                </a>
+                            </div>
+                            `;
+                    }
+                    index++;
+                    // 콘솔창에 데이터 정보 출력
+                    console.log(doc.id, doc.data());
+                    if(index <= 4) {
+                        $(".document_rank_first").append(temp);
+                    } else {
+                        $(".document_rank_second").append(temp);
+                    }
+                })
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     </script>
 

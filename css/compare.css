@@ -1,0 +1,719 @@
+* {
+    font-family: 'NanumGothic';
+    margin: 0;
+}
+
+label {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 40px;
+    margin-bottom: 5px;
+    width: 150px;
+    vertical-align: top;
+}
+
+#version_a, #version_b{
+    margin-top: 20px;
+    font-size: 22px;
+}
+
+
+.document_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.document_name {
+    width: 950px;
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.document_name a {
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.document_item .page_title {
+    width: 910px;
+    padding: 10px;
+    padding-left: 30px;
+    background-color: #f7fbfc;
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.document_item .page_title h4 {
+    font-size: 20px;
+    float: left;
+}
+
+.document_item form {
+    width: 50%;
+}
+
+.compare_set{
+    display: flex;
+    width: 950px;
+}
+
+.document_critical_edit_1 {
+    border: 1px solid #e5e5e5;
+    width: 100%;
+    background-color: #f7fbfc;
+    margin-bottom: 50px;
+    border-bottom-left-radius: 15px;
+}
+
+.document_critical_edit_2 {
+    border: 1px solid #e5e5e5;
+    width: 100%;
+    background-color: #f7fbfc;
+    margin-bottom: 50px;
+    border-bottom-right-radius: 15px;
+}
+
+.document_bookcover_edit {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 40px;
+}
+
+.document_bookcover_edit img {
+    width: 150px;
+    height: 215px;
+    border: 1px solid black;
+}
+
+.document_bookcover_edit label {
+    margin-left: 0px;
+    margin-bottom: 10px;
+}
+
+.document_name_edit {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.document_name_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_author_edit {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.document_author_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_birthday_edit {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.document_birthday_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_publisher_edit {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.document_publisher_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_genre_edit {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.document_genre_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+/* .document_genre_edit select {
+    height: 30px;
+    font-size: 15px;
+} */
+
+.document_sale_edit {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.document_sale_edit .sale_name {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.document_sale_edit .sale_name input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_sale_edit .sale_address {
+    display: flex;
+    flex-direction: column;
+}
+
+.document_sale_edit .sale_address label {
+    /* text-align: right;
+    margin-left: 5px;
+    margin-right: 25px; */
+}
+
+.document_sale_edit .sale_address input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_publishdate_edit {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.document_publishdate_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_summary_edit {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.document_summary_edit textarea {
+    font-size: 15px;
+    width: auto;
+    margin-left: 40px;
+    margin-right: 40px;
+    min-height: 200px;
+    resize: none;
+    outline: none;
+}
+
+.document_establishdate_edit{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;  
+}
+
+.document_establishdate_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_location_edit {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;  
+}
+
+.document_location_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_home_edit {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;  
+}
+
+.document_home_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_native_edit{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;  
+}
+
+.document_native_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_debutdate_edit{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;  
+}
+
+.document_debutdate_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+
+.document_recent_publishdate_edit{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;  
+}
+
+.document_recent_publishdate_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_main_novel_edit{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;  
+}
+
+.document_main_novel_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_recent_novel_edit{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;  
+}
+
+.document_recent_novel_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_school_edit{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;  
+}
+
+.document_school_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_company_edit{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;  
+}
+
+.document_company_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.document_tag_edit{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;  
+}
+
+.document_tag_edit input {
+    height: 30px;
+    width: auto;
+    font-size: 15px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+
+.document_other {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;  
+}
+
+.document_other .other {
+    padding: 0;
+    font-size: 15px;
+    width: auto;
+    margin-left: 40px;
+    margin-right: 40px;
+    min-height: 500px;
+    resize: none;
+    outline: none;
+    border: 1px solid #d4d4d4;
+}
+
+.button_bundle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.button_bundle input {
+    cursor: pointer;
+    padding: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 18px;
+    border: 1px solid #c7c3c3;
+    color: gray;
+    background-color: #fff;
+}
+
+.button_bundle a {
+    text-decoration:none;
+    padding: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 18px;
+    border: 1px solid #c7c3c3;
+    color: gray;
+    background-color: #fff;
+    white-space : nowrap;
+}
+
+.button_bundle .save {
+    font-weight: 600;
+    color: #769fcd;
+    border: 1px solid #769fcd;
+    background-color: #fff;
+}
+
+.button_bundle .delete {
+    color: red;
+    border: 1px solid red;
+    background-color: #fff;
+}
+
+@media (max-width:640px) {
+    
+    label {
+        margin-bottom: 5px;
+        margin-left: 30px;
+    }
+    
+    .document_item {
+        margin-top: 200px;
+    }
+
+    .document_name {
+        width: 90%;
+    }
+
+    .document_bookcover_edit {
+        margin-left: 30px;
+    }
+
+    .document_item .page_title {
+        width: 80%;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .document_item form {
+        width: 50%;
+    }
+
+    .compare_set {
+        display: flex;
+        width: 90%;
+    }
+
+    .document_critical_edit {
+        width: 100%;
+    }
+
+    .document_name_edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_name_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .document_author_edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_author_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .document_birthday_edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_birthday_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .document_publisher_edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_publisher_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .document_genre_edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_genre_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .document_sale_edit .sale_name {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_sale_edit .sale_name input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .document_sale_edit .sale_address {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_sale_edit .sale_address label {
+        margin: 0;
+        text-align: left;
+        margin-left: 30px;
+    }
+
+    .document_sale_edit .sale_address input {
+        margin-left: 30px;
+        margin-right: 30px;
+        width: auto;
+    }
+
+    .document_publishdate_edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_publishdate_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .document_summary_edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_summary_edit textarea {
+        margin-left: 30px;
+        margin-right: 30px;
+        width: auto;
+    }
+
+    .document_establishdate_edit{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .document_establishdate_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    
+    .document_location_edit {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .document_location_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    
+    .document_home_edit {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .document_home_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .document_native_edit{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .document_native_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    
+    .document_debutdate_edit{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .document_debutdate_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    
+    
+    .document_recent_publishdate_edit{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .document_recent_publishdate_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    
+    .document_main_novel_edit{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .document_main_novel_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    
+    .document_recent_novel_edit{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .document_recent_novel_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    
+    .document_school_edit{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .document_school_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    
+    .document_company_edit{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .document_company_edit input {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    
+    .document_tag_edit {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .document_tag_edit input{
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .document_other .other {
+        margin-left: 30px;
+        margin-right: 30px;
+
+    }
+}

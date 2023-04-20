@@ -68,6 +68,7 @@
 .document_bundle_button .delete {
     border-left: none;
     color: red;
+    cursor: pointer;
 }
 
 /*표지 + 버튼 + 목차 묶음*/
@@ -119,7 +120,6 @@
     justify-content: center;
     width: 300px;
     height: 50px;
-    /*background-color: white;*/
     background-color: #f7fbfc;
     outline: 0;
     border: 0;
@@ -204,19 +204,20 @@
     margin-bottom: 20px;
     border-radius: 15px;
     width: 300px;
+    border: 1px solid #e5e5e5;
 }
 
 .document_information table {
     background-color: #f7fbfc;
-    border: 1px solid #e5e5e5;
-    border-collapse: separate;
+    /* border: 1px solid #e5e5e5; */
+    border-collapse: collapse;
     border-radius: 15px;
     width: 100%;
 }
 
 .document_information tr {
-    border-left: 1px solid #e5e5e5;
-    border-right: 1px solid #e5e5e5;
+    /* border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5; */
 }
 
 .document_information th {
@@ -228,13 +229,21 @@
 }
 
 .document_information tr:nth-last-child(1) td {
-    border-bottom: 0px solid black;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .document_information td {
     /*border: 1px solid #e5e5e5;*/
     border-bottom: 1px solid #e5e5e5;
     padding: 10px 20px;
+}
+
+.document_information td:nth-child(1){
+    /* border-left: 1px solid #e5e5e5; */
+}
+
+.document_information td:nth-child(2){
+    /* border-right: 1px solid #e5e5e5; */
 }
 
 .document_information th {
@@ -390,7 +399,7 @@
     border: 1px solid #e5e5e5;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    padding-bottom: 20px;
+    padding-bottom: 55px;
 }
 
 .document_review .content #review_add {
@@ -568,13 +577,11 @@
     position: relative;
     display: block;
     margin-top: 5px;
-    /*margin: 50px;*/
-    width: 300px;
-    height: 80px;
+    width: 600px;
+    height: 200px;
     background: white;
-    /*margin-bottom: 10px;*/
     border: 1px solid #e5e5e5;
-    /*border-radius: 10px;*/
+    padding-bottom: 20px;
 }
 
 .document_review .balloon:after,
@@ -614,11 +621,38 @@
     position: relative;
 }
 
+#review_delete{
+    margin-top: -30px;
+    width: 100%;
+}
+
+#review_delete p{
+    float: right;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.document_review .review_content{
+    height: 100%;
+    overflow-wrap: anywhere;
+}
+
 .document_review .review_pre_set {
     /*display: flex;*/
     /*width: 100px;*/
 }
 
+.document_review .previous_next{
+    margin-top: -30px;
+}
+
+.document_review .previous_next #back{
+    margin-left: 20px;
+}
+
+.document_review .previous_next #next{
+    margin-left: 20px;
+}
 
 .document_section .alram {
     display: flex;
@@ -630,6 +664,7 @@
     /*border-bottom: 1px solid #e5e5e5;
     border-top: 1px solid #e5e5e5;*/
     margin-bottom: 20px;
+    margin-top: 40px;
     border-radius: 10px;
 }
 
@@ -678,12 +713,14 @@
     .document_bundle {
         flex-direction: column;
         align-items: center;
+        width: 90%;
     }
 
     .document_bundle_cover {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
     }
 
     .document_view_update{
@@ -698,7 +735,7 @@
     
 
     .document_bookcover {
-        width: 90%;
+        width: 100%;
         height: auto;
         position: relative;
     }
@@ -727,7 +764,7 @@
     .document_index {
         margin-top: 20px;
         padding-bottom: 20px;
-        width: 90%;
+        width: 100%;
     }
 
     .document_information {
@@ -759,11 +796,6 @@
         height: 450px;
     }
 
-    .document_review {
-        width: 90%;
-        height: auto;
-    }
-    
     .document_review {
         width: 90%;
         height: auto;
@@ -824,7 +856,20 @@
 
     .document_review .content {
         height: auto;
-        padding-bottom: 20px;
+    }
+
+    .document_review .review_pre{
+        width: 100%;
+    }
+    
+    .document_review .review_pre_set{
+        width: 100%;
+    }
+
+    .document_review .balloon{
+        width: 100%;
+        height: auto;
+        min-height: 200px;   
     }
 
     .document_section .alram {

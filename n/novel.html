@@ -8,6 +8,7 @@
     <link href="../css/novel_page.css" rel="stylesheet">
     <link href="../css/header.css" rel="stylesheet">
     <link href="../css/footer.css" rel="stylesheet">
+    <link href="../css/getOther.css" rel="stylesheet">
     <title>작품페이지</title>
     <style>
 
@@ -113,7 +114,7 @@
             <div class="document_bundle_button">
                 <a class="edit" href="../e" id="go_edit">편집</a>
                 <a class="history" href="../h" id="go_history">역사</a>
-                <a class="delete" href="#" id="go_delete">삭제</a>
+                <a class="delete" id="go_delete">삭제</a>
             </div>
 
             <div class="document_view_update">
@@ -226,10 +227,10 @@
                 <div class="title">
                     <p class="p_title">리뷰</p>
                 </div>
-                <div class="content">
+                <div class="content" id="review_content_div">
                     <div class="box_estimate" id="review_input">
                         <div class="document_500char">
-                            <span class="document_500char_name">500자평</span>
+                            <span class="document_500char_name">300자평</span>
                         </div>
                         <form>
                             <div class="content_input">
@@ -243,14 +244,14 @@
                                     </div>
                                 </div>
                                 <div class="content_boxing">
-                                    <textarea id="char_content" onkeydown="calc()" onkeyup="calc()" onkeypress="calc()" maxlength="500"></textarea>
+                                    <textarea id="char_content" onkeydown="calc()" onkeyup="calc()" onkeypress="calc()" maxlength="300"></textarea>
                                     <div class="register_button">
                                         <input class="register_submit" type="button" value="등록" id="review_send" onclick="review()">
                                     </div>
                                 </div>
                                 <div class="char_number">
                                     <input type="number" id="char_result" value="0" readonly>
-                                    <span class="max_number">/ 500</span>
+                                    <span class="max_number">/ 300</span>
                                 </div>
                             </div>
                         </form>
@@ -267,7 +268,10 @@
                     </script>
                     <div class="line" id="review_line"></div>
                     <div id="review_add"></div>
-
+                </div>
+                <div class="previous_next" id="next_back_package">
+                    <button class="previous" id="back">&#9664; 이전</button>
+                    <button class="next" id="next">다음 &#9654;</button>
                 </div>
             </div>
 
@@ -278,9 +282,7 @@
             </div>
 
             <!--기타-->
-            <div class="document_other">
-                <p id="document_other">
-                </p>
+            <div class="document_other" id="document_other">
             </div>
         </div>
     </section>
@@ -329,7 +331,14 @@
     <script>
         const path_url = window.location.pathname;
         const path_decode = decodeURI(path_url);
-        const document_name = path_decode.split('/');
+        let document_name = path_decode.split('/');
+
+        // 타이틀 변경
+        document.title = document_name[2];
+
+        // 편집, 역사 페이지 버튼 주소 초기화
+        document.getElementById("go_edit").href = "../e/" + document_name[2];
+        document.getElementById("go_history").href = "../h/" + document_name[2];
     </script>
 
     <!-- 문서 열면서 동기적으로 실행할 함수 -->
@@ -337,7 +346,7 @@
         async function start_novel(){
                 await getUser();
                 await getInformation();
-                await getReviewInfor()
+                await getReviewInfor();
                 console.log(login_user_information);
             }
 
@@ -401,6 +410,7 @@
                     };
                     review_path.set(review_data).then(async (result) => {
                         await reviewIncCounter(star_rating);
+                        await history_reviewIncCounter(star_rating);
                         await review_add_user(star_rating);
                         location.reload();
                     }).catch((error) => {
@@ -421,6 +431,7 @@
 
             review_path.delete().then(async (result) => {
                 await reviewDimCounter(user_star_rating);
+                await history_reviewDimCounter(user_star_rating);
                 await review_delete_user();
                 location.reload();
             }).catch((error) => {
@@ -429,11 +440,17 @@
             });
         }
 
+        var next_2;
+        var before;
+        var next = db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "desc").limit(5);
+
+
         // 리뷰가져오기
-        db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "desc").get().then((결과) => {
+        db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "desc").limit(5).get().then((결과) => {
             var review_count = 0;
             var temp = `<div class="review_pre"><div class="review_pre_set"><p>※리뷰가 존재하지 않습니다.※</p></div></div>`;
 
+            
             결과.forEach((result) => {
                 review_count = review_count + 1;
                 if(review_count>0){
@@ -445,7 +462,7 @@
                                 <p>|</p>
                                 <p>${result.data().star + ".0"}</p>
                                 <div class="balloon">
-                                    <p>${result.data().content}</p>
+                                    <p class="review_content">${result.data().content}</p>
                                 </div>
                                 <div id="review_delete" onclick="review_delete()"><p>삭제</p></div>
                             </div>
@@ -467,14 +484,181 @@
                 }
 
                 $('#review_add').append(temp);
+
+                var lastVisible = 결과.docs[결과.docs.length-1];
+                if(결과.docs.length>4){
+                }
+                else{
+                    document.getElementById('next').style.display = "none";
+                }
+
+                before = next;
+                next = db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "desc").startAfter(lastVisible).limit(5);
+                next_2 = db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "desc").startAfter(lastVisible).limit(1);
+                next_back();
             });
 
             if(review_count==0){
                 $('#review_add').append(temp);
+                $('#next_back_package').remove();
             }
         }).catch((err) => {
                 console.log(err);
         })
+
+        
+
+        document.getElementById('next').addEventListener("click", function() {
+            $('#review_add').remove();
+            var list_append = `<div id="review_add"></div>`
+            $('#review_content_div').append(list_append);
+
+            var temp;
+
+            next.get().then((결과) => {
+                결과.forEach((result)=>{
+                    console.log(result.data())
+
+                    if(result.data().id == user_id){
+                        temp = 
+                        `<div class="review_pre">
+                            <div class="review_pre_set">
+                                <p>${result.data().nick + "(" + result.data().id + ")"}</p>
+                                <p>|</p>
+                                <p>${result.data().star + ".0"}</p>
+                                <div class="balloon">
+                                    <p class="review_content">${result.data().content}</p>
+                                </div>
+                                <div id="review_delete" onclick="review_delete()"><p>삭제</p></div>
+                            </div>
+                        </div>`;
+                    }
+                    else{
+                        temp = 
+                        `<div class="review_pre">
+                            <div class="review_pre_set">
+                                <p>${result.data().nick + "(" + result.data().id + ")"}</p>
+                                <p>|</p>
+                                <p>${result.data().star + ".0"}</p>
+                                <div class="balloon">
+                                    <p>${result.data().content}</p>
+                                </div>
+                            </div>
+                        </div>`;
+                    }
+
+                    $('#review_add').append(temp);
+                })
+                var b_lastVisible;
+                if (결과.docs.length>4){
+                    b_lastVisible = 결과.docs[결과.docs.length - 5];
+                }
+                else{
+                    b_lastVisible = 결과.docs[결과.docs.length - 결과.docs.length];
+                }
+
+                before = db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "asc").startAfter(b_lastVisible).limit(5);
+                var lastVisible = 결과.docs[결과.docs.length-1];
+                next = db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "desc").startAfter(lastVisible).limit(5);
+                next_2 = db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "desc").startAfter(lastVisible).limit(1);
+                next_back_check = next_back_check + 1;
+                next_back();
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+
+        document.getElementById('back').addEventListener("click", function() {
+            $('#review_add').remove();
+            var list_append = `<div id="review_add"></div>`
+            $('#review_content_div').append(list_append);
+
+            var temp;
+        
+            before.get().then((결과) => {
+                for(var i = 4; i>-1; i--){
+                    if(결과.docs[i].data().id == user_id){
+                        temp = 
+                        `<div class="review_pre">
+                            <div class="review_pre_set">
+                                <p>${결과.docs[i].data().nick + "(" + 결과.docs[i].data().id + ")"}</p>
+                                <p>|</p>
+                                <p>${결과.docs[i].data().star + ".0"}</p>
+                                <div class="balloon">
+                                    <p class="review_content">${결과.docs[i].data().content}</p>
+                                </div>
+                                <div id="review_delete" onclick="review_delete()"><p>삭제</p></div>
+                            </div>
+                        </div>`;
+                    }
+                    else{
+                        temp = 
+                        `<div class="review_pre">
+                            <div class="review_pre_set">
+                                <p>${결과.docs[i].data().nick + "(" + 결과.docs[i].data().id + ")"}</p>
+                                <p>|</p>
+                                <p>${결과.docs[i].data().star + ".0"}</p>
+                                <div class="balloon">
+                                    <p>${결과.docs[i].data().content}</p>
+                                </div>
+                            </div>
+                        </div>`;
+                    }
+
+                    $('#review_add').append(temp);
+                }
+
+                // 결과.forEach((doc)=>{
+                    
+                // })
+                var b_lastVisible = 결과.docs[결과.docs.length-1];
+                before = db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "asc").startAfter(b_lastVisible).limit(5);
+
+                var lastVisible;
+                if (결과.docs.length>4){
+                    lastVisible = 결과.docs[결과.docs.length - 5];
+                }
+                else{
+                    lastVisible = 결과.docs[결과.docs.length - 결과.docs.length];
+                }
+
+                next = db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "desc").startAfter(lastVisible).limit(5);
+                next_2 = db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "desc").startAfter(lastVisible).limit(1);
+                next_back_check = next_back_check - 1;
+                next_back();
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+
+
+        let next_back_check = 1;
+
+        function next_back(){
+            if(next_back_check == 1){
+                document.getElementById('back').style.display = "none";
+            }
+            else{
+                document.getElementById('back').style.display = "flex";
+
+                next_2.get().then((결과) => {
+                    console.log("결과" + 결과.docs.length);
+
+                    if(결과.docs.length>0){
+                        document.getElementById('next').style.display = "flex";
+                    }
+                    else{
+                        document.getElementById('next').style.display = "none";
+                    }   
+                    
+                }).catch((err) => {
+                    console.log(err);
+                    
+                });
+            }
+        }
+
+
 
         // 리뷰 추가시 작품문서 평점 초기화
         async function reviewIncCounter(star_t){
@@ -499,6 +683,32 @@
                 star_count: firebase.firestore.FieldValue.increment(-1)
             }).then(() => {
                 console.log("좋아요 제거 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        // 리뷰 추가시 작품문서 평점 초기화
+        async function history_reviewIncCounter(star_t){
+            const docRef = db.collection('history').doc(document_name[2]).collection('data').doc('count');
+            return await docRef.update({
+                star: firebase.firestore.FieldValue.increment(star_t),
+                star_count: firebase.firestore.FieldValue.increment(1)
+            }).then(() => {
+                console.log("역사 좋아요 증가 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        // 리뷰 삭제시 작품문서 평점 초기화
+        async function history_reviewDimCounter(star_t){
+            const docRef = db.collection('history').doc(document_name[2]).collection('data').doc('count');
+            return await docRef.update({
+                star: firebase.firestore.FieldValue.increment(-star_t),
+                star_count: firebase.firestore.FieldValue.increment(-1)
+            }).then(() => {
+                console.log("역사 좋아요 제거 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -565,6 +775,7 @@
                     // 이미 좋아요 목록에 있는 경우
                     db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).delete().then(function() {
                         likeDimCounter();
+                        history_likeDimCounter();
                         console.log("문서 삭제 완료");
                         like_state = false;
                     }).catch(function(error) {
@@ -582,6 +793,7 @@
                     };
                     db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).set(info).then((result) => {
                         likeIncCounter();
+                        history_likeIncCounter();
                         alert("추가 완료");
                         like_state = true;
                     }).catch((error) => {
@@ -603,8 +815,6 @@
             }).then(() => {
                 console.log("좋아요 증가 성공");
                 document.getElementById("like_count").innerText = Number($("label[id='like_count']").text()) + 1;
-                // history(document_bookcover);
-                // console.log("Document successfully updated!");
             }).catch((error) => {
                 console.log(error);
             });
@@ -622,6 +832,31 @@
                 console.log(error);
             });
         }
+
+
+        // 역사 data 컬렉션 좋아요 증가 업데이트
+        function history_likeIncCounter(){
+            const docRef = db.collection('history').doc(document_name[2]).collection('data').doc('count');
+            return docRef.update({
+                like: firebase.firestore.FieldValue.increment(1),
+            }).then(() => {
+                console.log("역사 좋아요 증가 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        // 역사 data 컬렉션 좋아요 감소 업데이트
+        function history_likeDimCounter(){
+            const docRef = db.collection('history').doc(document_name[2]).collection('data').doc('count');
+            return docRef.update({
+                like: firebase.firestore.FieldValue.increment(-1),
+            }).then(() => {
+                console.log("역사 좋아요 제거 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
     </script>
 
     <script>
@@ -630,7 +865,12 @@
         var cookie_name
 
         if(document_name[1]=="hn"){
-
+            window.addEventListener("load", async function() { //새로고침 함수
+                await data_loading();
+                await getCookie();
+                // countSpan.textContent = view;
+                            
+            });
         }
         else{
             $.getJSON("https://ipinfo.io", function(data) {
@@ -675,6 +915,7 @@
                     cookie_name = "NovelPedia" + document_name[2]
                     await setCookie(cookie_name, 1);
                     await viewIncCounter();
+                    await history_viewIncCounter();
                     console.log("처음 조회하는 게시물");
                 }
             }
@@ -693,6 +934,18 @@
                 console.log(error);
             });
         }
+
+        // 역사 콜렉션에 조회수 데이터 저장
+        async function history_viewIncCounter(){
+            const docRef = db.collection('history').doc(document_name[2]).collection('data').doc('count');
+            return await docRef.update({
+                view: firebase.firestore.FieldValue.increment(1),
+            }).then(() => {
+                console.log("역사 조회수 증가 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
      
       </script>
 
@@ -701,6 +954,8 @@
         var docPath;
         var document_view;
         var star_cal;
+        var document_like;
+        let data_save_array = [];
 
         async function data_loading(){
             if(document_name[1]=="hn"){
@@ -717,6 +972,7 @@
             document.getElementById('document_name').innerText = document_name[2];
 
             await docPath.get().then((결과) => {
+                data_save_array = 결과;
                 // 불러온 내용 바탕으로 내용 바꾸기
                 console.log(결과.data())
                 
@@ -734,21 +990,21 @@
                 
                 
                 // 추후에 입력, 순서대로 좋아요개수, 업로드 날짜, 조회수, 태그, 기타
-                var document_like = 결과.data().like;
+                document_like = 결과.data().like;
                 var document_update_date = 결과.data().update_date;
                 document_view = 결과.data().view;
                 var document_tag = 결과.data().tag;
                 var document_other = 결과.data().other;
 
                 // 평점 불러오기
-                star_cal = 결과.data().star / 결과.data().star_count;
+                star_cal = (결과.data().star / 결과.data().star_count).toFixed(2);
 
                 document.getElementById("document_information_star").innerText= star_cal;
 
                 // 태그 불러오기 영역
                 console.log(typeof(document_tag));
                 document_tag.forEach(function(tag_element){
-                    var tag_temp = `<a href="../search?q=${tag_element}">${"#"+tag_element}</a>`
+                    var tag_temp = `<a href="../search?q=!${tag_element}">${"#"+tag_element}</a>`
                     $('#document_tag_area').append(tag_temp);
                 });
 
@@ -768,13 +1024,6 @@
                     document.getElementById("summary_content").style.borderBottomRightRadius = '15px';
                     document.getElementById("summary_content").style.borderBottomLeftRadius = '15px';
                 }
-
-                // 타이틀 변경
-                document.title = document_name[2];
-                
-                // 편집, 역사 페이지 버튼 주소 초기화
-                document.getElementById("go_edit").href = "../e/" + document_name[2];
-                document.getElementById("go_history").href = "../h/" + document_name[2];
 
                 // 표지변경
                 console.log(document_bookcover);
@@ -808,7 +1057,7 @@
                 document.getElementById("document_information_publish_date").innerText = document_information_publish_date;
                 document.getElementById("document_summary_content").innerText = document_summary_content;
 
-                document.getElementById("document_other").innerText = document_other;
+                document.getElementById("document_other").innerHTML = document_other;
                 // document.getElementById("document_information_author").innerText = document_information_author;
                 // document.getElementById("document_information_author").innerText = document_information_author;
                 // document.getElementById("document_information_author").innerText = document_information_author;
@@ -821,7 +1070,7 @@
                         </div>
                         <div class="button_bundle">
                             <a href="#" class="new_document" id="new_document">새 문서 작성하기</a>
-                            <a href="#" class="history">역사</a>
+                            <a href="#" class="history" id="history_document">역사</a>
                         </div>
                     </div>
                 </div></div>`
@@ -830,9 +1079,82 @@
                 document.getElementById('empty').innerHTML = empty;
                 document.getElementById('this_document').innerText = document_name[2];
                 document.getElementById('new_document').href = '../e/' + document_name[2];
+                document.getElementById('history_document').href = '../h/' + document_name[2];
             });
         }
     </script>
+
+
+    <script>
+        var user_class = "nu";
+
+        $('#go_delete').click(function(){
+            if(confirm("정말 '" + document_name[2] + "'문서를 삭제하시겠습니까?")){
+                db.collection('novel_document').doc(document_name[2]).delete().then(async function() {
+                    if(login_check == true){
+                        ip_address_info = user_id;
+                        user_class = login_user_class;
+                    }
+                    await history_data_update();
+                    await history_update();
+                    console.log("문서 삭제 완료");
+                }).catch(function(error) {
+                    console.error("Error removing document: ", error);
+                });
+            }
+            else{
+
+            }
+        });
+
+        async function history_data_update(){
+            return await db.collection('history').doc(document_name[2]).collection('data').doc('count').update({
+                version: firebase.firestore.FieldValue.increment(1),
+            })
+            .then(async () => {
+                alert("history data 업데이트 성공!");                
+            }).catch((err)=>{
+                console.log(err + "history data 업데이트 실패!")
+            });
+        }
+
+        async function history_update(){
+            var info = {
+                bookcover: data_save_array.data().bookcover,
+                name: data_save_array.data().name,
+                name_keyword: data_save_array.data().name_keyword,
+                author: data_save_array.data().author,
+                author_birthday : data_save_array.data().author_birthday,
+                publisher: data_save_array.data().publisher,
+                n_category: data_save_array.data().n_category,
+                genre: data_save_array.data().genre,
+                buy_series: data_save_array.data().buy_series,
+                address: data_save_array.data().address,
+                publish_date: data_save_array.data().publish_date,
+                tag: data_save_array.data().tag,
+                summary: data_save_array.data().summary,
+                other: data_save_array.data().other,
+                the_first_date: data_save_array.data().the_first_date,
+                version: data_save_array.data().version + 1,
+                update_date:new Date(),
+                category: data_save_array.data().category,
+                final_modify: ip_address_info,
+                user_class: user_class,
+                action: "d",                               
+            };
+            console.log(document_name[2]);
+            await db.collection('history').doc(document_name[2]).collection('version').doc((data_save_array.data().version + 1).toString()).set(info).then((result) => {
+                console.log(result);
+                alert("history data success.");
+                location.reload();
+            }).catch((error) => {
+                console.log(error);
+                alert("history data failed.");
+            });
+
+        }
+    </script>
+    
     <style>
         .section_empty {
             margin-top: 100px;

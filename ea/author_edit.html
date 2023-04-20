@@ -8,6 +8,7 @@
     <link href="../css/edit_author.css" rel="stylesheet">
     <link href="../css/header.css" rel="stylesheet">
     <link href="../css/footer.css" rel="stylesheet">
+    <link href="../css/web_editor.css" rel="stylesheet">
     <title>편집</title>
 </head>
 
@@ -180,7 +181,16 @@
             <div class="document_other_edit">
                 <!--웹에디터 추가 영역-->
                 <div class="webeditor">
-                    <textarea id="document_other"></textarea>
+                    <div class="editor_button">
+                        <input type="button" class="button" id="header" onclick="addHeader()" value="제목">
+                        <input type="button"  class="button" id="body" onclick="addBody()" value="본문">
+                        <input type="button"  class="button" id="add-horizontal-rule" value="가로줄">
+                        <input type="button"  class="button" id="link-btn" value="링크">
+                        <input type="button"  class="button" id="upload-image-btn" onclick="image_upload()" value="이미지">
+                        <input type="button"  class="button" id="convertBtn" onclick="convertFormat()" value="변환(HTML → Text)">
+                    </div>
+                    <div id="editor" contenteditable="true"></div>
+                    <!-- <textarea id="document_other"></textarea> -->
                 </div>
             </div>
             <!--각종버튼-->
@@ -188,7 +198,7 @@
                 <input class="save" id="send" type="button" value="저장">
                 <a onclick="history.back()">취소</a>
                 <!--<input type="button" value="취소">-->
-                <a class="delete" href="#">삭제</a>
+                <a class="delete" id="go_delete">삭제</a>
             </div>
         </form>
     </section>
@@ -238,6 +248,9 @@
     <!--로그아웃 상태일 때-->
     <script src="../js/logout_state.js"></script>
 
+    <!-- 웹에디터 -->
+    <script src="../js/web_editor.js"></script>
+
     <!--태그 입력-->
     <script src="../js/tag.js"></script>
 
@@ -264,8 +277,10 @@
         var document_version = 0;
         var document_the_first_date = new Date();
         var document_category = "a";
+        let data_save_array = [];
         
         db.collection('author_document').doc(document_name[2]).get().then((결과) => {
+            data_save_array = 결과;
             // 불러온 내용 바탕으로 내용 바꾸기
             console.log(결과.data())
             
@@ -334,7 +349,7 @@
             countTags();
             createTag();
 
-            document.getElementById("document_other").value = document_other;
+            document.getElementById("editor").innerHTML = document_other;
         }).catch((err) => {
             console.log(err);
         });
@@ -344,298 +359,158 @@
     <script>
         const storage = firebase.storage();
         // 영어는 소문자로 저장
-        var name_keyword_temp_lower = [];
+        // var name_keyword_temp_lower = [];
+        var user_class = "nu";
 
-        $('#send').click(function() {
+        $('#send').click(async function(){
+            // 로그인이 되어있다면, IP주소를 사용자의 아이디로 바꾸기
+            if(login_check == true){
+                ip_address_info = user_id;
+                user_class = login_user_class;
+            }
+            await outputKeyword();
+            await data_check();
+            await data_saving();
+        })
+
+        var view_temp = 0;
+        var like_temp = 0;
+        // var version_temp = 1;
+
+        let keywordTemp3 = [];
+
+        function outputKeyword() {
+            const keyword = document.getElementById("name").value.toLowerCase();
+            const keywordLen = keyword.length;
+            const keywordTemp = [];
+
+            for(let i=0; i< keywordLen; i++) {
+                for(let j=i+1; j<=keywordLen; j++){
+                    // 글자 수 만큼 분리
+                    const temp = keyword.substr(i, j-i).trim();
+                    const regex = /[^a-zA-Z0-9가-힣]/g;
+                    const filteredSubstr = temp.replace(regex, "");
+                    if(filteredSubstr !== "") {
+                        keywordTemp.push(filteredSubstr);
+                    }
+                }
+            }
+            
+            const name_keyword_temp = [ 
+                keyword.split(/[\s]+/),
+                keyword.split(/은\s+/),
+                keyword.split(/의\s+/),
+                keyword.split(/에\s+/),
+                keyword.split(/는\s+/),
+                keyword.split(/이\s+/),
+                keyword.split(/가\s+/),
+                keyword.split(/만\s+/),
+                keyword.split(/뿐\s+/),
+                keyword.split(/밖에\s+/),
+                keyword.split(/도\s+/),
+                keyword.split(/까지\s+/),
+                keyword.split(/마저\s+/),
+                keyword.split(/조차\s+/),
+                keyword.split(/은\s+/),
+                keyword.split(/나\s+/),
+                keyword.split(/이나\s+/),
+                keyword.split(/라도\s+/),
+                keyword.split(/이라도\s+/),
+                keyword.split(/든지\s+/),
+                keyword.split(/이든지\s+/),
+                keyword.split(/이나마\s+/),
+                keyword.split(/나마\s+/),
+                keyword.split(/,\s+/),
+                keyword.split(/"\s+/),
+                keyword.split(/,\s+&\s+/),
+                keyword.split('/'),
+                keyword.split('?'),
+                keyword.split(/!\s+/),
+                keyword.split(/@\s+/),
+                keyword.split(/#\s+/),
+                keyword.split('$'),
+                keyword.split(/%\s+/),
+                keyword.split('^'),
+                keyword.split(/&\s+/),
+                keyword.split('*'),
+                keyword.split('('),
+                keyword.split(')'),
+                keyword.split(/-\s+/),
+                keyword.split(/_\s+/),
+                keyword.split('+'),
+                keyword.split(/=\s+/),
+                keyword.split(/<\s+/),
+                keyword.split(/>\s+/),
+                keyword.split(/.\s+/),
+                keyword.split('|'),
+                keyword.split(/`\s+/),
+                keyword.split(/~\s+/),
+                keyword.split('['),
+                keyword.split(']'),
+                keyword.split('{'),
+                keyword.split('}'),
+                keyword.split(/」\s+/),
+                keyword.split(/「\s+/),
+                keyword.split(/,[\s]+/),
+                keyword.split(/"\s+/),
+                keyword.split(/1\s+/),
+                keyword.split(/2\s+/),
+                keyword.split(/3\s+/),
+                keyword.split(/4\s+/),
+                keyword.split(/5\s+/),
+                keyword.split(/6\s+/),
+                keyword.split(/7\s+/),
+                keyword.split(/8\s+/),
+                keyword.split(/9\s+/),
+                keyword.split(/0\s+/)
+            ];
+
+            const name_keyword_temp2 = flattenArray(name_keyword_temp).filter(element => element.trim() !== '').map(element => element.replace(/[^\w\s]/gi, '')).map(element => element.replace(/[\s]/gi, ''));
+            // 공백 또는 빈 문자열 제거
+            keywordTemp3 = [...new Set(name_keyword_temp2.concat(keywordTemp))].filter(element => element.trim() !== '');
+            // 분리된 문자열 최종 출력
+            console.log(keywordTemp3);
+        }
+
+        // 주어진 배열을 1차원 배열로 만드는 함수 -> 재귀적 함수
+        function flattenArray(arr) {
+            let result = [];
+            arr.forEach(element => {
+                // 만약 요소가 배열인 경우 재귀적으로 결과 배열에 추가
+                if(Array.isArray(element)) {
+                    result = result.concat(flattenArray(element));
+                } else {  // 요소가 배열이 아닌 경우 결과 배열에 직접 추가
+                    result.push(element);
+                }
+            });
+            return result;
+        }
+
+        // 역사에 이미 데이터가 존재하는지 확인
+        async function data_check(){
+            var docRefHistory = db.collection('history').doc($('#name').val() + "(" + $('#birthday').val() + ")");
+            var subHistory = docRefHistory.collection('data').doc('count');
+
+            subHistory.get().then((doc) => {
+                if(doc.exists){
+                    view_temp = doc.data().view;
+                    like_temp = doc.data().like;
+                    document_version = doc.data().version;
+                    document_the_first_date = doc.data().the_first_date;
+                    console.log("exists 실행");
+                }
+                else{
+                    alert("NO");
+                }
+            }).catch((err) =>{
+                console.log("data loading error : " + err);
+            })
+        }
+            
+        async function data_saving() {
 
             var file = document.querySelector('#profile_image_file').files[0];
             var storageRef = storage.ref();
-
-            var name_keyword_temp = [
-                ...$('#name').val().split(' '),
-                ...$('#name').val().split('은'),
-                ...$('#name').val().split('의'),
-                ...$('#name').val().split('에'),
-                ...$('#name').val().split('는'),
-                ...$('#name').val().split('이'),
-                ...$('#name').val().split('가'),
-                ...$('#name').val().split('만'),
-                ...$('#name').val().split('뿐'),
-                ...$('#name').val().split('밖에'),
-                ...$('#name').val().split('도'),
-                ...$('#name').val().split('까지'),
-                ...$('#name').val().split('마저'),
-                ...$('#name').val().split('조차'),
-                ...$('#name').val().split('은'),
-                ...$('#name').val().split('나'),
-                ...$('#name').val().split('이나'),
-                ...$('#name').val().split('라도'),
-                ...$('#name').val().split('이라도'),
-                ...$('#name').val().split('든지'),
-                ...$('#name').val().split('이든지'),
-                ...$('#name').val().split('이나마'),
-                ...$('#name').val().split('나마'),
-                ...$('#name').val().split(','),
-                ...$('#name').val().split('"'),
-                ...$('#name').val().split('/'),
-                ...$('#name').val().split('?'),
-                ...$('#name').val().split('!'),
-                ...$('#name').val().split('@'),
-                ...$('#name').val().split('#'),
-                ...$('#name').val().split('$'),
-                ...$('#name').val().split('%'),
-                ...$('#name').val().split('^'),
-                ...$('#name').val().split('&'),
-                ...$('#name').val().split('*'),
-                ...$('#name').val().split('('),
-                ...$('#name').val().split(')'),
-                ...$('#name').val().split('-'),
-                ...$('#name').val().split('_'),
-                ...$('#name').val().split('+'),
-                ...$('#name').val().split('='),
-                ...$('#name').val().split('<'),
-                ...$('#name').val().split('>'),
-                ...$('#name').val().split('.'),
-                ...$('#name').val().split('|'),
-                ...$('#name').val().split('`'),
-                ...$('#name').val().split('~'),
-                ...$('#name').val().split('['),
-                ...$('#name').val().split(']'),
-                ...$('#name').val().split('{'),
-                ...$('#name').val().split('}'),
-                ...$('#name').val().split('」'),
-                ...$('#name').val().split('「'),
-                ...$('#name').val().split(', '),
-                ...$('#name').val().split("'"),
-                ...$('#name').val().split('1'),
-                ...$('#name').val().split('2'),
-                ...$('#name').val().split('3'),
-                ...$('#name').val().split('4'),
-                ...$('#name').val().split('5'),
-                ...$('#name').val().split('6'),
-                ...$('#name').val().split('7'),
-                ...$('#name').val().split('8'),
-                ...$('#name').val().split('9'),
-                ...$('#name').val().split('0')
-            ];
-            // console.log(name_keyword_temp);
-
-            // 중복체크
-            name_keyword_temp = [...new Set(name_keyword_temp)];
-
-            var name_keyword_temp2 = [];
-
-            // 구분 다시한번 실행
-            name_keyword_temp.forEach(element => {
-                element.split(' ').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('은').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('의').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('에').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('는').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('이').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('가').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('만').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('뿐').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('밖에').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('도').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('까지').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('마저').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('조차').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('은').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('나').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('이나').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('라도').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('이라도').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('이든지').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('든지').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('이나마').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('나마').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split(',').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('"').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('/').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('?').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('!').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('@').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('#').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('$').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('%').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('^').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('&').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('*').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('(').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split(')').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('-').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('+').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('=').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('<').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('>').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('.').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('|').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('`').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('~').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('[').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split(']').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('{').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('}').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('「').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('」').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split(', ').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split("'").forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('1').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('2').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('3').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('4').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('5').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('6').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('7').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('8').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('9').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-                element.split('0').forEach(temp => {
-                    name_keyword_temp2.push(temp);
-                });
-            });
-
-            name_keyword_temp2 = [...new Set(name_keyword_temp2)];
-            console.log(name_keyword_temp2);
-
-            
-            name_keyword_temp2.forEach(element => {
-                if (element.length === 0) {} else {
-                    name_keyword_temp_lower.push(element.toLowerCase().replace(/ /g, ''));
-                }
-
-            });
-
-            // 원래 제목 맨 앞에 추가
-            name_keyword_temp_lower.unshift($('#name').val().toLowerCase().replace(/ /g, ''));
-            // 중복체크
-            name_keyword_temp_lower = [...new Set(name_keyword_temp_lower)];
 
             // 첨부파일 여부 확인
             var profilecover_chk = document.getElementById("profile_image_file").value;
@@ -664,10 +539,12 @@
                     alert("학력이 입력되지 않았습니다.");
                 } else if ($('#company').val().length === 0) {
                     alert("소속이 입력되지 않았습니다.");
+                } else if (tags.length === 0) {
+                    alert("태그가 입력되지 않았습니다.");
                 } else {
-                    return docRef.update({
+                    return await docRef.update({
                             name: $('#name').val(),
-                            name_keyword: name_keyword_temp_lower,
+                            name_keyword: keywordTemp3,
                             native: $('#native').val(),
                             birthday: $('#birthday').val(),
                             debutdate: $('#debutdate').val(),
@@ -677,24 +554,26 @@
                             school: $('#school').val(),
                             company: $('#company').val(),
                             tag: tags,
-                            other: $('#document_other').val(),
+                            other: editor.innerHTML,
                             version: firebase.firestore.FieldValue.increment(1),
                             update_date: dt,
-                            final_modify: ip_address_info
+                            final_modify: ip_address_info,
+                            user_class: user_class,
                         })
-                        .then(() => {
+                        .then(async() => {
                             console.log("Document successfully updated!");
-                            history(document_profilecover);
+                            await history_version_update();
+                            await history(document_profilecover);
                             // window.location.href = '../a/' + $('#name').val() + "(" + $('#birthday').val() + ")";
                         })
-                        .catch((error) => {
+                        .catch(async(error) => {
                             // The document probably doesn't exist.
                             // 새문서의 경우
                             console.error("Error updating document: ", error);
                             var info = {
                                 profilecover: 'https://novelpedia2223-2ce3c.web.app/image/%ED%91%9C%EC%A7%80_%EB%AF%B8%EB%93%B1%EB%A1%9D.png',
                                 name: $('#name').val(),
-                                name_keyword: name_keyword_temp_lower,
+                                name_keyword: keywordTemp3,
                                 native: $('#native').val(),
                                 birthday: $('#birthday').val(),
                                 debutdate: $('#debutdate').val(),
@@ -704,18 +583,20 @@
                                 school: $('#school').val(),
                                 company: $('#company').val(),
                                 tag: tags,
-                                other: $('#document_other').val(),
-                                like: 0,
-                                view: 0,
-                                version:1,
+                                other: editor.innerHTML,
+                                like: like_temp,
+                                view: view_temp,
+                                version:document_version + 1,
                                 update_date: dt,
-                                the_first_date: dt,
+                                the_first_date: document_the_first_date,
                                 category:"a",
-                                final_modify: ip_address_info
+                                final_modify: ip_address_info,
+                                user_class: user_class,
                             };
-                            docRef.set(info).then((result) => {
+                            await docRef.set(info).then(async(result) => {
                                 console.log(result);
-                                history(document_profilecover);
+                                await history_data();
+                                await history(document_profilecover);
                                 // alert("success.");
                                 // window.location.href = '../a/' + $('#name').val() + "(" + $('#birthday').val() + ")";
                             }).catch(() => {
@@ -749,19 +630,21 @@
                     alert("학력이 입력되지 않았습니다.");
                 } else if ($('#company').val().length === 0) {
                     alert("소속이 입력되지 않았습니다.");
+                } else if (tags.length === 0) {
+                    alert("태그가 입력되지 않았습니다.");
                 } else {
-                    uploading.on('state_changed',
+                    await uploading.on('state_changed',
                         null,
                         (error) => {
                             console.error('fail reason: ', error);
                         },
 
                         () => {
-                            uploading.snapshot.ref.getDownloadURL().then((url) => {
-                                return docRef.update({
+                            uploading.snapshot.ref.getDownloadURL().then(async(url) => {
+                                return await docRef.update({
                                         profilecover: url,
                                         name: $('#name').val(),
-                                        name_keyword: name_keyword_temp_lower,
+                                        name_keyword: keywordTemp3,
                                         native: $('#native').val(),
                                         birthday: $('#birthday').val(),
                                         debutdate: $('#debutdate').val(),
@@ -771,23 +654,25 @@
                                         school: $('#school').val(),
                                         company: $('#company').val(),
                                         tag: tags,
-                                        other: $('#document_other').val(),
+                                        other: editor.innerHTML,
                                         version: firebase.firestore.FieldValue.increment(1),
                                         update_date: dt,
-                                        final_modify: ip_address_info
+                                        final_modify: ip_address_info,
+                                        user_class: user_class,
                                     })
-                                    .then(() => {
-                                        history(url);
+                                    .then(async() => {
+                                        await history_version_update();
+                                        await history(url);
                                         // window.location.href = '../a/' + $('#name').val() + "(" + $('#birthday').val() + ")";
                                         console.log("Document successfully updated!");
                                     })
-                                    .catch((error) => {
+                                    .catch(async(error) => {
                                         // The document probably doesn't exist.
                                         console.error("Error updating document: ", error);
                                         var info = {
                                             profilecover: url,
                                             name: $('#name').val(),
-                                            name_keyword: name_keyword_temp_lower,
+                                            name_keyword: keywordTemp3,
                                             native: $('#native').val(),
                                             birthday: $('#birthday').val(),
                                             debutdate: $('#debutdate').val(),
@@ -797,21 +682,20 @@
                                             school: $('#school').val(),
                                             company: $('#company').val(),
                                             tag: tags,
-                                            other: $('#document_other').val(),
-                                            like: 0,
-                                            view: 0,
-                                            version:1,
+                                            other: editor.innerHTML,
+                                            like: like_temp,
+                                            view: view_temp,
+                                            version:document_version + 1,
                                             update_date: dt,
-                                            the_first_date: dt,
+                                            the_first_date: document_the_first_date,
                                             category:"a",
-                                            final_modify: ip_address_info
+                                            final_modify: ip_address_info,
+                                            user_class: user_class,
                                         };
-                                        docRef.set(info).then((result) => {
+                                        await docRef.set(info).then(async(result) => {
                                             console.log(result);
-                                            history(url);
-                                            // alert("success.");
-                                            // window.location.reload();
-                                            
+                                            await history_data();
+                                            await history(url);                           
                                         }).catch(() => {
                                             alert("failed.");
                                         });
@@ -825,7 +709,7 @@
             }
             // 입력여부 확인, 태그는 입력하지 않아도 통과
 
-        })
+        }
     </script>
 
     <script>
@@ -845,13 +729,13 @@
 
     <!-- 역사_초기화 -->
     <script>        
-        function history(url = "https://novelpedia2223-2ce3c.web.app/image/%ED%91%9C%EC%A7%80_%EB%AF%B8%EB%93%B1%EB%A1%9D.png") {
+        async function history(url = "https://novelpedia2223-2ce3c.web.app/image/%ED%91%9C%EC%A7%80_%EB%AF%B8%EB%93%B1%EB%A1%9D.png") {
             var docRefHistory = db.collection('history').doc($('#name').val() + "(" + $('#birthday').val() + ")");
             var subHistory = docRefHistory.collection('version').doc((document_version + 1).toString());
             var info = {
                 profilecover: url,
                 name: $('#name').val(),
-                name_keyword: name_keyword_temp_lower,
+                name_keyword: keywordTemp3,
                 native: $('#native').val(),
                 birthday: $('#birthday').val(),
                 debutdate: $('#debutdate').val(),
@@ -862,13 +746,15 @@
                 company: $('#company').val(),
                 tag: tags,
                 version: document_version + 1,
-                other: $('#document_other').val(),
+                other: editor.innerHTML,
                 the_first_date: document_the_first_date,
                 update_date:new Date(),
                 category:document_category,
-                final_modify: ip_address_info                               
+                final_modify: ip_address_info,
+                user_class: user_class,
+                action: "m",                               
             };
-            subHistory.set(info).then((result) => {
+            await subHistory.set(info).then((result) => {
                 console.log(result);
                 alert("history success.");
                 window.location.href = '../a/' + $('#name').val() + "(" + $('#birthday').val() + ")";
@@ -876,6 +762,106 @@
                 console.log(error);
                 alert("history failed.");
             });
+        }
+
+        async function history_version_update(){
+            var docRefHistory = db.collection('history').doc($('#name').val() + "(" + $('#birthday').val() + ")");
+            var subHistory = docRefHistory.collection('data').doc('count');
+            return await subHistory.update({
+                version: document_version + 1,
+            }).then(() => {
+                console.log("역사 버전 업데이트 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        // 역사 data 최초 저장
+        async function history_data() {
+            var docRefHistory = db.collection('history').doc($('#name').val() + "(" + $('#birthday').val() + ")");
+            var subHistory = docRefHistory.collection('data').doc('count');
+            var info = {
+                version:document_version + 1,
+                view:view_temp,
+                like:like_temp,
+                the_first_date: document_the_first_date,                         
+            };
+            await subHistory.set(info).then((result) => {
+                console.log(result);
+                alert("history data success.");
+            }).catch((error) => {
+                console.log(error);
+                alert("history data failed.");
+            });
+        }
+    </script>
+
+    <script>
+        var user_class = "nu";
+
+        $('#go_delete').click(function(){
+            if(confirm("정말 '" + document_name[2] + "'문서를 삭제하시겠습니까?")){
+                db.collection('author_document').doc(document_name[2]).delete().then(async function() {
+                    if(login_check == true){
+                        ip_address_info = user_id;
+                        user_class = login_user_class;
+                    }
+                    await history_data_update();
+                    await history_update();
+                    console.log("문서 삭제 완료");
+                }).catch(function(error) {
+                    console.error("Error removing document: ", error);
+                });
+            }
+            else{
+
+            }
+        });
+
+        async function history_data_update(){
+            return await db.collection('history').doc(document_name[2]).collection('data').doc('count').update({
+                version: firebase.firestore.FieldValue.increment(1),
+            })
+            .then(async () => {
+                alert("history data 업데이트 성공!");                
+            }).catch((err)=>{
+                console.log(err + "history data 업데이트 실패!")
+            });
+        }
+
+        async function history_update(){
+            var info = {
+                profilecover: data_save_array.data().profilecover,
+                name: data_save_array.data().name,
+                name_keyword: data_save_array.data().name_keyword,
+                native: data_save_array.data().native,
+                birthday: data_save_array.data().birthday,
+                debutdate: data_save_array.data().debutdate,
+                recent_publishdate: data_save_array.data().recent_publishdate,
+                main_novel: data_save_array.data().main_novel,
+                recent_novel: data_save_array.data().recent_novel,
+                school: data_save_array.data().school,
+                company: data_save_array.data().company,
+                tag: data_save_array.data().tag,
+                other: data_save_array.data().other,
+                the_first_date: data_save_array.data().the_first_date,
+                version: data_save_array.data().version + 1,
+                update_date:new Date(),
+                category: data_save_array.data().category,
+                final_modify: ip_address_info,
+                user_class: user_class,
+                action: "d",                               
+            };
+            console.log(document_name[2]);
+            await db.collection('history').doc(document_name[2]).collection('version').doc((data_save_array.data().version + 1).toString()).set(info).then((result) => {
+                console.log(result);
+                alert("history data success.");
+                location.reload();
+            }).catch((error) => {
+                console.log(error);
+                alert("history data failed.");
+            });
+
         }
     </script>
 </body>

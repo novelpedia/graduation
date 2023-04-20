@@ -8,6 +8,7 @@
     <link href="../css/author_page.css" rel="stylesheet">
     <link href="../css/header.css" rel="stylesheet">
     <link href="../css/footer.css" rel="stylesheet">
+    <link href="../css/getOther.css" rel="stylesheet">
     <title>작가페이지</title>
 </head>
 
@@ -110,7 +111,19 @@
             <div class="document_bundle_button">
                 <a class="edit" id="go_edit" href="../ea">편집</a>
                 <a class="history" id="go_history" href="../h">역사</a>
-                <a class="delete" href="#" id="go_delete">삭제</a>
+                <a class="delete" id="go_delete">삭제</a>
+            </div>
+
+            <div class="document_view_update">
+                <div class="view_block">
+                    <span id="view_name">조회수 :</span>
+                    <span id="view_get"></span>
+                </div>
+                <span class="sl">/</span>
+                <div class="update_block">
+                    <span id="update_name">최종 수정 :</span>
+                    <span id="update_get"></span>
+                </div>
             </div>
 
             <div class="document_bundle">
@@ -118,11 +131,13 @@
                     <!--작품표지-->
                     <div class="document_profile_image">
                         <img id="document_profile_image_cover" src="../image/표지_미등록.png">
-                    </div>
-
-                    <!--관심등록 및 버튼-->
-                    <div class="document_button">
-                        <button>좋아요</button>
+                        <!--관심등록 및 버튼-->
+                        <div class="document_button">
+                            <input type="checkbox" id="like_button" style="display: none;">
+                            <label class="like" for="like_button" onclick="like()">좋아요</label>
+                            <label class="heart" for="like_button" onclick="like()">♥</label>
+                            <label class="like_count" id="like_count">0</label>
+                        </div>
                     </div>
                 </div>
 
@@ -132,8 +147,8 @@
                     <ol>목차
                         <li><a href="#document_information">작가정보</a></li>
                         <li><a href="#document_novel_list">작품목록</a></li>
-                        <li><a href="#document_award">수상</a></li>
-                        <li><a href="#document_career">경력</a></li>
+                        <li><a></a></li>
+                        <li><a></a></li>
                         <li><a></a></li>
                         <li><a></a></li>
                     </ol>
@@ -197,6 +212,11 @@
                 </table>
             </div>
 
+            <!-- 태그영역 -->
+            <div class="document_tag_area" id="document_tag_area">
+
+            </div>
+
             <!--작품 목록-->
             <div id="document_novel_list" class="document_novel_list">
                 <div class="title">
@@ -241,15 +261,19 @@
                     <li>목록</li>
                 </div>
             </div> -->
+
+            
+            
             <!--줄거리-->
 
             <!--안내-->
             <div class="alram">
-                <p>※여기부터는 사용자가 직접 편집할 수 있는 공간입니다※</p>
+                <p>※여기부터는 사용자가 추가한 내용입니다※</p>
             </div>
 
             <!--기타-->
-            <div class="document_other" id="document_other"></div>
+            <div class="document_other" id="document_other">
+            </div>
         </div>
     </section>
 
@@ -294,71 +318,215 @@
         const path_url = window.location.pathname;
         const path_decode = decodeURI(path_url);
         const document_name = path_decode.split('/');
+
+        // 타이틀 변경
+        document.title = document_name[2];
+            
+        // 편집, 역사 페이지 버튼 주소 초기화
+        document.getElementById("go_edit").href = "../ea/" + document_name[2];
+        document.getElementById("go_history").href = "../h/" + document_name[2];
+    </script>
+
+    <!-- 문서 열면서 동기적으로 실행할 함수 -->
+    <script>
+        async function start_author(){
+                await getUser();
+                await getInformation();
+                console.log(login_user_information);
+            }
+
+        start_author();
+    </script>
+
+    <!-- 좋아요 -->
+    <script>
+        async function getInformation() {
+            console.log("loging : " + login_user_information);
+            const getDocRef = db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]);
+            try{
+                const doc = await getDocRef.get();
+                if (doc.exists) {
+                    // 이미 좋아요 목록에 있는 경우
+                    console.log("exists true");
+                    document.getElementById('like_button').checked = true;
+                    like_state = true;
+                } else {
+                    // 좋아요 목록에 없는 경우
+                    console.log("exists false");
+                    like_state = false;
+                }
+            }
+            catch(error){
+                console.log('Error getting document:', error);
+            }
+        }
+
+        function like(){
+            if(login_check == true){
+                if(like_state == true) {
+                    // 이미 좋아요 목록에 있는 경우
+                    db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).delete().then(function() {
+                        likeDimCounter();
+                        history_likeDimCounter();
+                        console.log("문서 삭제 완료");
+                        like_state = false;
+                    }).catch(function(error) {
+                        console.error("Error removing document: ", error);
+                    });
+                } else {
+                    // 좋아요 목록에 없는 경우
+                    var name_information = document_name[2].split('(');
+                    var author_information = name_information[1].split(')');
+                    var info = {
+                        name: name_information[0],
+                        birthday: author_information[0],
+                        date: new Date(),
+                        classification: "a"
+                    };
+                    db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).set(info).then((result) => {
+                        likeIncCounter();
+                        history_likeIncCounter();
+                        alert("추가 완료");
+                        like_state = true;
+                    }).catch((error) => {
+                        alert("failed.", error);
+                    });
+                }
+            }
+            else{
+                alert("로그인 후 이용해주세요");
+                document.getElementById("like_button").checked = true;
+            }
+        }
+
+        // 좋아요 추가 업데이트
+        function likeIncCounter(){
+            const docRef = db.collection('author_document').doc(document_name[2]);
+            return docRef.update({
+                like: firebase.firestore.FieldValue.increment(1),
+            }).then(() => {
+                console.log("좋아요 증가 성공");
+                document.getElementById("like_count").innerText = Number($("label[id='like_count']").text()) + 1;
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        // 좋아요 제거 업데이트
+        function likeDimCounter(){
+            const docRef = db.collection('author_document').doc(document_name[2]);
+            return docRef.update({
+                like: firebase.firestore.FieldValue.increment(-1),
+            }).then(() => {
+                document.getElementById("like_count").innerText = Number($("label[id='like_count']").text()) - 1;
+                console.log("좋아요 제거 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        // 역사 data 컬렉션 좋아요 증가 업데이트
+        function history_likeIncCounter(){
+            const docRef = db.collection('history').doc(document_name[2]).collection('data').doc('count');
+            return docRef.update({
+                like: firebase.firestore.FieldValue.increment(1),
+            }).then(() => {
+                console.log("역사 좋아요 증가 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        // 역사 data 컬렉션 좋아요 감소 업데이트
+        function history_likeDimCounter(){
+            const docRef = db.collection('history').doc(document_name[2]).collection('data').doc('count');
+            return docRef.update({
+                like: firebase.firestore.FieldValue.increment(-1),
+            }).then(() => {
+                console.log("역사 좋아요 제거 성공");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
     </script>
 
     <!-- 조회수 -->
     <script>
 
         var ip_address_info;
+        var cookie_name
 
         if(document_name[1]=="ha"){
+            window.addEventListener("load", async function() { //새로고침 함수
+                await data_loading();
+                await getCookie();
+            });
         }
         else{
             $.getJSON("https://ipinfo.io", function(data) {
                 ip_address_info = data.ip;
-                var cookie_name = "NovelPedia" + document_name[2]
-                setCookie(cookie_name, data.ip, 1); //(수정) setCookie 함수를 콜백 안에서 호출 
+                //setCookie 함수를 콜백 안에서 호출 
             })
 
-            function setCookie(name, value, day) {
-                var date = new Date(); //현재 날짜
+            function setCookie(name, day) {
+                var date = new Date();
                 date.setDate(date.getDate() + day); //하루 뒤 만료
-
+                                
                 var mycookie = '';
-                mycookie += name + '=' + value + ';'; //이름 + = + 값
+                mycookie += name //이름
+                // mycookie += name + '=' + value + ';';
                 mycookie += 'Expires=' + date.toUTCString(); //만료 + 문자형식변환
                                 
                 document.cookie = mycookie; //쿠키 설정, 생성
 
             }
 
-            // (수정)쿠키생성여부 관련 이벤트 함수
-
-            window.addEventListener("load", function() { //(수정) 새로고침 함수
-                function getCookie() {
-                    var cookies = document.cookie.split(';');
-                    console.log(cookies);
-
-                    var currentCookie = document.cookie;
-                    var cookieCheck = currentCookie.indexOf(document_name[2]);
-                    console.log(cookieCheck);
-
-                        if(cookieCheck > - 1){
-                            // alert('이미 조회한 게시물입니다.');
-                            console.log("이미 조회한 게시물");
-                            // event.preventDefault(incCounter);
-                        }
-                        else {
-                            console.log("처음 조회하는 게시물");
-                            // alert('어서오세요.');
-                            viewIncCounter();    
-                        }
-                }
-
-                getCookie();
+            window.addEventListener("load", async function() { //새로고침 함수
+                await data_loading();
+                await getCookie();
                 // countSpan.textContent = view;
                             
             });
+
+            async function getCookie() {
+                var cookies = document.cookie.split(';');
+                console.log(cookies);
+
+                var currentCookie = document.cookie;
+                var cookieCheck = currentCookie.indexOf(document_name[2]);
+                console.log(cookieCheck);
+
+                if(cookieCheck > - 1){
+                    console.log("이미 조회한 게시물");
+                }
+                else {
+                    cookie_name = "NovelPedia" + document_name[2]
+                    await setCookie(cookie_name, 1);
+                    await viewIncCounter();
+                    await history_viewIncCounter();
+                    console.log("처음 조회하는 게시물");
+                }
+            }
         }
 
-        function viewIncCounter(){
+        async function viewIncCounter(){
             const docRef = db.collection('author_document').doc(document_name[2]);
-            return docRef.update({
+            return await docRef.update({
                 view: firebase.firestore.FieldValue.increment(1),
             }).then(() => {
                 console.log("조회수 증가 성공");
-                // history(document_bookcover);
-                // console.log("Document successfully updated!");
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        // 역사 콜렉션에 조회수 데이터 저장
+        async function history_viewIncCounter(){
+            const docRef = db.collection('history').doc(document_name[2]).collection('data').doc('count');
+            return await docRef.update({
+                view: firebase.firestore.FieldValue.increment(1),
+            }).then(() => {
+                console.log("역사 조회수 증가 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -370,113 +538,204 @@
     <script>
 
         var docPath;
-        if(document_name[1]=="ha"){
-            var document_url_version = document_name[2].split('=');
-            document_name[2] = document_url_version[0];
-            docPath = db.collection('history').doc(document_name[2]).collection('version').doc(document_url_version[1]);
-            
-            document.getElementById('go_delete').remove();
-        }
-        else{
-            docPath = db.collection('author_document').doc(document_name[2]);
-        }
+        let data_save_array = [];
 
-        document.getElementById('document_name').innerText = document_name[2];
+        async function data_loading(){
+            if(document_name[1]=="ha"){
+                var document_url_version = document_name[2].split('=');
+                document_name[2] = document_url_version[0];
+                docPath = db.collection('history').doc(document_name[2]).collection('version').doc(document_url_version[1]);
+                
+                document.getElementById('go_delete').remove();
+            }
+            else{
+                docPath = db.collection('author_document').doc(document_name[2]);
+            }
 
-        docPath.get().then((결과) => {
-            // 불러온 내용 바탕으로 내용 바꾸기
-            console.log(결과.data())
-            
-            var document_profilecover = 결과.data().profilecover;
-            var document_information_name = 결과.data().name;
-            var document_information_native = 결과.data().native;
-            var document_information_birthday = 결과.data().birthday;
-            var document_information_debutdate = 결과.data().debutdate;
-            var document_information_recent_publishdate = 결과.data().recent_publishdate;
-            var document_information_main_novel = 결과.data().main_novel;
-            var document_information_recent_novel = 결과.data().recent_novel;
-            var document_information_school = 결과.data().school;
-            var document_company = 결과.data().company;
-            
-            
-            // 추후에 입력, 순서대로 좋아요개수, 업로드 날짜, 조회수, 태그, 기타
-            var document_like = 결과.data().like;
-            var document_upload_date = 결과.data().upload_date;
-            var document_view = 결과.data().view;
-            var document_tag = 결과.data().tag;
-            var document_other = 결과.data().other;
+            document.getElementById('document_name').innerText = document_name[2];
 
-            // 줄거리 더보기 버튼 제거
-            // if(document_summary_content.length<850){
-            //     document.getElementById("more_button").style.display = 'none';
-            //     document.getElementById("summary_content").style.borderBottomRightRadius = '15px';
-            //     document.getElementById("summary_content").style.borderBottomLeftRadius = '15px';
-            // }
+            await docPath.get().then((결과) => {
+                data_save_array = 결과;
+                // 불러온 내용 바탕으로 내용 바꾸기
+                console.log(결과.data())
+                
+                var document_profilecover = 결과.data().profilecover;
+                var document_information_name = 결과.data().name;
+                var document_information_native = 결과.data().native;
+                var document_information_birthday = 결과.data().birthday;
+                var document_information_debutdate = 결과.data().debutdate;
+                var document_information_recent_publishdate = 결과.data().recent_publishdate;
+                var document_information_main_novel = 결과.data().main_novel;
+                var document_information_recent_novel = 결과.data().recent_novel;
+                var document_information_school = 결과.data().school;
+                var document_company = 결과.data().company;
+                
+                
+                // 추후에 입력, 순서대로 좋아요개수, 업로드 날짜, 조회수, 태그, 기타
+                var document_like = 결과.data().like;
+                var document_update_date = 결과.data().update_date;
+                var document_view = 결과.data().view;
+                var document_tag = 결과.data().tag;
+                var document_other = 결과.data().other;
 
-            // 타이틀 변경
-            document.title = document_name[2];
-            
-            // 편집, 역사 페이지 버튼 주소 초기화
-            document.getElementById("go_edit").href = "../ea/" + document_name[2];
-            document.getElementById("go_history").href = "../h/" + document_name[2];
+                // 줄거리 더보기 버튼 제거
+                // if(document_summary_content.length<850){
+                //     document.getElementById("more_button").style.display = 'none';
+                //     document.getElementById("summary_content").style.borderBottomRightRadius = '15px';
+                //     document.getElementById("summary_content").style.borderBottomLeftRadius = '15px';
+                // }
 
-            // 표지변경
-            // console.log(document_bookcover);
-            document.getElementById("document_profile_image_cover").src = document_profilecover;
+                // 타임스템프 변환
+                var timestamp_second = document_update_date.seconds * 1000;
+                var time = new Date(timestamp_second);
+                var year = time.getFullYear().toString().slice(-4) + "년 ";
+                var month = ("0" + (time.getMonth() + 1)).slice(-2) + "월 ";
+                var day = ("0" + time.getDate()).slice(-2) + "일 ";
+                var hour = ("0" + time.getHours()).slice(-2) + "시 ";
+                var minute = ("0" + time.getMinutes()).slice(-2) + "분 ";
+                var second = ("0" + time.getSeconds()).slice(-2) + "초";
+                
 
-            document.getElementById("document_information_name").innerText = document_information_name
-            document.getElementById("document_information_native").innerText = document_information_native
-            document.getElementById("document_information_birthday").innerText = document_information_birthday
-            document.getElementById("document_information_debutdate").innerText = document_information_debutdate
-            document.getElementById("document_information_recent_publishdate").innerText = document_information_recent_publishdate
-            document.getElementById("document_information_main_novel").innerText = document_information_main_novel
-            document.getElementById("document_information_recent_novel").innerText = document_information_recent_novel
-            document.getElementById("document_information_school").innerText = document_information_school
-            document.getElementById("document_information_company").innerText = document_company
+                // 표지변경
+                // console.log(document_bookcover);
+                document.getElementById("document_profile_image_cover").src = document_profilecover;
 
-            // 출판사, 최근작품, 대표작품은 작품페이지로 연결
-            document.getElementById("document_information_recent_novel").href = '../n/' + document_information_recent_novel + '(' + document_information_name + ')';
-            document.getElementById("document_information_main_novel").href = '../n/' + document_information_main_novel +  '(' + document_information_name + ')';
-            document.getElementById("document_information_company").href = '../p/' + document_company;
-            
-            // 사용자 입력 영역 받기
-            document.getElementById("document_other").innerText = document_other;
+                document.getElementById("document_information_name").innerText = document_information_name
+                document.getElementById("document_information_native").innerText = document_information_native
+                document.getElementById("document_information_birthday").innerText = document_information_birthday
+                document.getElementById("document_information_debutdate").innerText = document_information_debutdate
+                document.getElementById("document_information_recent_publishdate").innerText = document_information_recent_publishdate
+                document.getElementById("document_information_main_novel").innerText = document_information_main_novel
+                document.getElementById("document_information_recent_novel").innerText = document_information_recent_novel
+                document.getElementById("document_information_school").innerText = document_information_school
+                document.getElementById("document_information_company").innerText = document_company
 
-            db.collection("novel_document").where("author", "==", document_information_name).where("author_birthday", "==", document_information_birthday).orderBy("publish_date", "desc").get().then((결과) => {
-                결과.forEach((result) => {
-                    var document_name_href = '../n/' + result.data().name + '(' +  result.data().author + ')';
-                    var temp = 
-                        `<div class="document_list">
-                            <a href="${document_name_href}">
-                                <img src="${result.data().bookcover}">
-                                <p>${result.data().name}</p>
-                            </a>
-                        </div>`;
-                    $('#author_document').append(temp);
+                document.getElementById("view_get").innerText = document_view + "회";
+                document.getElementById("update_get").innerText = year + month + day + hour + minute + second;
+                document.getElementById("like_count").innerText = document_like;
+
+                // 태그 불러오기 영역
+                console.log(typeof(document_tag));
+                document_tag.forEach(function(tag_element){
+                    var tag_temp = `<a href="../search?q=!${tag_element}">${"#"+tag_element}</a>`
+                    $('#document_tag_area').append(tag_temp);
                 });
+
+                // 출판사, 최근작품, 대표작품은 작품페이지로 연결
+                document.getElementById("document_information_recent_novel").href = '../n/' + document_information_recent_novel + '(' + document_information_name + ')';
+                document.getElementById("document_information_main_novel").href = '../n/' + document_information_main_novel +  '(' + document_information_name + ')';
+                document.getElementById("document_information_company").href = '../p/' + document_company;
+                
+                // 사용자 입력 영역 받기
+                document.getElementById("document_other").innerHTML = document_other;
+
+                db.collection("novel_document").where("author", "==", document_information_name).where("author_birthday", "==", document_information_birthday).orderBy("publish_date", "desc").get().then((결과) => {
+                    결과.forEach((result) => {
+                        var document_name_href = '../n/' + result.data().name + '(' +  result.data().author + ')';
+                        var temp = 
+                            `<div class="document_list">
+                                <a href="${document_name_href}">
+                                    <img src="${result.data().bookcover}">
+                                    <p>${result.data().name}</p>
+                                </a>
+                            </div>`;
+                        $('#author_document').append(temp);
+                    });
+                }).catch((err) => {
+                        console.log(err);
+                })
             }).catch((err) => {
-                    console.log(err);
-            })
-        }).catch((err) => {
-            console.log(err);
-            document.getElementById("document_section").style.display = "none";
-            const empty = `<div class="empty_page"> <div class="empty_result_area"> <div class="empty_none">
-                    <div class="text_bundle">
-                        <p class="warning">ⓘ</p><p id ="this_document">해당문서</p><p class="alram2">에 대한 문서 정보가 없습니다.</p>
+                console.log(err);
+                document.getElementById("document_section").style.display = "none";
+                const empty = `<div class="empty_page"> <div class="empty_result_area"> <div class="empty_none">
+                        <div class="text_bundle">
+                            <p class="warning">ⓘ</p><p id ="this_document">해당문서</p><p class="alram2">에 대한 문서 정보가 없습니다.</p>
+                        </div>
+                        <div class="button_bundle">
+                            <a href="#" class="new_document" id="new_document">새 문서 작성하기</a>
+                            <a href="#" class="history" id="history_document">역사</a>
+                        </div>
                     </div>
-                    <div class="button_bundle">
-                        <a href="#" class="new_document" id="new_document">새 문서 작성하기</a>
-                        <a href="#" class="history">역사</a>
-                    </div>
-                </div>
-            </div></div>`
-            
-            document.getElementById('section_empty').style.display = 'block';
-            document.getElementById('empty').innerHTML = empty;
-            document.getElementById('this_document').innerText = document_name[2];
-            document.getElementById('new_document').href = '../ea/' + document_name[2];
-        });
+                </div></div>`
+                
+                document.getElementById('section_empty').style.display = 'block';
+                document.getElementById('empty').innerHTML = empty;
+                document.getElementById('this_document').innerText = document_name[2];
+                document.getElementById('new_document').href = '../ea/' + document_name[2];
+                document.getElementById('history_document').href = '../h/' + document_name[2];
+            });
+        }
     </script>
+
+    <script>
+        var user_class = "nu";
+
+        $('#go_delete').click(function(){
+            if(confirm("정말 '" + document_name[2] + "'문서를 삭제하시겠습니까?")){
+                db.collection('author_document').doc(document_name[2]).delete().then(async function() {
+                    if(login_check == true){
+                        ip_address_info = user_id;
+                        user_class = login_user_class;
+                    }
+                    await history_data_update();
+                    await history_update();
+                    console.log("문서 삭제 완료");
+                }).catch(function(error) {
+                    console.error("Error removing document: ", error);
+                });
+            }
+            else{
+
+            }
+        });
+
+        async function history_data_update(){
+            return await db.collection('history').doc(document_name[2]).collection('data').doc('count').update({
+                version: firebase.firestore.FieldValue.increment(1),
+            })
+            .then(async () => {
+                alert("history data 업데이트 성공!");                
+            }).catch((err)=>{
+                console.log(err + "history data 업데이트 실패!")
+            });
+        }
+
+        async function history_update(){
+            var info = {
+                profilecover: data_save_array.data().profilecover,
+                name: data_save_array.data().name,
+                name_keyword: data_save_array.data().name_keyword,
+                native: data_save_array.data().native,
+                birthday: data_save_array.data().birthday,
+                debutdate: data_save_array.data().debutdate,
+                recent_publishdate: data_save_array.data().recent_publishdate,
+                main_novel: data_save_array.data().main_novel,
+                recent_novel: data_save_array.data().recent_novel,
+                school: data_save_array.data().school,
+                company: data_save_array.data().company,
+                tag: data_save_array.data().tag,
+                other: data_save_array.data().other,
+                the_first_date: data_save_array.data().the_first_date,
+                version: data_save_array.data().version + 1,
+                update_date:new Date(),
+                category: data_save_array.data().category,
+                final_modify: ip_address_info,
+                user_class: user_class,
+                action: "d",                               
+            };
+            console.log(document_name[2]);
+            await db.collection('history').doc(document_name[2]).collection('version').doc((data_save_array.data().version + 1).toString()).set(info).then((result) => {
+                console.log(result);
+                alert("history data success.");
+                location.reload();
+            }).catch((error) => {
+                console.log(error);
+                alert("history data failed.");
+            });
+
+        }
+    </script>
+
     <style>
         .section_empty {
             margin-top: 100px;

@@ -106,7 +106,7 @@
             <div class="compare">
                 <a href="" class="edit" id="compare_edit">편집</a>
                 <!-- <a href="" class="recent">최근변경</a> -->
-                <a href="" class="compare_select">비교</a>
+                <a class="compare_select" id="compare_go">비교</a>
             </div>
             <div class="table_all" id="table_all">
                 <div class="table_set" id="table_set">
@@ -157,6 +157,14 @@
     <!--로그아웃 상태일 때-->
     <script src="../js/logout_state.js"></script>
 
+    <!-- 작성자 아이피주소 가져오기 -->
+    <script>
+        var ip_address_info;
+        $.getJSON("https://ipinfo.io", function(data) {
+            ip_address_info = data.ip;
+        })
+    </script>
+
     <script>
         const path_url = window.location.pathname;
         const path_decode = decodeURI(path_url);
@@ -170,75 +178,68 @@
 
         var before;
         var next = db.collection('history').doc(document_name[2]).collection('version').orderBy("version", "desc").limit(15);
+        var next_2;
+        var document_category_temp = "n";
+        var document_recent_version;
+
+        let data_save_array = [];
+
+        first_loading();
         
-        next.get().then((결과) => {
-            결과.forEach((doc)=>{
-                console.log(doc.data())
-                var document_version = doc.data().version;
-                var document_update_date = doc.data().update_date;
-                var document_category = doc.data().category;
-                var document_final = doc.data().final_modify;
-
-                document.getElementById("document_name").href = "../" + document_category + "/" + document_name[2];
-
-
-                // 편집 버튼 주소 초기화
-                if(document_category=='n'){
-                    document.getElementById('compare_edit').href = '../e/' + document_name[2];
-                }
-                else if(document_category=='a'){
-                    document.getElementById('compare_edit').href = '../ea/' + document_name[2];
-                }
-                else{
-                    document.getElementById('compare_edit').href = '../ep/' + document_name[2];
-                }
-                
-                
-                // 타임스템프 변환
-                var timestamp_second = document_update_date.seconds * 1000;
-                var time = new Date(timestamp_second);
-                var year = time.getFullYear().toString().slice(-4) + "년 ";
-                var month = ("0" + (time.getMonth() + 1)).slice(-2) + "월 ";
-                var day = ("0" + time.getDate()).slice(-2) + "일 ";
-                var hour = ("0" + time.getHours()).slice(-2) + "시 ";
-                var minute = ("0" + time.getMinutes()).slice(-2) + "분 ";
-                var second = ("0" + time.getSeconds()).slice(-2) + "초";
-
-                // var address = "n/" + doc.data().name + "(" + doc.data().author + ")"
-                var temp = `
-                <div class="tabl_row">
-                    <div class="col_1"><input type="radio" name="chk_info" value="1"></div>
-                    <div class="col_2"><input type="radio" name="chk_info2" value="1"></div>
-                    <div class="col_3">${document_version}</div>
-                    <div class="col_4"><a>${year + month + day + hour + minute + second}</a></div>
-                    <div class="col_5"><a href="${"../h" + document_category + "/" + document_name[2] + "=" + document_version}">보기</a></div>
-                    <div class="col_6"><a href="">되돌리기</a></div>
-                    <div class="col_7">${document_final}</div>
-                    <div class="col_8">요청OR되돌리기</div>
-                    <div class="col_9">사용자</div>
-                </div>`;
-                $('.table_set').append(temp);
-            })
-            var lastVisible = 결과.docs[결과.docs.length-1];
-            before = next;
-            next = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(15);
-            console.log(next);
-        }).catch((err) => {
-            console.log(err);
-        });
-
-        document.getElementById('next').addEventListener("click", function() {
-            $('#table_set').remove();
-            var list_append = `<div class="table_set" id="table_set"></div>`
-            $('#table_all').append(list_append);
-        
-            next.get().then((결과) => {
+        async function first_loading(){
+            await next.get().then(async (결과) =>  {
+                document_recent_version = 결과.docs[0].data().version;
                 결과.forEach((doc)=>{
+                    data_save_array[doc.data().version] = doc;
                     console.log(doc.data())
                     var document_version = doc.data().version;
                     var document_update_date = doc.data().update_date;
                     var document_category = doc.data().category;
+                    document_category_temp = doc.data().category;
                     var document_final = doc.data().final_modify;
+
+                    var document_user_class = doc.data().user_class;
+
+                    if(document_user_class =="u"){
+                        document_user_class = "회원";
+                    }
+                    else if(document_user_class =="m"){
+                        document_user_class = "관리자";
+                    }
+                    else{
+                        document_user_class = "비회원";
+                    }
+
+                    // 액션 초기화
+                    var document_action = doc.data().action;
+
+                    if(document_action == "m"){
+                        document_action = "수정";
+                    }
+                    else if(document_action=="d"){
+                        document_action = "삭제";
+                    }
+                    else if(document_action == "r"){
+                        document_action = "되돌리기";
+                    }
+                    else{
+                        document_action = "업데이트필요";
+                    }
+
+                    document.getElementById("document_name").href = "../" + document_category + "/" + document_name[2];
+
+
+                    // 편집 버튼 주소 초기화
+                    if(document_category=='n'){
+                        document.getElementById('compare_edit').href = '../e/' + document_name[2];
+                    }
+                    else if(document_category=='a'){
+                        document.getElementById('compare_edit').href = '../ea/' + document_name[2];
+                    }
+                    else{
+                        document.getElementById('compare_edit').href = '../ep/' + document_name[2];
+                    }
+                    
                     
                     // 타임스템프 변환
                     var timestamp_second = document_update_date.seconds * 1000;
@@ -253,15 +254,103 @@
                     // var address = "n/" + doc.data().name + "(" + doc.data().author + ")"
                     var temp = `
                     <div class="tabl_row">
-                        <div class="col_1"><input type="radio" name="chk_info" value="1"></div>
-                        <div class="col_2"><input type="radio" name="chk_info2" value="1"></div>
+                        <div class="col_1"><input type="radio" name="chk_info" value="${document_version}"></div>
+                        <div class="col_2"><input type="radio" name="chk_info2" value="${document_version}"></div>
                         <div class="col_3">${document_version}</div>
                         <div class="col_4"><a>${year + month + day + hour + minute + second}</a></div>
                         <div class="col_5"><a href="${"../h" + document_category + "/" + document_name[2] + "=" + document_version}">보기</a></div>
-                        <div class="col_6"><a href="">되돌리기</a></div>
+                        <div class="col_6"><a id="return" onclick="return_function(${document_version}, '${document_category}')">되돌리기</a></div>
                         <div class="col_7">${document_final}</div>
-                        <div class="col_8">요청OR되돌리기</div>
-                        <div class="col_9">사용자</div>
+                        <div class="col_8">${document_action}</div>
+                        <div class="col_9">${document_user_class}</div>
+                    </div>`;
+                    $('.table_set').append(temp);
+                })
+                var lastVisible = 결과.docs[결과.docs.length-1];
+
+                if(결과.docs.length>14){
+
+                }
+                else{
+                    document.getElementById('next').style.display = "none";
+                }
+
+                before = next;
+                next = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(15);
+                next_2 = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(1);
+                console.log(next);
+                await next_back();
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+        
+
+        document.getElementById('next').addEventListener("click", function() {
+            $('#table_set').remove();
+            var list_append = `<div class="table_set" id="table_set"></div>`
+            $('#table_all').append(list_append);
+            data_save_array = [];
+        
+            next.get().then((결과) => {
+                결과.forEach((doc)=>{
+                    
+                    data_save_array[doc.data().version] = doc;
+                    console.log(doc.data())
+                    var document_version = doc.data().version;
+                    var document_update_date = doc.data().update_date;
+                    var document_category = doc.data().category;
+                    var document_final = doc.data().final_modify;
+
+                    var document_user_class = doc.data().user_class;
+
+                    if(document_user_class =="u"){
+                        document_user_class = "회원";
+                    }
+                    else if(document_user_class =="m"){
+                        document_user_class = "관리자";
+                    }
+                    else{
+                        document_user_class = "비회원";
+                    }
+
+                    // 액션 초기화
+                    var document_action = doc.data().action;
+
+                    if(document_action == "m"){
+                        document_action = "수정";
+                    }
+                    else if(document_action=="d"){
+                        document_action = "삭제";
+                    }
+                    else if(document_action == "r"){
+                        document_action = "되돌리기";
+                    }
+                    else{
+                        document_action = "업데이트필요";
+                    }
+                    
+                    // 타임스템프 변환
+                    var timestamp_second = document_update_date.seconds * 1000;
+                    var time = new Date(timestamp_second);
+                    var year = time.getFullYear().toString().slice(-4) + "년 ";
+                    var month = ("0" + (time.getMonth() + 1)).slice(-2) + "월 ";
+                    var day = ("0" + time.getDate()).slice(-2) + "일 ";
+                    var hour = ("0" + time.getHours()).slice(-2) + "시 ";
+                    var minute = ("0" + time.getMinutes()).slice(-2) + "분 ";
+                    var second = ("0" + time.getSeconds()).slice(-2) + "초";
+
+                    var temp = `
+                    <div class="tabl_row">
+                        <div class="col_1"><input type="radio" name="chk_info" value="${document_version}"></div>
+                        <div class="col_2"><input type="radio" name="chk_info2" value="${document_version}"></div>
+                        <div class="col_3">${document_version}</div>
+                        <div class="col_4"><a>${year + month + day + hour + minute + second}</a></div>
+                        <div class="col_5"><a href="${"../h" + document_category + "/" + document_name[2] + "=" + document_version}">보기</a></div>
+                        <div class="col_6"><a id="return" onclick="return_function(${document_version},'${document_category}')">되돌리기</a></div>
+                        <div class="col_7">${document_final}</div>
+                        <div class="col_8">${document_action}</div>
+                        <div class="col_9">${document_user_class}</div>
                     </div>`;
                     $('.table_set').append(temp);
                 })
@@ -278,7 +367,10 @@
                 var lastVisible = 결과.docs[결과.docs.length-1];
                 console.log("l", lastVisible);
                 next = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(15);
+                next_2 = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(1);
                 console.log(next);
+                next_back_check = next_back_check + 1;
+                next_back();
             }).catch((err) => {
                 console.log(err);
             });
@@ -288,17 +380,46 @@
             $('#table_set').remove();
             var list_append = `<div class="table_set" id="table_set"></div>`
             $('#table_all').append(list_append);
+            data_save_array = [];
         
             before.get().then((결과) => {
-
                 for(var i = 14; i>-1; i--){
                     console.log(i);
+                    data_save_array[결과.docs[i].data().version] = 결과.docs[i];
                     // 결과.docs[i];
                     // console.log(doc.data())
                     var document_version = 결과.docs[i].data().version;
                     var document_update_date = 결과.docs[i].data().update_date;
                     var document_category = 결과.docs[i].data().category;
                     var document_final = 결과.docs[i].data().final_modify;
+
+                    var document_user_class = 결과.docs[i].data().user_class;
+
+                    if(document_user_class =="u"){
+                        document_user_class = "회원";
+                    }
+                    else if(document_user_class =="m"){
+                        document_user_class = "관리자";
+                    }
+                    else{
+                        document_user_class = "비회원";
+                    }
+
+                    // 액션 초기화
+                    var document_action = 결과.docs[i].data().action;
+
+                    if(document_action == "m"){
+                        document_action = "수정";
+                    }
+                    else if(document_action=="d"){
+                        document_action = "삭제";
+                    }
+                    else if(document_action == "r"){
+                        document_action = "되돌리기";
+                    }
+                    else{
+                        document_action = "업데이트필요";
+                    }
                     
                     // 타임스템프 변환
                     var timestamp_second = document_update_date.seconds * 1000;
@@ -313,15 +434,15 @@
                     // var address = "n/" + doc.data().name + "(" + doc.data().author + ")"
                     var temp = `
                     <div class="tabl_row">
-                        <div class="col_1"><input type="radio" name="chk_info" value="1"></div>
-                        <div class="col_2"><input type="radio" name="chk_info2" value="1"></div>
+                        <div class="col_1"><input type="radio" name="chk_info" value="${document_version}"></div>
+                        <div class="col_2"><input type="radio" name="chk_info2" value="${document_version}"></div>
                         <div class="col_3">${document_version}</div>
                         <div class="col_4"><a>${year + month + day + hour + minute + second}</a></div>
                         <div class="col_5"><a href="${"../h" + document_category + "/" + document_name[2] + "=" + document_version}">보기</a></div>
-                        <div class="col_6"><a href="">되돌리기</a></div>
+                        <div class="col_6"><a id="return" onclick="return_function(${document_version}, '${document_category}')">되돌리기</a></div>
                         <div class="col_7">${document_final}</div>
-                        <div class="col_8">요청OR되돌리기</div>
-                        <div class="col_9">사용자</div>
+                        <div class="col_8">${document_action}</div>
+                        <div class="col_9">${document_user_class}</div>
                     </div>`;
                     $('.table_set').append(temp);
                 }
@@ -341,11 +462,287 @@
                 }
                 console.log("l", lastVisible);
                 next = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(15);
+                next_2 = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(1);
                 console.log(next);
+                next_back_check = next_back_check - 1;
+                next_back();
             }).catch((err) => {
                 console.log(err);
             });
         });
+
+        $('#compare_go').click(function() {
+            // 둘다 선택이 되어있는지 여부 확인
+            if($('input:radio[name=chk_info]').is(':checked') && $('input:radio[name=chk_info2]').is(':checked')){
+                // 같은 걸 클릭했는지 확인
+                if($('input[name=chk_info]:checked').val() == $('input[name=chk_info2]:checked').val()){
+                    alert("서로 다른 항목을 선택해주세요!");
+                }
+                else{
+                    if(document_category_temp =="n"){
+                        window.location.href = "../c/" + document_name[2] + "=" + $('input[name=chk_info]:checked').val() + "&" +  $('input[name=chk_info2]:checked').val();
+                    }
+                    else{
+                        window.location.href = "../c" + document_category_temp + "/" + document_name[2] + "=" + $('input[name=chk_info]:checked').val() + "&" +  $('input[name=chk_info2]:checked').val();
+                    }
+                }
+            }
+            else{
+                alert("비교할 항목을 선택해주세요!");
+            }
+
+        });
+
+        let next_back_check = 1;
+
+        function next_back(){
+            if(next_back_check == 1){
+                document.getElementById('back').style.display = "none";
+            }
+            else{
+                document.getElementById('back').style.display = "flex";
+
+                next_2.get().then((결과) => {
+                    console.log("결과" + 결과.docs.length);
+
+                    if(결과.docs.length>0){
+                        document.getElementById('next').style.display = "flex";
+                    }
+                    else{
+                        document.getElementById('next').style.display = "none";
+                    }   
+                    
+                }).catch((err) => {
+                    console.log(err);
+                    
+                });
+            }
+        }
+
+        var user_class = "nu";
+
+        async function return_function(version, category) {
+            if(confirm("정말 '" + version + "' 버전으로 문서를 되돌리시겠습니까?")){
+                if(login_check == true){
+                    ip_address_info = user_id;
+                    user_class = login_user_class;
+                }
+                await history_data_loading(category);
+                await novel_return(version, category);
+                await history_data_update(version);
+                await history_update(version, category);
+            }
+            else{
+
+            }
+
+        }
+
+        var h_d_like;
+        var h_d_view;
+        var h_d_star;
+        var h_d_star_count;
+
+
+        async function history_data_loading(category){
+            await db.collection('history').doc(document_name[2]).collection('data').doc('count').get().then((doc)=>{
+                h_d_like = doc.data().like;
+                h_d_view = doc.data().view;
+                if(category=="n"){
+                    h_d_star = doc.data().star;
+                    h_d_star_count = doc.data().star_count;
+                }
+            }).catch((err)=>{
+                console.log("역사 데이터 불러오기 실패 : ", err);
+            });
+        }
+
+        
+
+        async function novel_return(version, category){
+            // console.log(data_save_array[version].data().final_modify);
+
+            var info;
+            var collection_info = "novel_document";
+
+            if(category=="n"){
+                info = {
+                    bookcover: data_save_array[version].data().bookcover,
+                    name: data_save_array[version].data().name,
+                    name_keyword: data_save_array[version].data().name_keyword,
+                    author: data_save_array[version].data().author,
+                    author_birthday : data_save_array[version].data().author_birthday,
+                    publisher: data_save_array[version].data().publisher,
+                    n_category: data_save_array[version].data().n_category,
+                    genre: data_save_array[version].data().genre,
+                    buy_series: data_save_array[version].data().buy_series,
+                    address: data_save_array[version].data().address,
+                    publish_date: data_save_array[version].data().publish_date,
+                    tag: data_save_array[version].data().tag,
+                    summary: data_save_array[version].data().summary,
+                    other: data_save_array[version].data().other,
+                    the_first_date: data_save_array[version].data().the_first_date,
+                    version: document_recent_version + 1,
+                    update_date:new Date(),
+                    category:category,
+                    final_modify: ip_address_info,
+                    like:h_d_like,
+                    view:h_d_view,
+                    star:h_d_star,
+                    star_count:h_d_star_count,                               
+                };
+            }
+            else if(category=="p"){
+                info = {
+                    profilecover: data_save_array[version].data().profilecover,
+                    name: data_save_array[version].data().name,
+                    name_keyword: data_save_array[version].data().name_keyword,
+                    establishdate: data_save_array[version].data().establishdate,
+                    location: data_save_array[version].data().location,
+                    homepage: data_save_array[version].data().homepage,
+                    tag: data_save_array[version].data().tag,
+                    other: data_save_array[version].data().other,
+                    the_first_date: data_save_array[version].data().the_first_date,
+                    version: document_recent_version + 1,
+                    update_date:new Date(),
+                    category:category,
+                    final_modify: ip_address_info,
+                    like:h_d_like,
+                    view:h_d_view,                       
+                };
+                collection_info = "publisher_document"
+            }
+            else{
+                info = {
+                    profilecover: data_save_array[version].data().profilecover,
+                    name: data_save_array[version].data().name,
+                    name_keyword: data_save_array[version].data().name_keyword,
+                    native: data_save_array[version].data().native,
+                    birthday: data_save_array[version].data().birthday,
+                    debutdate: data_save_array[version].data().debutdate,
+                    recent_publishdate: data_save_array[version].data().recent_publishdate,
+                    main_novel: data_save_array[version].data().main_novel,
+                    recent_novel: data_save_array[version].data().recent_novel,
+                    school: data_save_array[version].data().school,
+                    company: data_save_array[version].data().company,
+                    tag: data_save_array[version].data().tag,
+                    other: data_save_array[version].data().other,
+                    the_first_date: data_save_array[version].data().the_first_date,
+                    version: document_recent_version + 1,
+                    update_date:new Date(),
+                    category:category,
+                    final_modify: ip_address_info,
+                    like:h_d_like,
+                    view:h_d_view,                       
+                };
+                collection_info = "author_document"
+            }
+
+            await db.collection(collection_info).doc(document_name[2]).set(info).then(async () => {
+                alert("문서 되돌리기 성공!");                
+            }).catch((err)=>{
+                console.log(err + "문서 되돌리기 실패!")
+            });
+            
+        }
+
+        async function history_data_update(version){
+            return await db.collection('history').doc(document_name[2]).collection('data').doc('count').update({
+                version: firebase.firestore.FieldValue.increment(1),
+            })
+            .then(async () => {
+                alert("history data 업데이트 성공!");                
+            }).catch((err)=>{
+                console.log(err + "history data 업데이트 실패!")
+            });
+        }
+
+        async function history_update(version, category){
+            var info;
+            
+            if(category == "n"){
+                info = {
+                    bookcover: data_save_array[version].data().bookcover,
+                    name: data_save_array[version].data().name,
+                    name_keyword: data_save_array[version].data().name_keyword,
+                    author: data_save_array[version].data().author,
+                    author_birthday : data_save_array[version].data().author_birthday,
+                    publisher: data_save_array[version].data().publisher,
+                    n_category: data_save_array[version].data().n_category,
+                    genre: data_save_array[version].data().genre,
+                    buy_series: data_save_array[version].data().buy_series,
+                    address: data_save_array[version].data().address,
+                    publish_date: data_save_array[version].data().publish_date,
+                    tag: data_save_array[version].data().tag,
+                    summary: data_save_array[version].data().summary,
+                    other: data_save_array[version].data().other,
+                    the_first_date: data_save_array[version].data().the_first_date,
+                    version: document_recent_version + 1,
+                    update_date:new Date(),
+                    category:category,
+                    final_modify: ip_address_info,
+                    user_class: user_class,
+                    action: "r",                               
+                };
+            }
+            else if(category =="p"){
+                info = {
+                    profilecover: data_save_array[version].data().profilecover,
+                    name: data_save_array[version].data().name,
+                    name_keyword: data_save_array[version].data().name_keyword,
+                    establishdate: data_save_array[version].data().establishdate,
+                    location: data_save_array[version].data().location,
+                    homepage: data_save_array[version].data().homepage,
+                    tag: data_save_array[version].data().tag,
+                    other: data_save_array[version].data().other,
+                    the_first_date: data_save_array[version].data().the_first_date,
+                    version: document_recent_version + 1,
+                    update_date:new Date(),
+                    category:category,
+                    final_modify: ip_address_info,
+                    user_class: user_class,
+                    action: "r",                               
+                };
+            }
+            else{
+                info = {
+                    profilecover: data_save_array[version].data().profilecover,
+                    name: data_save_array[version].data().name,
+                    name_keyword: data_save_array[version].data().name_keyword,
+                    native: data_save_array[version].data().native,
+                    birthday: data_save_array[version].data().birthday,
+                    debutdate: data_save_array[version].data().debutdate,
+                    recent_publishdate: data_save_array[version].data().recent_publishdate,
+                    main_novel: data_save_array[version].data().main_novel,
+                    recent_novel: data_save_array[version].data().recent_novel,
+                    school: data_save_array[version].data().school,
+                    company: data_save_array[version].data().company,
+                    tag: data_save_array[version].data().tag,
+                    other: data_save_array[version].data().other,
+                    the_first_date: data_save_array[version].data().the_first_date,
+                    version: document_recent_version + 1,
+                    update_date:new Date(),
+                    category:category,
+                    final_modify: ip_address_info,
+                    user_class: user_class,
+                    action: "r",                               
+                };
+            }
+            
+            console.log(document_name[2]);
+            await db.collection('history').doc(document_name[2]).collection('version').doc((document_recent_version + 1).toString()).set(info).then((result) => {
+                console.log(result);
+                alert("history data success.");
+                location.reload();
+            }).catch((error) => {
+                console.log(error);
+                alert("history data failed.");
+            });
+
+        }
+
+
+        
     </script>
 </body>
 
