@@ -26,6 +26,17 @@ function addBody() {
 }
 
 
+editor.addEventListener('paste', function(event) {
+    event.preventDefault();
+
+    // 클립보드에서 복사된 텍스트 얻기
+    var pastedData = event.clipboardData ||  window.clipboardData;
+    var textData = pastedData.getData('Text');
+
+    window.document.execCommand('insertHTML', false,  textData);
+
+});
+
 
 addHorizontalRuleButton.addEventListener('click', () => {
     const horizontalRule = document.createElement('hr');

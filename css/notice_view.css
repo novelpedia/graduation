@@ -1,0 +1,186 @@
+*{
+    margin: 0;
+}
+
+.view, .date{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-right: 15px;
+    font-size: 13px;
+}
+
+.section_all{
+    padding: 0%;
+    margin: 0 auto;
+    width: 950px;
+    min-height: 500px;
+    font-family: '나눔고딕';
+    margin-top: 150px;
+    margin-bottom: 150px;
+}
+
+.banner{
+    width: 100%;
+    border-bottom: 1px solid black;
+    display: flex;
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 30px;
+    padding-bottom: 10px;
+}
+
+.banner a{
+    text-decoration: none;
+    color: black;
+}
+
+.name{
+    padding-left: 15px;
+    width: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 50px;
+    line-height: 50px;
+    background-color: #769fcd;
+    width: 100%;
+    font-size: 18px;
+    color: white;
+
+}
+
+.content{
+    width: 100%;
+    min-height: 400px;
+    margin-left: 15px;
+}
+
+.col_2{
+    width: 100%;
+    border-top: 1px solid black;
+    height: 50px;
+    line-height: 50px;
+}
+
+.col_2 a{
+    margin-left: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+.col_2 a strong {
+    margin-left: 10px;
+}
+
+.col_3 a strong {
+    margin-left: 10px;
+}
+
+#prev-link, #next-link {
+    display: flex;
+    align-items: center;
+}
+
+#prev-link strong, #next-link strong {
+    margin-right: 2%;
+}
+
+#prev_name, #next_name {
+    margin: 0;
+}
+
+.col_3{
+    width: 100%;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    height: 50px;
+    line-height: 50px;
+}
+
+.col_3 a{
+    margin-left: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+.table_all{
+    width: 100%;
+    height: 550px;
+    font-size: 16px;
+}
+
+.table_row{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #f7fbfc;
+}
+
+/* .notice-list{
+    display: table-row-group;
+} */
+
+.top{
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.list, .edit{
+    text-decoration: none;
+    display: inline-block;
+    color:black;
+    font-size: 14px;
+    background-color: #f7fbfc;
+    border: 1px solid #e5e5e5;
+    color:black;
+    border-radius: 3px;
+    width: 80px;
+    height: 33.5px;
+    line-height: 33.5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.list:hover{
+    background-color: #769fcd;
+    color:white;
+}
+
+.edit:hover{
+    background-color: #769fcd;
+    color:white;
+}
+
+@media (max-width: 640px) {
+    .section_all{
+        width: 100%
+    }
+
+    .table_all{
+        width: 100%;
+    }
+
+    .table_all{
+        font-size: 10px;
+    }
+
+    .banner{
+        width: 100%;
+        font-size: 30px;
+        height: 80px;
+        line-height: 80px;
+    }
+
+    .write{
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 450px) {
+    .list, .edit{
+        width: 50px;
+        font-size: 10px;
+    }
+}

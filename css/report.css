@@ -1,0 +1,279 @@
+*{
+    margin: 0;
+}
+
+.section_all{
+    padding: 0%;
+    margin: 0 auto;
+    margin-top: 150px;
+    min-height: 500px;
+    width: 950px;
+    font-family: '나눔고딕';
+}
+
+.banner{
+    width: 100%;
+    border-bottom: 1px solid black;
+    display: flex;
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 30px;
+    padding-bottom: 10px;
+}
+
+.col_first{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6%;
+    border: 1px solid #e5e5e5;
+    height: 40px;
+    font-size: 16px;
+}
+
+.col_second{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+    border: 1px solid #e5e5e5;
+    height: 40px;
+    font-size: 16px;
+}
+
+.col_third{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56%;
+    border: 1px solid #e5e5e5;
+    height: 40px;
+    font-size: 16px;
+    padding-left: 15px;
+}
+
+.col_fourth{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28%;
+    border: 1px solid #e5e5e5;
+    height: 40px;
+    font-size: 16px;
+}
+
+.number{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6%;
+    border: 1px solid #e5e5e5;
+    height: 40px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.number a{
+    text-decoration: none;
+    color: black;
+}
+
+.category{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+    border: 1px solid #e5e5e5;
+    height: 40px;
+}
+
+.category a{
+    text-decoration: none;
+    color: black;
+}
+
+.name{
+    display: flex;
+    align-items: center;
+    width: 56%;
+    border: 1px solid #e5e5e5;
+    height: 40px;
+    padding-left: 15px;
+    font-size: 16px;
+}
+
+.name a{
+    text-decoration: none;
+    color: black;
+}
+
+.date{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28%;
+    border: 1px solid #e5e5e5;
+    height: 40px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.date a{
+    text-decoration: none;
+    color: black;
+}
+
+.table_all{
+    
+}
+
+.report{
+    width: 100%;
+    display: flex;
+    background-color: #f7fbfc;
+}
+
+.table_row_0{
+    background-color: #769fcd;
+    width: 100%;
+    display: flex;
+    text-align: center;
+}
+
+/* .table_set{
+    display: table-row-group;
+} */
+
+/* .number, .category, .name, .date{
+    display: table-cell;
+} */
+
+.left{
+    display: flex;
+    color:black;
+    width: 155px;
+    height: 35px;
+    text-align: center;
+}
+
+.prev, .next {
+    background-color: #f7fbfc;
+    border: 1px solid #e5e5e5;
+    width: 100%;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.prev:hover{
+    background-color: #769fcd;
+    color:white;
+}
+
+.next:hover{
+    background-color: #769fcd;
+    color:white;
+}
+
+.top{
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 33.5px;
+}
+
+.bottom{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    margin-bottom: 120px;
+    height: 33.5px;
+}
+
+#format {
+    outline:0;
+    border: 1px solid #e5e5e5;
+    background: #f7fbfc;
+    color:black;
+    cursor:pointer;
+    font-size: 15px;
+}
+
+.select {
+    display: flex;
+}
+
+.searchbar {
+    display: flex;
+}
+
+.searchbar input{
+    border: 1px solid #e5e5e5;
+    width: 250px;
+    outline: none;
+    font-size: 15px;
+}
+
+.searchbar button {
+    width: 50px;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
+    color: white;
+    background-color: #769fcd;
+    font-size: 15px;
+}
+
+
+/* .searchbar button[type="submit"]:active {
+    padding: 0;
+} */
+
+.write{
+    display: flex;
+    text-decoration: none;
+    color:black;
+    font-size: 14px;
+    background-color: #f7fbfc;
+    border: 1px solid #e5e5e5;
+    width: 80px;
+    text-align: center;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.write:hover{
+    background-color: #769fcd;
+    color:white;
+}
+
+@media (max-width: 650px) {
+    .section_all{
+        width: 100%
+    }
+
+    .table_all{
+        width: 100%;
+    }
+
+    .table_all{
+    }
+
+    .banner{
+        width: 100%;
+        font-size: 30px;
+
+    }
+
+    .write{
+    }
+
+    .searchbar input[type="text"] {
+    }
+    .searchbar button[type="submit"] {
+    }
+
+    .select {
+    }
+}

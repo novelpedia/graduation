@@ -39,7 +39,22 @@
             <div class="set">
                 <div class="set_mid">
                     <ul class="bar_menu">
-                        <li><a href="../listpage.html">목록페이지</a></li>
+                        <input type="checkbox" id="list_open">
+                        <label for="list_open" class="list_page_label">
+                            <li class="list_li">목록페이지</li>
+                            <div class="header_list">
+                                <div class="header_set1">
+                                    <div class="header_picture"><a href="../list/novel">작품</a></div>
+                                </div>
+                                <div class="header_set1">
+                                    <div class="header_author"><a href="../list/author">작가</a></div>
+                                </div>
+            
+                                <div class="header_set1">
+                                    <div class="header_publisher"><a href="../list/publisher">출판사</a></div>
+                                </div>
+                            </div>
+                        </label>
                         <li class="mypage_header" id="mypage_button"><a href="../mypage">마이페이지</a></li>
                         <li><a href="../login" id="login_logout">Login</a></li>
                     </ul>
@@ -450,6 +465,20 @@
         }
     </script>
 
+    <!-- History count 가져오기-->
+    <script>
+        async function getHistory(){
+            var historyPath = db.collection("history").doc(document_name[2]).collection("data").doc("count");
+            await historyPath.get().then((결과) => {
+                document.getElementById("view_get").innerText = 결과.data().view + "회";
+                document.getElementById("update_name").innerText = "수정 일시 : ";
+                document.getElementById("like_count").innerText = 결과.data().like;
+            }).catch((err)=>{
+                console.log("역사_카운트_로드 실패");
+            });
+        }
+    </script>
+
     <!-- 조회수 -->
     <script>
 
@@ -459,27 +488,11 @@
         if(document_name[1]=="ha"){
             window.addEventListener("load", async function() { //새로고침 함수
                 await data_loading();
-                await getCookie();
+                await getHistory();
+                // await getCookie();
             });
         }
         else{
-            $.getJSON("https://ipinfo.io", function(data) {
-                ip_address_info = data.ip;
-                //setCookie 함수를 콜백 안에서 호출 
-            })
-
-            function setCookie(name, day) {
-                var date = new Date();
-                date.setDate(date.getDate() + day); //하루 뒤 만료
-                                
-                var mycookie = '';
-                mycookie += name //이름
-                // mycookie += name + '=' + value + ';';
-                mycookie += 'Expires=' + date.toUTCString(); //만료 + 문자형식변환
-                                
-                document.cookie = mycookie; //쿠키 설정, 생성
-
-            }
 
             window.addEventListener("load", async function() { //새로고침 함수
                 await data_loading();
@@ -488,25 +501,25 @@
                             
             });
 
-            async function getCookie() {
-                var cookies = document.cookie.split(';');
-                console.log(cookies);
+            
+        }
 
-                var currentCookie = document.cookie;
-                var cookieCheck = currentCookie.indexOf(document_name[2]);
-                console.log(cookieCheck);
+        $.getJSON("https://ipinfo.io", function(data) {
+            ip_address_info = data.ip;
+            //setCookie 함수를 콜백 안에서 호출 
+        })
 
-                if(cookieCheck > - 1){
-                    console.log("이미 조회한 게시물");
-                }
-                else {
-                    cookie_name = "NovelPedia" + document_name[2]
-                    await setCookie(cookie_name, 1);
-                    await viewIncCounter();
-                    await history_viewIncCounter();
-                    console.log("처음 조회하는 게시물");
-                }
-            }
+        function setCookie(name, day) {
+            var date = new Date();
+            date.setDate(date.getDate() + day); //하루 뒤 만료
+                            
+            var mycookie = '';
+            mycookie += name //이름
+            // mycookie += name + '=' + value + ';';
+            mycookie += 'Expires=' + date.toUTCString(); //만료 + 문자형식변환
+                            
+            document.cookie = mycookie; //쿠키 설정, 생성
+
         }
 
         async function viewIncCounter(){
@@ -518,6 +531,26 @@
             }).catch((error) => {
                 console.log(error);
             });
+        }
+
+        async function getCookie() {
+            var cookies = document.cookie.split(';');
+            console.log(cookies);
+
+            var currentCookie = document.cookie;
+            var cookieCheck = currentCookie.indexOf(document_name[2]);
+            console.log(cookieCheck);
+
+            if(cookieCheck > - 1){
+                console.log("이미 조회한 게시물");
+            }
+            else {
+                cookie_name = "NovelPedia" + document_name[2]
+                await setCookie(cookie_name, 1);
+                await viewIncCounter();
+                await history_viewIncCounter();
+                console.log("처음 조회하는 게시물");
+            }
         }
 
         // 역사 콜렉션에 조회수 데이터 저장
@@ -542,8 +575,9 @@
 
         async function data_loading(){
             if(document_name[1]=="ha"){
-                var document_url_version = document_name[2].split('=');
-                document_name[2] = document_url_version[0];
+                var path_url = window.location.search;
+                var path_decode = decodeURI(path_url);
+                var document_url_version = path_decode.split('v=');
                 docPath = db.collection('history').doc(document_name[2]).collection('version').doc(document_url_version[1]);
                 
                 document.getElementById('go_delete').remove();

@@ -13,7 +13,7 @@
 
 <body>
     <header class="header">
-        <a class="logo_a" href="index.html">
+        <a class="logo_a" href="http://novelpedia.co.kr">
             <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
             <img class="logo_icon" src="image/logo.png">
         </a>
@@ -38,7 +38,22 @@
             <div class="set">
                 <div class="set_mid">
                     <ul class="bar_menu">
-                        <li><a href="listpage.html">목록페이지</a></li>
+                        <input type="checkbox" id="list_open">
+                        <label for="list_open" class="list_page_label">
+                            <li class="list_li">목록페이지</li>
+                            <div class="header_list">
+                                <div class="header_set1">
+                                    <div class="header_picture"><a href="list/novel">작품</a></div>
+                                </div>
+                                <div class="header_set1">
+                                    <div class="header_author"><a href="list/author">작가</a></div>
+                                </div>
+            
+                                <div class="header_set1">
+                                    <div class="header_publisher"><a href="list/publisher">출판사</a></div>
+                                </div>
+                            </div>
+                        </label>
                         <li class="mypage_header" id="mypage_button"><a href="mypage">마이페이지</a></li>
                         <li><a href="login" id="login_logout">Login</a></li>
                     </ul>
@@ -136,12 +151,15 @@
             <div class="search_result_category">작품 검색결과</div>
             <div class="search_result_area" id="search_result_area_n">
             </div>
+            <div class="more_button" id="n_next">더 보기</div>
             <div class="search_result_category">작가 검색결과</div>
             <div class="search_result_area" id="search_result_area_a">
             </div>
+            <div class="more_button" id="a_next">더 보기</div>
             <div class="search_result_category">출판사 검색결과</div>
             <div class="search_result_area" id="search_result_area_p">
             </div>
+            <div class="more_button" id="p_next">더 보기</div>
         </div>
     </section>
 

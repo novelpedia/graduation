@@ -276,12 +276,12 @@
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="/notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">Q&A</a></li>
+                        <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -450,8 +450,8 @@
                     let doc_name = doc.data().name;
                     let doc_name2 = doc.data().name;
             
-                    if(doc_name.length > 8) {
-                        doc_name = doc_name.substr(0, 7) + "⋯";
+                    if(doc_name.length > 7) {
+                        doc_name = doc_name.substr(0, 6) + "⋯";
                     }
                     if(doc_name2.length > 15) {
                         doc_name2 = doc_name2.substr(0, 14) + "⋯";

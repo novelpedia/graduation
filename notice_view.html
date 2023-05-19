@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <link href="./css/notice_view.css" rel="stylesheet">
+    <link href="./css/header.css" rel="stylesheet">
+    <link href="./css/footer.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+        <a class="logo_a" href="http://novelpedia.co.kr">
+            <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
+            <img class="logo_icon" src="image/logo.png">
+        </a>
+        <div class="first_line">
+            <div class="inner_item">
+                <a id="open_close" href="#" class="navbar_toggleBtn">
+                    <img id="close" src="image/메뉴_검정_버튼.png">
+                </a>
+                <div class="inner_inner_item">
+                    <div class="search">
+                        <div class="icon"></div>
+                        <form method="get" action="search">
+                            <div class="input">
+                                <input type="text" placeholder="Search" id="mysearch" name="q">
+                            </div>
+                            <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
+                            <input type="submit" value="" class="search_btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="set">
+                <div class="set_mid">
+                    <ul class="bar_menu">
+                        <input type="checkbox" id="list_open">
+                        <label for="list_open" class="list_page_label">
+                            <li class="list_li">목록페이지</li>
+                            <div class="header_list">
+                                <div class="header_set1">
+                                    <div class="header_picture"><a href="list/novel">작품</a></div>
+                                </div>
+                                <div class="header_set1">
+                                    <div class="header_author"><a href="list/author">작가</a></div>
+                                </div>
+            
+                                <div class="header_set1">
+                                    <div class="header_publisher"><a href="list/publisher">출판사</a></div>
+                                </div>
+                            </div>
+                        </label>
+                        <li class="mypage_header" id="mypage_button"><a href="mypage">마이페이지</a></li>
+                        <li><a href="login" id="login_logout">Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <script>
+        /*메뉴버튼 바꾸기 위한 변수*/
+        const change_img = document.createElement('img');
+        change_img.setAttribute('src', './image/메뉴_닫힘.png');
+        change_img.setAttribute('id', 'close');
+
+        const change_img_normal = document.createElement('img');
+        change_img_normal.setAttribute('src', './image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('id', 'close');
+
+        /*검색버튼에 대한 동작 변수*/
+        const icon = document.querySelector('.search .icon');
+        const search = document.querySelector('.search');
+        const inner_item = document.querySelector('.inner_item');
+        const inner_inner_item = document.querySelector('.inner_inner_item');
+        const menu_window2 = document.querySelector('.header .set active');
+
+        /*메뉴 버튼에 따른 동작 변수*/
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.bar_menu');
+        const menu_window = document.querySelector('.header .set');
+
+        /*메뉴버튼*/
+        toggleBtn.onclick = function() {
+            menu.classList.toggle('active');
+            menu_window.classList.toggle('active');
+            const lastDiv = document.getElementById('close');
+            /*메뉴창 열림 여부에 따라 버튼 이미지 교체*/
+            if (document.querySelector('.header .set').classList.contains('active')) {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img);
+            } else {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img_normal);
+            }
+
+        }
+
+        /*검색버튼*/
+        icon.onclick = function() {
+            icon.classList.toggle('active');
+            search.classList.toggle('active');
+            inner_item.classList.toggle('active');
+            inner_inner_item.classList.toggle('active');
+            menu_window.classList.toggle('search_active');
+        }
+    </script>
+
+    <section class="section_all">            
+        <div class="container">
+            <div class="banner"><a href="notice_list.html">공지사항</a></div>
+        </div>
+        <div class="table_all">
+            <div class="top">
+                <div class="set" id="button_area">
+                    <a href="notice_list.html" class="list">목록</a>
+                </div>
+            </div>
+            <div class="notice">
+                <div class="table_row">
+                    <div class="name"><span id="notice-title"></span></div>
+                </div>
+                <div class="table_row">
+                    <div class="view">조회수: <span id="notice-view"></span></div>
+                    <div class="date">작성일자: <span id="notice-date"></span></div>
+                </div>
+                <div class="table_row">
+                    <div class="content"><span id="notice-content"></span></div>
+                </div>
+                <div class="table_row" id="next_div">
+                    <div class="col_2"><a href="" id="next-link">다음 글 <strong>▲</strong><p id="next_name"></p></a></div>
+                </div>
+                <div class="table_row" id="prev_div">
+                    <div class="col_3"><a href="" id="prev-link">이전 글 <strong>▼</strong><p id="prev_name"></p></a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="/notice">공지사항</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">신고 및 건의</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">의견보내기</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--파이어베이스 연동 자바스크립트 파일-->
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+    <!--제이쿼리-->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    
+    <!--파이어베이스 정보 가져오기--><!--파이어베이스 연동 키값-->
+    <script src="./js/information.js"></script>
+
+    <!--로그인 상태 체크-->
+    <script src="./js/login_check.js"></script>
+    <!--로그아웃을 위한 소스코드-->
+    <script src="./js/logout.js"></script>
+    <!--로그아웃 상태일 때-->
+    <script src="./js/logout_state.js"></script>
+
+    <script>
+        async function managerChecking(){
+            setTimeout(() => {
+                if(login_user_class == "m"){
+                    var temp = `<a class="edit">수정</a>`
+                    $('#button_area').append(temp);
+                }
+                else{
+                    console.log("test");
+                }
+            }, 1000); // 1초 대기
+        }
+        managerChecking();
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // 현재 페이지에서 number를 가져오기
+            const urlParams = new URLSearchParams(window.location.search);
+            // number값 정수형으로 변환
+            const number = parseInt(urlParams.get("page"));
+
+            // 이전 글과 다음 글의 링크를 찾기
+            // 만약 number 값이 1보다 크면 이전 글의 링크 찾기
+            if (number > 1) {
+                const prevNumber = number - 1;
+                db.collection("notice")
+                .where("number", "==", prevNumber)
+                .get()
+                .then(function(querySnapshot) {
+                        if (!querySnapshot.empty) { // 결과값이 비어있지 않은 경우, 이전 글 이름 & 링크 생성
+                            const prevDoc = querySnapshot.docs[0];
+                            const prevName = prevDoc.data().name;
+                            $("#prev-link").attr("href", `notice_view.html?page=${prevNumber}`);
+                            $("#prev-link #prev_name").text(prevName);
+                        } else {
+                            // 이전 글이 없는 경우, 이전 글 링크를 제거
+                            $("#prev_div").remove();
+                        }
+                }).catch((err)=>{
+                    console.log(err);
+                });
+            } else {
+                // number가 1보다 작거나 같은 경우, 이전 글 링크를 제거
+                $("#prev_div").remove();
+            }
+
+            db.collection("notice") // firestore에서 number값 일치하는 공지사항 가져오기
+                .where("number", "==", number)
+                .get()
+                .then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) { // 화면에 표시
+                        const timestamp = doc.data().timestamp; 
+                        const date = new Date(timestamp.toDate());
+                        const year = date.getFullYear();
+                        const month = date.getMonth() + 1;
+                        const day = date.getDate();
+                        const hour = date.getHours();
+                        const minute = date.getMinutes();
+                        const name = doc.data().name;
+                        const view = doc.data().view;
+                        const content = doc.data().content;
+
+                        $("#notice-title").text(name);
+                        $("#notice-view").text(view);
+                        $("#notice-date").text(`${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`);
+                        document.getElementById("notice-content").innerHTML = content;
+
+                        // view 값을 1 증가시켜서 Firestore에 업데이트
+                        const newView = view + 1;
+                        doc.ref.update({ view: newView });
+                        // 다음 글 number 값 찾을 때 현재 number 값에 +1 값 사용
+                        const nextNumber = number + 1;
+                        db.collection("notice").where("number", "==", nextNumber).get().then(function(querySnapshot) {
+                            if (!querySnapshot.empty) { // 결과값이 비어있지 않은 경우, 이전 글 이름 & 링크 생성
+                                const nextDoc = querySnapshot.docs[0];
+                                const nextName = nextDoc.data().name;
+                                $("#next-link").attr("href", `notice_view.html?page=${nextNumber}`);
+                                $("#next-link #next_name").text(nextName);
+                            } else {
+                                // 다음 글이 없는 경우, 다음 글 링크를 제거
+                                $("#next_div").remove();
+                            }
+                        });
+                    });
+                })
+                .catch(function(error) {
+                    console.log("문서를 가져오는 중 오류 발생: ", error);
+                });
+        });
+    </script>
+
+    <!-- 수정 클릭했을 때 url에서 number 가져와서 notice_writing.html에 전달 -->
+    <script>
+        var queryString = window.location.search;
+        var urlParams = new URLSearchParams(queryString);
+        var number = urlParams.get('page');
+
+        $(".edit").attr("href", "notice_writing.html?page=" + number);
+    </script>
+</body>
+</html>

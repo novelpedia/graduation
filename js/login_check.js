@@ -2,7 +2,7 @@ var login_check = false;
 var login_user_information;
 var nickname;
 var user_id;
-var login_user_class;
+var login_user_class = "u";
 
 
 async function getDocument(userEmail, uid) {

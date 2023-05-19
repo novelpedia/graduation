@@ -403,7 +403,8 @@ label {
 .document_other {
     display: flex;
     flex-direction: column;
-    margin-bottom: 40px;  
+    margin-bottom: 40px;
+
 }
 
 .document_other .other {
@@ -412,10 +413,15 @@ label {
     width: auto;
     margin-left: 40px;
     margin-right: 40px;
-    min-height: 500px;
+    height: 500px;
     resize: none;
     outline: none;
     border: 1px solid #d4d4d4;
+    overflow-y: scroll;
+}
+
+.document_other img{
+    max-width: 100%;
 }
 
 .button_bundle {

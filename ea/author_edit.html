@@ -39,7 +39,22 @@
             <div class="set">
                 <div class="set_mid">
                     <ul class="bar_menu">
-                        <li><a href="../listpage.html">목록페이지</a></li>
+                        <input type="checkbox" id="list_open">
+                        <label for="list_open" class="list_page_label">
+                            <li class="list_li">목록페이지</li>
+                            <div class="header_list">
+                                <div class="header_set1">
+                                    <div class="header_picture"><a href="../list/novel">작품</a></div>
+                                </div>
+                                <div class="header_set1">
+                                    <div class="header_author"><a href="../list/author">작가</a></div>
+                                </div>
+            
+                                <div class="header_set1">
+                                    <div class="header_publisher"><a href="../list/publisher">출판사</a></div>
+                                </div>
+                            </div>
+                        </label>
                         <li class="mypage_header" id="mypage_button"><a href="../mypage">마이페이지</a></li>
                         <li><a href="../login" id="login_logout">Login</a></li>
                     </ul>
@@ -108,23 +123,23 @@
             <div class="document_critical_edit">
                 <!--프로필사진-->
                 <div class="document_profile_image_edit">
-                    <label for="profile_image_file">프로필사진</label>
+                    <label class="label" for="profile_image_file">프로필사진</label>
                     <img id="profile_image_preview" class="profile_image_preview" for="profile_image_file" src="../image/표지_미등록.png">
                     <input class="profile_image_upload" id="profile_image_file" type="file" accept="image/*" onchange="loadFile(this)">
                 </div>
                 <!--작가이름-->
                 <div class="document_name_edit">
-                    <label for="name">이름</label>
+                    <label class="label" for="name">이름</label>
                     <input id="name" type="text" autocomplete="off">
                 </div>
                 <!--출생-->
                 <div class="document_native_edit">
-                    <label for="native">출생</label>
+                    <label class="label" for="native">출생</label>
                     <input id="native" type="text" autocomplete="off">
                 </div>
                 <!--생년월일-->
                 <div class="document_birthday_edit">
-                    <label for="birthday">생년월일</label>
+                    <label class="label" for="birthday">생년월일</label>
                     <div class="birthday_warning">
                         <input id="birthday" type="date" autocomplete="off">
                         <div class="checkbox_pakage">
@@ -136,37 +151,37 @@
                 </div>
                 <!--등단일-->
                 <div class="document_debutdate_edit">
-                    <label for="debutdate">등단일</label>
+                    <label class="label" for="debutdate">등단일</label>
                     <input id="debutdate" type="date" autocomplete="off">
                 </div>
                 <!--최근출간일-->
                 <div class="document_recent_publishdate_edit">
-                    <label for="recent_publishdate">최근 출간일</label>
+                    <label class="label" for="recent_publishdate">최근 출간일</label>
                     <input id="recent_publishdate" type="date" autocomplete="off">
                 </div>
                 <!--대표작품-->
                 <div class="document_main_novel_edit">
-                    <label for="main_novel">대표작품</label>
+                    <label class="label" for="main_novel">대표작품</label>
                     <input id="main_novel" type="text" autocomplete="off">
                 </div>
                 <!--최근작품-->
                 <div class="document_recent_novel_edit">
-                    <label for="recent_novel">최근작품</label>
+                    <label class="label" for="recent_novel">최근작품</label>
                     <input id="recent_novel" type="text" autocomplete="off">
                 </div>
                 <!--학력-->
                 <div class="document_school_edit">
-                    <label for="school">학력</label>
+                    <label class="label" for="school">학력</label>
                     <input id="school" type="text" autocomplete="off">
                 </div>
                 <!--소속-->
                 <div class="document_company_edit">
-                    <label for="company">소속</label>
+                    <label class="label" for="company">소속</label>
                     <input id="company" type="text" autocomplete="off">
                 </div>
                 <!--태그-->
                 <div class="document_tag_edit">
-                    <label for="tag">태그</label>
+                    <label class="label" for="tag">태그</label>
                     <div class="content">
                         <!--<p>Enter 키를 누르거나 쉼표(,) 키를 추가하십시오.</p>-->
                         <ul id="tag_area"><textarea id="tag" maxlength="50"></textarea></ul>

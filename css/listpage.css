@@ -98,7 +98,7 @@ li {
     position: relative;
     /* right:30px;  */
     left: 30px;
-    /* width: 100px; */
+    width: 170px;
     margin: 0;
     text-align: left;
     color: black;
@@ -134,6 +134,7 @@ select {
 
     .list .list_page p {
         font-size: small;
+        width: 140px;
         /* margin-left: 30px; */
     }
 

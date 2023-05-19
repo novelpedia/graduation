@@ -13,9 +13,8 @@
 </head>
 
 <body>
-
     <header class="header">
-        <a class="logo_a" href="http://novelpedia.co.kr">
+        <a class="logo_a" href="../index.html">
             <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
             <img class="logo_icon" src="../image/logo.png">
         </a>
@@ -27,7 +26,7 @@
                 <div class="inner_inner_item">
                     <div class="search">
                         <div class="icon"></div>
-                        <form method="get" action="search">
+                        <form method="get" action="../search">
                             <div class="input">
                                 <input type="text" placeholder="Search" id="mysearch" name="q">
                             </div>
@@ -221,7 +220,7 @@
                         <li>
                             <img src="${doc.data().profilecover}">
                         </li>
-                        <p>${doc.data().name}</p>
+                        <p>〈${doc.data().name}〉</p>
                         </a>
                     </div>`;
                     $('#list_pages_div' + all_count).append(temp);
@@ -293,7 +292,7 @@
                         <li>
                             <img src="${doc.data().profilecover}">
                         </li>
-                        <p>${doc.data().name}</p>
+                        <p>〈${doc.data().name}〉</p>
                         </a>
                     </div>`;
                     $('#list_pages_div' + all_count).append(temp);

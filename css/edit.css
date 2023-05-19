@@ -3,7 +3,7 @@
     margin: 0;
 }
 
-label {
+.label {
     display: inline-block;
     font-size: 18px;
     font-weight: 600;
@@ -360,7 +360,7 @@ label {
 
 @media (max-width:640px) {
     
-    label {
+    .label {
         margin-bottom: 5px;
     }
     

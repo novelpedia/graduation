@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/p_record.css">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/header.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
+    <link href="css/mypage_menubar.css" rel="stylesheet">
+    <title>출판사 열람기록</title>
+</head>
+<body>
+    <input type="checkbox" id="menuicon">
+    <label for="menuicon">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+
+    <nav class="mypage_sidebar">
+        <div class="mypage_menubar_content">
+            <div class="mypage_title"><a href="user_modify.html">마이페이지</a>
+            </div>
+
+            <div class="mypage_imformation"><a href="user_modify.html">회원정보</a>
+            </div>
+
+            <div class="mypage_library">
+                <input type="checkbox" id="answer01">
+                <label for="answer01">
+                    <div class="mypage_mtitle">내 서재</div>
+                </label>
+
+                <div class="mypage_list">
+                    <div class="mypage_set1">
+                        <div class="mypage_picture"><a href="view_record.html">작품</a></div>
+                    </div>
+
+                    <div class="mypage_set1">
+                        <div class="mypage_author"><a href="a_record.html">작가</a></div>
+                    </div>
+
+                    <div class="mypage_set1">
+                        <div class="mypage_publisher"><a href="p_record.html">출판사</a></div>
+                    </div>
+
+                    <div class="mypage_under_bar_boxing">
+                        <div class="mypage_under_bar"></div>
+                    </div>
+
+                    <div class="mypage_set1">
+                        <div class="mypage_visit"><a href="view_record.html">열람기록</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mypage_review"><a href="#">리뷰</a></div>
+        </div>
+        <div class="mypage_leave">
+            <div class="mypage_delete"><a href="#">회원탈퇴</a></div>
+        </div>
+    </nav>
+    
+    <header class="header">
+        <a class="logo_a" href="index.html">
+            <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
+            <img class="logo_icon" src="image/logo.png">
+        </a>
+        <div class="first_line">
+            <div class="inner_item">
+                <a id="open_close" href="#" class="navbar_toggleBtn">
+                    <img id="close" src="image/메뉴_검정_버튼.png">
+                </a>
+                <div class="inner_inner_item">
+                    <div class="search">
+                        <div class="icon"></div>
+                        <form method="get" action="search">
+                            <div class="input">
+                                <input type="text" placeholder="Search" id="mysearch" name="q">
+                            </div>
+                            <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
+                            <input type="submit" value="" class="search_btn">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="set">
+            <div class="set_mid">
+                <ul class="bar_menu">
+                    <li class="mypage_header"><a href="#">마이페이지</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        /*메뉴버튼 바꾸기 위한 변수*/
+        const change_img = document.createElement('img');
+        change_img.setAttribute('src', './image/메뉴_닫힘.png');
+        change_img.setAttribute('id', 'close');
+
+        const change_img_normal = document.createElement('img');
+        change_img_normal.setAttribute('src', './image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('id', 'close');
+
+        /*검색버튼에 대한 동작 변수*/
+        const icon = document.querySelector('.search .icon');
+        const search = document.querySelector('.search');
+        const inner_item = document.querySelector('.inner_item');
+        const inner_inner_item = document.querySelector('.inner_inner_item');
+        const menu_window2 = document.querySelector('.header .set active');
+
+        /*메뉴 버튼에 따른 동작 변수*/
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.bar_menu');
+        const menu_window = document.querySelector('.header .set');
+
+        /*메뉴버튼*/
+        toggleBtn.onclick = function() {
+            menu.classList.toggle('active');
+            menu_window.classList.toggle('active');
+            const lastDiv = document.getElementById('close');
+            /*메뉴창 열림 여부에 따라 버튼 이미지 교체*/
+            if (document.querySelector('.header .set').classList.contains('active')) {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img);
+            } else {
+                document.getElementById('open_close').removeChild(lastDiv);
+                document.getElementById('open_close').appendChild(change_img_normal);
+            }
+
+        }
+
+        /*검색버튼*/
+        icon.onclick = function() {
+            icon.classList.toggle('active');
+            search.classList.toggle('active');
+            inner_item.classList.toggle('active');
+            inner_inner_item.classList.toggle('active');
+            menu_window.classList.toggle('search_active');
+        }
+    </script>
+   
+    <section class="view_section_all">            
+        <div class="container">
+            <div class="banner">열람기록</div>
+        </div>
+        <div class="top">
+            <div class="view_set">
+                <a class="all_choice">모두 선택</a>
+                <a class="delete_it">삭제</a>
+            </div>
+        </div>
+        <div class="top">
+            <div class="view_search">
+                <div class="view_search_bar">
+                    <input type="text" placeholder="검색기록" name="q">
+                    <button onclick="location.href='address'"><img src="./image/search_view.png"></button>
+                </div>
+            </div>
+        </div>
+        <div class="table_all">
+            <div class="table_set">
+                
+                
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">공지사항</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">Q&A</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <ul>
+                        <li><a href="#">의견보내기</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    
+
+    <!--로그인 상태 체크(수정)-->
+    <script src="./js/login_check.js"></script> 
+    <!--로그아웃을 위한 소스코드-->
+    <script src="./js/logout.js"></script>
+    <!--로그아웃 상태일 때-->
+    <script src="./js/logout_state.js"></script>
+
+    
+    <script>
+        
+
+        //const user = firebase.auth().currentUser;
+        const firebaseEmailAuth = firebase.auth();
+        const db = firebase.firestore();
+        
+        firebaseEmailAuth.onAuthStateChanged(function (user) { 
+    var userEmail = user.email.split('@'); 
+    console.log(userEmail[0]); 
+    
+    const userId = userEmail[0] + user.uid;
+
+    
+    
+    // like 컬렉션에서 userId와 일치하는 모든 문서 가져오기
+    db.collection("user").doc(userId).collection("like").orderBy("date", "desc").limit(10).get().then((querySnapshot) => {
+
+        let prevDate = null;
+
+        // 문서 개수에 따라 table_row 생성
+        querySnapshot.forEach((doc) => {
+            console.log("문서 ID:", doc.id);
+            console.log("문서 정보:", doc.data());
+            const classification_check = doc.data().classification;
+
+            if (classification_check === "p") {
+                const date = doc.data().date.toDate();
+
+                // Date 객체 생성
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const day = date.getDate().toString().padStart(2, '0');
+                const hour = date.getHours().toString().padStart(2, '0');
+                const minute = date.getMinutes().toString().padStart(2, '0');
+
+                const currentDate = `${year}년 ${month}월 ${day}일`;
+
+                // (수정 4월 4일) 
+                let tableRowDate;
+                if (prevDate !== currentDate) {
+                    tableRowDate = $('<div>').addClass('table_row_date');
+                    if($('.col_0').length === 0) {
+                        tableRowDate.append($('<div>').addClass('col_0 first_col_0').text(currentDate));
+                    } else {
+                        tableRowDate.append($('<div>').addClass('col_0').text(currentDate));
+                    }
+                    $('.table_set').append(tableRowDate);
+                    prevDate = currentDate;
+                }
+                
+
+                function shield() {
+                $('.table_row_date:first-child .col_0').addClass('first_col_0'); // (수정 4월 4일/ 첫 번째 날짜선은 그대로.)
+                }
+
+                const tableRow = $('<div>').addClass('table_row');
+                tableRow.append($('<div>').addClass('col_1').append($('<input>').attr('type', 'checkbox').attr('name', 'choice').val(doc.id)));
+                tableRow.append($('<div>').addClass('col_2').text(`${hour}시 ${minute}분`));
+                //tableRow.append($('<div>').addClass('col_3').append($('<a>').text(doc.data().author)));
+                tableRow.append($('<div>').addClass('col_4').append($('<a>').text(doc.data().name)));
+
+                $('.table_set').append(tableRow); // 테이블 생성
+
+                
+                    /* "삭제" 클릭 시 문서 삭제 */
+
+                    const deleteLink = $('<a>')
+                    .text('삭제하기')
+                    .click(function() {
+                        
+                        // 문서를 삭제하기 전에 like 필드 값을 감소시킴
+                        const docId = db.collection("publisher_document").doc(`${doc.data().name}`);
+                        const history = db.collection("history").doc(`${doc.data().name}`).collection("data").doc("count"); //0418 수정
+                        const docRef = db.collection("user").doc(userId).collection("like").doc(doc.id);
+                        const decrement = firebase.firestore.FieldValue.increment(-1); //like -1 감소
+                        docId.update({ like: decrement })
+                        .then(function() {
+                            console.log(`문서 ${docId.id}의 좋아요가 삭제되었습니다.`);
+                            history.update({ like: decrement }) //0418 수정
+                            .then(function() {
+                                console.log(`history ${history.id}의 좋아요가 삭제되었습니다.`);
+                            })
+                            .catch(function(error) {
+                                console.error(`history ${history.id}의 좋아요 삭제에 실패하였습니다.${error}`);
+                            });
+                        })
+                        .catch(function(error) {
+                            console.error(`문서 ${docId.id}의 좋아요 삭제에 실패하였습니다.${error}`);
+                        });
+
+                        // (0406) 수정 문서를 삭제함
+                        docRef.delete()
+                        .then(function() {
+                            console.log(`문서 ${docRef.id}가 삭제되었습니다.`);
+                            tableRow.remove();
+                            //const remainingRows = tableRow.find('.table_row').filter(function() {
+                            //    return $(this).find('.col_0').text() === currentDate;
+                            //});
+                            //if (remainingRows.length === 0) {
+                            //    tableRowDate.remove();
+                            //    if ($('.table_row_date').length === 0) {
+                            //        $('.col_0').remove();
+                            //    }
+                            //}
+                        })
+                        .catch(function(error) {
+                            console.error(`문서 삭제 중 오류가 발생했습니다: ${error}`);
+                            });
+                        });
+
+                        const deleteDiv = $('<div>').addClass('col_7').append(deleteLink);
+                        tableRow.append(deleteDiv);
+
+                        let isCheckedAll = false;
+                        let checkedDocs = [];
+
+                        $('.all_choice').click(function() {
+                        isCheckedAll = !isCheckedAll;
+                        $('input[type="checkbox"]:not(#menuicon,#answer01)').prop('checked', isCheckedAll);
+                        updateCheckedDocs();
+                        });
+
+                        $('input[type="checkbox"]:not(.all_choice,#menuicon,#answer01)').click(function() {
+                        updateCheckedDocs();
+                        });
+
+                        function updateCheckedDocs() {
+                        // 선택된 체크박스들의 정보를 얻기
+                        const checkedBoxes = $('input[type="checkbox"]:checked:not(.all_choice,#menuicon,#answer01)');
+
+                        // 선택된 문서 ID 배열 업데이트
+                        checkedDocs.length = 0;
+                        checkedBoxes.each(function() {
+                            checkedDocs.push($(this).val());
+                        });
+                        }
+
+                        $('.delete_it').off('click').click(function() {
+                        // 선택된 체크박스들의 정보를 이용하여 문서와 좋아요 삭제
+                        checkedDocs.forEach(function(docId) {
+                        db.collection("publisher_document").doc(docId).get()
+                        .then(function(doc) {
+                            const docRef = db.collection("user").doc(userId).collection("like").doc(doc.id);
+                            const phistory = db.collection("history").doc(`${doc.data().name}`).collection("data").doc("count");
+                            const decrement = firebase.firestore.FieldValue.increment(-1);
+
+                            db.collection("publisher_document").doc(docId).update({ like: decrement })
+                            .then(function() {
+                                console.log(`문서 ${docId}의 좋아요가 삭제되었습니다.`);
+                            })
+                            .catch(function(error) {
+                                console.error(`문서 ${docId}의 좋아요 삭제에 실패하였습니다.${error}`);
+                            });
+
+                            phistory.update({ like: decrement })
+                            .then(function() {
+                                console.log(`문서 ${docId}의 좋아요가 삭제되었습니다.`);
+                                location.reload(); // 새로고침
+                            })
+                            .catch(function(error) {
+                                console.error(`문서 ${docId}의 좋아요 삭제에 실패하였습니다.${error}`);
+                            });
+
+                            // 문서를 삭제함
+                            docRef.delete()
+                            .catch(function(error) {
+                                console.error(`문서 삭제 중 오류가 발생했습니다: ${error}`);
+                            });
+
+                            // 체크된 row들을 삭제함
+                            $('input[type="checkbox"][value="' + docId + '"]').closest('.table_row').remove();
+
+                        })
+                        .catch(function(error) {
+                            console.error(`문서 객체를 가져오는 데 실패하였습니다.${error}`);
+                        });
+                        });
+                        
+                        // 문서가 0개이면 타임스탬프 삭제
+                        if (tableRowCount === 0) {
+                            $('.table_row_date:first').remove();
+                        }
+
+                        });
+                    }
+            });
+        });
+     });
+
+    </script>
+</body>
+</html>
