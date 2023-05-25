@@ -233,6 +233,24 @@
                 <label for="more" class="trigger" id="more_button"></label>
             </div>
 
+            <!-- 추천 알고리즘 영역 -->
+            <!--작품 목록-->
+            <div id="document_recommand" class="document_recommand">
+                <div class="title">
+                    <p class="p_title">작품추천</p>
+                </div>
+                <div class="content">
+                    <div class="document_first" id="recommand_document">
+                        <!-- <div class="document_list">
+                            <a href="#">
+                                <img src="./image/표지_미등록.png">
+                                <p>소설제목</p>
+                            </a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
             <!--리뷰-->
             <!--<h1>리뷰</h1>-->
             <div id="document_review" class="document_review">
@@ -363,6 +381,61 @@
         }
 
         start_novel();
+    </script>
+
+    <!-- 추천 알고리즘 불러오기 -->
+    <script>
+        fetch('https://64zqrruv262ef2ombx64kkts7i0zcipv.lambda-url.ap-southeast-2.on.aws/',{
+            method: 'POST', // 요청 메서드를 POST로 설정
+            body: JSON.stringify({ document_name : document_name[2]}) // 매개변수를 JSON 형식으로 문자열화하여 페이로드에 포함
+        }).then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if(data==null){
+                    var temp =
+                    `
+                        <div class="document_list_none">
+                            작품을 추천하기에 정보가 부족하거나, 문서가 생성된지 시간이 얼마 지나지 않았습니다. NULL
+                        </div>
+                    `
+                    $('#recommand_document').append(temp);
+                }
+                else{
+                    if(data.length == 1){
+                        var temp =
+                        `
+                            <div class="document_list_none">
+                                작품을 추천하기에 정보가 부족하거나, 문서가 생성된지 시간이 얼마 지나지 않았습니다.
+                            </div>
+                        `
+                        $('#recommand_document').append(temp);
+                    }
+                    else{
+                        data.forEach((doc)=>{
+                            console.log(doc);
+                            if(doc==document_name[2]){
+                                
+                            }
+                            else{
+                                db.collection('novel_document').doc(doc).get().then((result) => {
+                                    var temp =
+                                    `
+                                        <div class="document_list">
+                                            <a href="/n/${doc}">
+                                                <img src="${result.data().bookcover}">
+                                                <p>${result.data().name}</p>
+                                            </a>
+                                        </div>
+                                    `
+                                    $('#recommand_document').append(temp);
+                                }).catch((err) => {
+
+                                })
+                            }
+                        })
+                    }
+                }                
+            }).catch(error => console.error(error));
     </script>
     
     <!-- 리뷰 -->
@@ -1010,7 +1083,7 @@
             else{
                 docPath = db.collection('novel_document').doc(document_name[2]);
             }
-
+            
             document.getElementById('document_name').innerText = document_name[2];
 
             await docPath.get().then((결과) => {

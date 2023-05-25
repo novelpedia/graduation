@@ -121,8 +121,8 @@
                 </select>
             </div>
             <div class="searchbar">
-                <input type="text" placeholder="Search">
-                <button id="seraching">검색</button>
+                <input type="text" placeholder="Search" id="search_bar">
+                <input type="submit" id="searching" value="검색">
             </div>
         </div>
         <div class="table_all">
@@ -203,42 +203,47 @@
     <!-- Firestore 데이터 불러오기 -->
     <script>
         $(document).ready(function() {
-            
-
             // 검색 기능 구현
-            $('#seraching').click(function() {
-                const searchText = $("input[type='text']").val();
-                const selectedOption = $("#format").val();
+            $('#searching').click(function() {
+                let searchText = $('#search_bar').val();
+                searchText = searchText.replace(/\+/gi, ' ');
+                // DB에 키워드들은 띄어쓰기를 제거했으므로 공백을 제거해서 DB 검색에 이용
+                searchText = searchText.toLowerCase().replace(/ /g, '');
+
+                var selectedOption = $("#format").val();
 
                 let query;
-                if (selectedOption === "number") {
-                    query = db.collection("notice").where(selectedOption, "==", parseInt(searchText));
+                if (selectedOption === "name") {
+                    selectedOption = "name_keyword";
                 } else {
-                    query = db.collection("notice").where(selectedOption, "==", searchText);
+                    selectedOption = "content_keyword";
                 }
 
+                query = db.collection("notice").where(selectedOption, "array-contains", searchText);
+
                 query.get().then(function(querySnapshot) {
-                        // 이전 검색 결과 지우기
-                        $("#notice-list").empty();
-                        querySnapshot.forEach(function(doc) {
-                            const timestamp = doc.data().timestamp; // Firestore에서 Timestamp 값을 가져오기
-                            const date = new Date(timestamp.toDate()); // Timestamp 값을 Date 객체로 변환
-                            const year = date.getFullYear();
-                            const month = date.getMonth() + 1;
-                            const day = date.getDate();
-                            const hour = date.getHours();
-                            const minute = date.getMinutes();
-                            const data = `<div class="notice">
-                                <div class="number"><a href="./notice_view.html?page=${doc.data().number}">${doc.data().number}</a></div>
-                                <div class="name"><a href="./notice_view.html?page=${doc.data().number}">${doc.data().name}</a></div>
-                                <div class="date"><a href="./notice_view.html?page=${doc.data().number}">${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분</a></div>
-                            </div>`;
-                            $("#notice-list").append(data);
-                        });
-                    })
-                    .catch(function(error) {
-                        console.log("문서를 가져오는 중 오류 발생: ", error);
+                    // 이전 검색 결과 지우기
+                    $("#notice-list").empty();
+                    $("#next").remove();
+                    $("#prev").remove();
+                    querySnapshot.forEach(function(doc) {
+                        const timestamp = doc.data().timestamp; // Firestore에서 Timestamp 값을 가져오기
+                        const date = new Date(timestamp.toDate()); // Timestamp 값을 Date 객체로 변환
+                        const year = date.getFullYear();
+                        const month = date.getMonth() + 1;
+                        const day = date.getDate();
+                        const hour = date.getHours();
+                        const minute = date.getMinutes();
+                        const data = `<div class="notice">
+                            <div class="number"><a href="./notice_view.html?page=${doc.data().number}">${doc.data().number}</a></div>
+                            <div class="name"><a href="./notice_view.html?page=${doc.data().number}">${doc.data().name}</a></div>
+                            <div class="date"><a href="./notice_view.html?page=${doc.data().number}">${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분</a></div>
+                        </div>`;
+                        $("#notice-list").append(data);
                     });
+                }).catch(function(error) {
+                    console.log("문서를 가져오는 중 오류 발생: ", error);
+                });
             });
         });
     </script>

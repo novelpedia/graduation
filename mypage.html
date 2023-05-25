@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="login_html">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
-    <link href="css/password_check.css" rel="stylesheet">
     <link href="css/header.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
     <link href="css/user_modify.css" rel="stylesheet">
+    <link href="css/password_check.css" rel="stylesheet">
     <link href="css/mypage_menubar.css" rel="stylesheet">
     <link href="css/pwc_userm.css" rel="stylesheet">
     <title>마이페이지</title>
@@ -41,9 +41,24 @@
             <div class="set">
                 <div class="set_mid">
                     <ul class="bar_menu">
-                        <li><a href="listpage.html">목록페이지</a></li>
+                        <input type="checkbox" id="list_open">
+                        <label for="list_open" class="list_page_label">
+                            <li class="list_li">목록페이지</li>
+                            <div class="header_list">
+                                <div class="header_set1">
+                                    <div class="header_picture"><a href="list/novel">작품</a></div>
+                                </div>
+                                <div class="header_set1">
+                                    <div class="header_author"><a href="list/author">작가</a></div>
+                                </div>
+            
+                                <div class="header_set1">
+                                    <div class="header_publisher"><a href="list/publisher">출판사</a></div>
+                                </div>
+                            </div>
+                        </label>
                         <li class="mypage_header" id="mypage_button"><a href="mypage">마이페이지</a></li>
-                        <li><a href="login.html" id="login_logout">Login</a></li>
+                        <li><a href="login" id="login_logout">Login</a></li>
                     </ul>
                 </div>
             </div>
@@ -99,12 +114,12 @@
         }
     </script>
 
-<!-- 비밀번호 재확인 -->
+    <!-- 비밀번호 재확인 -->
     <section class="check_section">
         <div class="checkbox">
             <h2>비밀번호 재확인</h2>
                 <fieldset class="check_area">
-                    <!--<legend> 로그인 구역</legend>-->   
+                    <!--<legend> 로그인 구역</legend>-->
                     <div>
                         <label for="loginpw">비밀번호</label>
                         <input type="password" id="loginpw" placeholder="비밀번호를 입력해주세요.">
@@ -114,22 +129,18 @@
             
         </div>
     </section>
-
-<!-- 사이드 바 -->
-<input type="checkbox" id="menuicon">
-<label for="menuicon" id=hamburger style="display: none;">
-    <span></span>
-    <span></span>
-    <span></span>
-</label>
+    <!-- 사이드 바 -->
+    <input type="checkbox" id="menuicon">
+    <label for="menuicon" id=hamburger style="display: none;">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
 
     <nav class="mypage_sidebar" style="display: none";>
         <div class="mypage_menubar_content">
-            <div class="mypage_title"><a href="user_modify.html">마이페이지</a>
-            </div>
-
-            <div class="mypage_imformation"><a href="user_modify.html">회원정보</a>
-            </div>
+            <div class="mypage_title"><a href="mypage.html">마이페이지</a></div>
+            <div class="mypage_imformation"><a href="mypage.html">회원정보</a></div>
 
             <div class="mypage_library">
                 <input type="checkbox" id="answer01">
@@ -139,7 +150,7 @@
 
                 <div class="mypage_list">
                     <div class="mypage_set1">
-                        <div class="mypage_picture"><a href="view_record.html">작품</a></div>
+                        <div class="mypage_picture"><a href="n_record.html">작품</a></div>
                     </div>
 
                     <div class="mypage_set1">
@@ -150,20 +161,20 @@
                         <div class="mypage_publisher"><a href="p_record.html">출판사</a></div>
                     </div>
 
-                    <div class="mypage_under_bar_boxing">
+                    <!-- <div class="mypage_under_bar_boxing">
                         <div class="mypage_under_bar"></div>
                     </div>
 
                     <div class="mypage_set1">
                         <div class="mypage_visit"><a href="view_record.html">열람기록</a></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
-            <div class="mypage_review"><a href="#">리뷰</a></div>
+            <div class="mypage_review"><a href="review_record.html">리뷰</a></div>
         </div>
         <div class="mypage_leave">
-            <div class="mypage_delete"><a href="#" id="delete-account" >회원탈퇴</a></div>
+            <div class="mypage_delete"><a href="#" id="delete-account">회원탈퇴</a></div>
         </div>
     </nav>
     
@@ -202,10 +213,9 @@
 
     <!--제이쿼리-->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    
+
     <!--파이어베이스 정보 가져오기--><!--파이어베이스 연동 키값-->
     <script src="./js/information.js"></script>
-
     <!--로그인 상태 체크-->
     <script src="./js/login_check.js"></script>
     <!--로그아웃을 위한 소스코드-->
@@ -218,9 +228,9 @@
             const docRef = db.collection("user").doc(user.email.split('@')[0] + user.uid);
 
             const doc = await docRef.get();
-        
+    
             if (doc.exists) {
-                const loginId = localStorage.getItem('loginId');
+                const loginId = user.email.split('@')[0];
                 if (loginId) {
                     $('#signupid').val(loginId).prop('disabled', true);
                 } 
@@ -229,118 +239,119 @@
                 }
                 const loginNickname = doc.data().닉네임;
                 $('#signupnickname').val(loginNickname);
-            }
-            else {
+            }   
+            else{
                 console.log("회원정보가 없습니다.");
             }
 
             const login_btn = document.querySelector('#check_btn');
-            
             login_btn.addEventListener('click', async () => {
                 const loginpw = document.querySelector('#loginpw').value;
                 var userEmail = user.email;
-                const savedPassword = localStorage.getItem('password');
 
-                // 로그인 시도
-                await firebaseEmailAuth.signInWithEmailAndPassword(user.email, loginpw);
-                console.log(`회원정보는 ${user.email.split('@')[0] + user.uid}`);
+                try {
+                    // 로그인 시도
+                    await firebaseEmailAuth.signInWithEmailAndPassword(user.email, loginpw);
+                    console.log(`회원정보는 ${user.email.split('@')[0] + user.uid}`);
 
-                // 사용자 정보 조회
-                const userInfoDoc = await db.collection('user').doc(user.email.split('@')[0] + user.uid).get();
-                const userInfo = userInfoDoc.data();
-                console.log(userInfo);
+                    // 사용자 정보 조회
+                    const userInfoDoc = await db.collection('user').doc(user.email.split('@')[0] + user.uid).get();
+                    const userInfo = userInfoDoc.data();
+                    console.log(userInfo);
 
-                if (loginpw === savedPassword) {
+                    // 0519 수정
+                    const firebaseUser = firebaseEmailAuth.currentUser;
+                    const credential = firebase.auth.EmailAuthProvider.credential(firebaseUser.email, loginpw);
+                    await firebaseUser.reauthenticateWithCredential(credential);
                     console.log("비밀번호가 일치합니다.");
 
                     $('.check_section').remove();
                     // 회원정보 수정 폼 출력
                     var form = `
-                    <div class="user_modify">
-                        <div class="space">
-                            <div class="mypage">회원정보</div>
-                        </div>
-                        <div class="space2">
-                            <div class="modify">회원정보 수정</div>
-                        </div>
-                        <form action="">
-                            <div class="mid">
-                                <div class="first">
-                                    <div class="id">
-                                        <label for="idtitle">아이디</label>
-                                        <input type="text" id="signupid" placeholder="">
-                                    </div>
-                                    <div class="password">
-                                        <label for="patitle">비밀번호</label>
-                                        <input type="password" id="signupPass" placeholder=""> <!-- (수정) 비밀번호 수정 시 보이게-->
-                                    </div>
-                                    <div class="password2">
-                                        <label for="pa2title">비밀번호 확인</label>
-                                        <input type="password" id="passwordCheck" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="second">
-                                    <div class="name">
-                                        <label for="natitle">이름</label>
-                                        <input type="text" id="signupname" placeholder="">
-                                    </div>
-                                    <div class="nickname">
-                                        <label for="nititle">닉네임</label>
-                                        <input type="text" id="signupnickname" placeholder="">
-                                    </div>
-                                    <div class="gender">
-                                        <input type="radio" id="male" name="gender" value="male" disabled checked>
-                                        <label for="male" id="male-label">남성</label>
-                                        <input type="radio" id="female" name="gender" value="female" disabled>
-                                        <label for="female" id="female-label">여성</label>
-                                    </div>
-                                    <div class="birthday">
-                                        <label>생년월일</label>
-                                        <input type="date" id="userBirthday" value="2001-10-05" disabled />
-                                    </div>
-                                    <div class="email">
-                                        <label for="etitle">이메일</label>
-                                        <div class="setting">
-                                            <input type="text" name="email1" id="email1" placeholder="이메일 입력" size="15">
-                                            <select id="email2">
-                                                <option>직접 입력</option>
-                                                <option>@gmail.com</option>
-                                                <option>@naver.com</option>
-                                                <option>@daum.com</option>
-                                                <option>@yahoo.com</option>
-                                                <option>@nate.com</option>
-                                                <option>@novelpedia.com</option>
-                                            </select>
+                        <div class="user_modify">
+                            <div class="space">
+                                <div class="mypage">회원정보</div>
+                            </div>
+                            <div class="space2">
+                                <div class="modify">회원정보 수정</div>
+                            </div>
+                            <form action="">
+                                <div class="mid">
+                                    <div class="first">
+                                        <div class="id">
+                                            <label for="idtitle">아이디</label>
+                                            <input type="text" id="signupid" placeholder="">
+                                        </div>
+                                        <div class="password">
+                                            <label for="patitle">비밀번호</label>
+                                            <input type="password" id="signupPass" placeholder=""> <!-- (수정) 비밀번호 수정 시 보이게-->
+                                        </div>
+                                        <div class="password2">
+                                            <label for="pa2title">비밀번호 확인</label>
+                                            <input type="password" id="passwordCheck" placeholder="">
                                         </div>
                                     </div>
-                                    <div class="block">
-                                        <button class="check" type="button">인증하기</button>
+                                    <div class="second">
+                                        <div class="name">
+                                            <label for="natitle">이름</label>
+                                            <input type="text" id="signupname" placeholder="">
+                                        </div>
+                                        <div class="nickname">
+                                            <label for="nititle">닉네임</label>
+                                            <input type="text" id="signupnickname" placeholder="">
+                                        </div>
+                                        <div class="gender">
+                                            <input type="radio" id="male" name="gender" value="male" disabled checked>
+                                            <label for="male" id="male-label">남성</label>
+                                            <input type="radio" id="female" name="gender" value="female" disabled>
+                                            <label for="female" id="female-label">여성</label>
+                                        </div>
+                                        <div class="birthday">
+                                            <label>생년월일</label>
+                                            <input type="date" id="userBirthday" value="2001-10-05" disabled />
+                                        </div>
+                                        <div class="email">
+                                            <label for="etitle">이메일</label>
+                                            <div class="setting">
+                                                <input type="text" name="email1" id="email1" placeholder="이메일 입력" size="15">
+                                                <select id="email2">
+                                                    <option>직접 입력</option>
+                                                    <option>@gmail.com</option>
+                                                    <option>@naver.com</option>
+                                                    <option>@daum.com</option>
+                                                    <option>@yahoo.com</option>
+                                                    <option>@nate.com</option>
+                                                    <option>@novelpedia.com</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="block">
+                                            <button class="check" type="button">인증하기</button>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="third">
-                                    <div class="phone">
-                                        <label for="ptitle">전화번호</label>
-                                        <input type="text" id ="signupphonNumber" placeholder="">
-                                    </div>
-                                    <div class="block2">
-                                        <button class="check2" type="button">인증하기</button>
+                                    <div class="third">
+                                        <div class="phone">
+                                            <label for="ptitle">전화번호</label>
+                                            <input type="text" id ="signupphonNumber" placeholder="">
+                                        </div>
+                                        <div class="block2">
+                                            <button class="check2" type="button">인증하기</button>
+                                        </div>
                                     </div>
                                 </div>
+                            </form>
+                            <div class="buttons">
+                                <button id = "cancelButton" type="submit">취소</button>
+                                <button id = "saveButton" type="button">저장</button>
                             </div>
-                        </form>
-                        <div class="buttons">
-                            <button id = "cancelButton" type="submit">취소</button>
-                            <button id = "saveButton" type="button">저장</button>
-                        </div>
-                    </div>`;
+                        </div>`;
 
                     // 폼 생성
                     $('#modify_user').append(form);
-                    
 
                     // 데이터 출력
-                    const loginId = localStorage.getItem('loginId');
+                    const loginId = user.email.split('@')[0];
 
                     if (loginId) {
                         $('#signupid').val(loginId).prop('disabled', true);
@@ -375,7 +386,6 @@
                     document.getElementById("userBirthday").value = userBirthday;
 
                     const loginEmail = doc.data().이메일;
-
                     const atIndex = loginEmail.indexOf('@');
                     const loginEmail1 = loginEmail.substring(0, atIndex);
                     const loginEmail2 = loginEmail.substring(atIndex + 1);
@@ -389,10 +399,9 @@
                     $('#signupphonNumber').val(loginPhonnum);
                     $('#hamburger').show();
                     $('.mypage_sidebar').show();
-
-                } 
-                else {
-                    // loginpw와 savedPassword가 다를 때 실행되는 코드
+                }
+                catch (error) {
+                    console.log("로그인 에러:", error);
                     console.log("비밀번호가 일치하지 않습니다.");
                 }
 
@@ -412,8 +421,8 @@
                     if (newPassword === CheckPassword) { //(수정)변경할 비밀번호 값과 비밀번호 재확인 값이 일치할 시
                         user.updatePassword(newPassword).then(function() {
                             console.log('비밀번호가 변경되었습니다.');
-                        }); //(수정)변경 and 수정완료 출력
-                            
+                        });
+                                
                         const docRef = db.collection("user").doc(user.email.split('@')[0] + user.uid);
                         docRef.update({ // Firestore 데이터 업데이트
                             이름: newName,
@@ -424,39 +433,38 @@
                             전화번호: newPhonenum, 
                         }).then(() => {
                             alert("수정 되었습니다.");
-                            // 저장 성공 메시지 출력 및 이후 처리
                         }).catch((error) => {
                             alert(error);
-                            // 저장 실패 메시지 출력
-                        });
-                    } else {
+                        });  
+                    }
+                    else {
                         alert('비밀번호가 일치하지 않습니다.');
                     }
                 });
-                    
+                
                 $('#cancelButton').click(function() {
                     window.location.href = 'index.html';
                 });
             });
         });   
-</script> 
+    </script> 
 
-<script>
-    //회원 탈퇴 기능
-    const deleteBtn = document.querySelector('#delete-account'); //탈퇴 버튼 기능
+    <script>
+        //회원 탈퇴 기능
+        const deleteBtn = document.querySelector('#delete-account'); //탈퇴 버튼 기능
 
-    deleteBtn.addEventListener('click', (event) => { //버튼 클릭 시 발생
-        event.preventDefault(); //잠깐 작동 정지하고
+        deleteBtn.addEventListener('click', (event) => { //버튼 클릭 시 발생
+            event.preventDefault(); //잠깐 작동 정지하고
 
-        if (confirm('노벨피디아를 탈퇴하시겠습니까?')) {
-            docRef.delete().then(function() { 
-                confirm("탈퇴 되었습니다.");
-                location.href = "login.html"; //로그인 화면으로 이동
-            }).catch(function(error) {
-                console.error("탈퇴 실패되었습니다.", error);
-            }); 
-        }
-    });
-</script>
+            if (confirm('노벨피디아를 탈퇴하시겠습니까?')) {
+                docRef.delete().then(function() { 
+                    confirm("탈퇴 되었습니다.");
+                    location.href = "login.html"; //로그인 화면으로 이동
+                }).catch(function(error) {  
+                    console.error("탈퇴 실패되었습니다.", error);
+                });    
+            }
+        });
+    </script>
 </body>
 </html>

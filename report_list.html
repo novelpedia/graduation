@@ -121,8 +121,8 @@
                 </select>
             </div>
             <div class="searchbar">
-                <input type="text" placeholder="Search">
-                <button type="submit">검색</button>
+                <input type="text" placeholder="Search" id="search_bar">
+                <input type="submit" value="검색" id="search_button">
             </div>
         </div>
         <div class="table_all">
@@ -399,23 +399,29 @@
         });
 
         // 검색 기능 구현
-        $("button[type='submit']").click(function() {
-            const searchText = $("input[type='text']").val();
-            const selectedOption = $("#format").val();
+        $('#search_button').click(function() {
+            let searchText = $('#search_bar').val();
+            searchText = searchText.replace(/\+/gi, ' ');
+            // DB에 키워드들은 띄어쓰기를 제거했으므로 공백을 제거해서 DB 검색에 이용
+            searchText = searchText.toLowerCase().replace(/ /g, '');
+            
+            var selectedOption = $("#format").val();
 
             let query;
-            if (selectedOption === "number") {
-                query = db.collection("report")
-                    .where(selectedOption, "==", parseInt(searchText));
+            if (selectedOption == "name") {
+                selectedOption = "name_keyword";
             } else {
-                query = db.collection("report")
-                    .where(selectedOption, "==", searchText);
+                // 아직 DB에 content_keyword 저장하지 않고 있음
+                selectedOption = "content_keyword";
             }
 
-            query.get()
-                .then(function(querySnapshot) {
+            query = db.collection("report").where(selectedOption, "array-contains", searchText);
+
+            query.get().then(function(querySnapshot) {
                     // 이전 검색 결과 지우기
                     $("#report-list").empty();
+                    $("#next").remove();
+                    $("#prev").remove();
                     querySnapshot.forEach(function(doc) {
                         const created_at = doc.data().created_at; // Firestore에서 created_at 값을 가져오기
                         const date = new Date(created_at.toDate()); // created_at 값을 Date 객체로 변환

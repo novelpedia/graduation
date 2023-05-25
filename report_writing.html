@@ -179,6 +179,7 @@
             if (number == null) {
                 // 등록 버튼 클릭했을 때 실행
                 $(".register").on("click", function() {
+                    outputKeyword();
                     // var user_id = login_user_information 제거
                     console.log("user_id : " + user_id);
 
@@ -209,8 +210,7 @@
                                 var updated_at = created_at; // 최초 작성 시간이므로 수정 시간도 최초 작성 시간과 같습니다.
 
                                 // 신고 및 건의 db에 추가
-                                db.collection("report")
-                                    .add({
+                                db.collection("report").add({
                                     user_id : user_id,
                                     name: name,
                                     content: content,
@@ -218,15 +218,14 @@
                                     updated_at: updated_at,
                                     view: view,
                                     number: newNum,
-                                    category: category // 선택된 카테고리 값 추가
-                                    })
-                                    .then(function(docRef) {
-                                    console.log("ID로 작성된 문서: ", docRef.id);
-                                    alert("신고 및 건의 등록되었습니다.");
-                                    location.href = "report_list.html"; // 새로 등록할 때는 목록 페이지로 이동
-                                    })
-                                    .catch(function(error) {
-                                    console.error("문서 추가 오류: ", error);
+                                    category: category, // 선택된 카테고리 값 추가
+                                    name_keyword: keywordTemp3
+                                    }).then(function(docRef) {
+                                        console.log("ID로 작성된 문서: ", docRef.id);
+                                        alert("신고 및 건의 등록되었습니다.");
+                                        location.href = "report_list.html"; // 새로 등록할 때는 목록 페이지로 이동
+                                    }).catch(function(error) {
+                                        console.error("문서 추가 오류: ", error);
                                     });
                                 })
                                 .catch(function(error) {
@@ -242,77 +241,77 @@
                 });
             }else { // number 값 이미 있을 때, 신고 및 건의 수정
                 // 제목, 내용 가져와서 미리 채우기
-                db.collection("report").where("number", "==", parseInt(number))
-                    .get()
-                    .then(function(querySnapshot) {
-                        querySnapshot.forEach(function(doc) {
-                            var user_id = doc.data().user_id;
-                            var name = doc.data().name;
-                            var content = doc.data().content;
-                            $("#name").val(name);
-                            $("#content").val(content);
+                db.collection("report").where("number", "==", parseInt(number)).get().then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                        var user_id = doc.data().user_id;
+                        var name = doc.data().name;
+                        var content = doc.data().content;
+                        $("#name").val(name);
+                        $("#content").val(content);
 
-                            // 신고와 건의 라디오 버튼 체크 상태 유지
-                            const category = doc.data().category.toLowerCase();
+                        // 신고와 건의 라디오 버튼 체크 상태 유지
+                        const category = doc.data().category.toLowerCase();
 
-                            if (category === "r") { // 신고 체크
-                                $('input:radio[name="choice1"][value="r"]').prop('checked', true); // 해당 라디오 버튼을 체크된 상태로 변경
-                                $('input:radio[name="choice2"][value="s"]').prop('checked', false);// 해당 라디오 버튼을 체크 X
-                            } else if (category === "s") { // 건의 체크
-                                $('input:radio[name="choice2"][value="s"]').prop('checked', true); // 해당 라디오 버튼을 체크된 상태로 변경
-                                $('input:radio[name="choice1"][value="r"]').prop('checked', false);// 해당 라디오 버튼을 체크 X
-                            } else { // 체크 해제
-                                $('input:radio[name="choice1"]').prop('checked', false);
-                                $('input:radio[name="choice2"]').prop('checked', false);
+                        if (category === "r") { // 신고 체크
+                            $('input:radio[name="choice1"][value="r"]').prop('checked', true); // 해당 라디오 버튼을 체크된 상태로 변경
+                            $('input:radio[name="choice2"][value="s"]').prop('checked', false);// 해당 라디오 버튼을 체크 X
+                        } else if (category === "s") { // 건의 체크
+                            $('input:radio[name="choice2"][value="s"]').prop('checked', true); // 해당 라디오 버튼을 체크된 상태로 변경
+                            $('input:radio[name="choice1"][value="r"]').prop('checked', false);// 해당 라디오 버튼을 체크 X
+                        } else { // 체크 해제
+                            $('input:radio[name="choice1"]').prop('checked', false);
+                            $('input:radio[name="choice2"]').prop('checked', false);
+                        }
+                        // 라디오 버튼 중 하나가 클릭되면, 클릭된 라디오 버튼을 제외한 나머지 체크 해제
+                        $('input[type="radio"]').on('click', function() {
+                            if ($(this).prop('checked')) {
+                                $(this).siblings().prop('checked', false);
                             }
-                            // 라디오 버튼 중 하나가 클릭되면, 클릭된 라디오 버튼을 제외한 나머지 체크 해제
-                            $('input[type="radio"]').on('click', function() {
-                                if ($(this).prop('checked')) {
-                                    $(this).siblings().prop('checked', false);
-                                }
-                            });
-
-                            // 등록(수정) 버튼 클릭했을 때 실행
-                            $(".register").on("click", function() {
-                                if (login_check == true && user_id === doc.data().user_id) {
-                                    // 입력한 내용 가져오기
-                                    var name = $("#name").val();
-                                    var content = $("#content").val();
-                                    // 신고 or 건의 값을 가져오는 category
-                                    var category = $("input[name='choice1']:checked").val() || $("input[name='choice2']:checked").val();
-                                    
-                                    // 모든 값이 작성되었을 때
-                                    if (name !== '' && content !== '' && category !== undefined) {
-                                    
-                                        var timestamp = firebase.firestore.Timestamp.fromDate(new Date());
-                                        // 문서 업데이트
-                                        db.collection("report").doc(doc.id).update({
-                                            name: name,
-                                            content: content,
-                                            category: category,
-                                            updated_at: timestamp // 최종 수정 시간 기록
-                                        })
-                                        .then(function() {
-                                            console.log("문서가 성공적으로 업데이트되었습니다!");
-                                            alert("신고 및 건의 수정되었습니다.");
-                                            location.href = "report_view.html?page=" + number;
-                                        })
-                                        .catch(function(error) {
-                                            console.error("문서 업데이트 오류: ", error);
-                                        });
-                                    }
-                                } else {
-                                    $("#register").remove(); // 등록(수정) 버튼 제거
-                                    // 로그인하지 않은 유저는 경고 메시지를 출력합니다.
-                                    console.log("글 작성자가 아닙니다.");
-                                    alert("글 작성자가 아닙니다.");
-                                }
-                            });
                         });
-                    })
-                    .catch(function(error) {
-                        console.log("문서를 가져오는 중 오류 발생: ", error);
+
+                        // 등록(수정) 버튼 클릭했을 때 실행
+                        $(".register").on("click", function() {
+                            outputKeyword();
+                            if (login_check == true && user_id === doc.data().user_id) {
+                                // 입력한 내용 가져오기
+                                var name = $("#name").val();
+                                var content = $("#content").val();
+                                // 신고 or 건의 값을 가져오는 category
+                                var category = $("input[name='choice1']:checked").val() || $("input[name='choice2']:checked").val();
+                                
+                                // 모든 값이 작성되었을 때
+                                if (name !== '' && content !== '' && category !== undefined) {
+                                
+                                    var timestamp = firebase.firestore.Timestamp.fromDate(new Date());
+                                    // 문서 업데이트
+                                    db.collection("report").doc(doc.id).update({
+                                        name: name,
+                                        content: content,
+                                        category: category,
+                                        updated_at: timestamp, // 최종 수정 시간 기록
+                                        name_keyword: keywordTemp3
+                                    })
+                                    .then(function() {
+                                        console.log("문서가 성공적으로 업데이트되었습니다!");
+                                        alert("신고 및 건의 수정되었습니다.");
+                                        location.href = "report_view.html?page=" + number;
+                                    })
+                                    .catch(function(error) {
+                                        console.error("문서 업데이트 오류: ", error);
+                                    });
+                                }
+                            }
+                            else {
+                                $("#register").remove(); // 등록(수정) 버튼 제거
+                                // 로그인하지 않은 유저는 경고 메시지를 출력합니다.
+                                console.log("글 작성자가 아닙니다.");
+                                alert("글 작성자가 아닙니다.");
+                            }
+                        });
                     });
+                }).catch(function(error) {
+                    console.log("문서를 가져오는 중 오류 발생: ", error);
+                });
             }
         });
     </script>
@@ -327,6 +326,117 @@
             if (!results) return null;
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+    </script>
+
+    <script>
+        let keywordTemp3 = [];
+
+        function outputKeyword() {
+            const keyword = document.getElementById("name").value.toLowerCase();
+            const keywordLen = keyword.length;
+            const keywordTemp = [];
+
+            for(let i=0; i< keywordLen; i++) {
+                for(let j=i+1; j<=keywordLen; j++){
+                    // 글자 수 만큼 분리
+                    const temp = keyword.substr(i, j-i).trim();
+                    const regex = /[^a-zA-Z0-9가-힣]/g;
+                    const filteredSubstr = temp.replace(regex, "");
+                    if(filteredSubstr !== "") {
+                        keywordTemp.push(filteredSubstr);
+                    }
+                }
+            }
+            
+            const name_keyword_temp = [ 
+                keyword.split(/[\s]+/),
+                keyword.split(/은\s+/),
+                keyword.split(/의\s+/),
+                keyword.split(/에\s+/),
+                keyword.split(/는\s+/),
+                keyword.split(/이\s+/),
+                keyword.split(/가\s+/),
+                keyword.split(/만\s+/),
+                keyword.split(/뿐\s+/),
+                keyword.split(/밖에\s+/),
+                keyword.split(/도\s+/),
+                keyword.split(/까지\s+/),
+                keyword.split(/마저\s+/),
+                keyword.split(/조차\s+/),
+                keyword.split(/은\s+/),
+                keyword.split(/나\s+/),
+                keyword.split(/이나\s+/),
+                keyword.split(/라도\s+/),
+                keyword.split(/이라도\s+/),
+                keyword.split(/든지\s+/),
+                keyword.split(/이든지\s+/),
+                keyword.split(/이나마\s+/),
+                keyword.split(/나마\s+/),
+                keyword.split(/,\s+/),
+                keyword.split(/"\s+/),
+                keyword.split(/,\s+&\s+/),
+                keyword.split('/'),
+                keyword.split('?'),
+                keyword.split(/!\s+/),
+                keyword.split(/@\s+/),
+                keyword.split(/#\s+/),
+                keyword.split('$'),
+                keyword.split(/%\s+/),
+                keyword.split('^'),
+                keyword.split(/&\s+/),
+                keyword.split('*'),
+                keyword.split('('),
+                keyword.split(')'),
+                keyword.split(/-\s+/),
+                keyword.split(/_\s+/),
+                keyword.split('+'),
+                keyword.split(/=\s+/),
+                keyword.split(/<\s+/),
+                keyword.split(/>\s+/),
+                keyword.split(/.\s+/),
+                keyword.split('|'),
+                keyword.split(/`\s+/),
+                keyword.split(/~\s+/),
+                keyword.split('['),
+                keyword.split(']'),
+                keyword.split('{'),
+                keyword.split('}'),
+                keyword.split(/」\s+/),
+                keyword.split(/「\s+/),
+                keyword.split(/,[\s]+/),
+                keyword.split(/"\s+/),
+                keyword.split(/1\s+/),
+                keyword.split(/2\s+/),
+                keyword.split(/3\s+/),
+                keyword.split(/4\s+/),
+                keyword.split(/5\s+/),
+                keyword.split(/6\s+/),
+                keyword.split(/7\s+/),
+                keyword.split(/8\s+/),
+                keyword.split(/9\s+/),
+                keyword.split(/0\s+/)
+            ];
+
+            const name_keyword_temp2 = flattenArray(name_keyword_temp).filter(element => element.trim() !== '').map(element => element.replace(/[^\w\s]/gi, '')).map(element => element.replace(/[\s]/gi, ''));
+            // 공백 또는 빈 문자열 제거
+            keywordTemp3 = [...new Set(name_keyword_temp2.concat(keywordTemp))].filter(element => element.trim() !== '');
+            // 분리된 문자열 최종 출력
+            console.log(keywordTemp3);
+        }
+
+        // 주어진 배열을 1차원 배열로 만드는 함수 -> 재귀적 함수
+        function flattenArray(arr) {
+            let result = [];
+            arr.forEach(element => {
+                // 만약 요소가 배열인 경우 재귀적으로 결과 배열에 추가
+                if(Array.isArray(element)) {
+                    result = result.concat(flattenArray(element));
+                } else {  // 요소가 배열이 아닌 경우 결과 배열에 직접 추가
+                    result.push(element);
+                }
+            });
+            return result;
         }
     </script>
 </body>

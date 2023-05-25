@@ -174,6 +174,7 @@
             if (number == null) { 
                 // 등록 버튼 클릭했을 때 실행
                 $(".register").on("click", function() {
+                    outputKeyword();
                     if(login_check==true){
                         if(login_user_class=="m"){
                             // 공지사항 중 가장 큰 number 값 찾기
@@ -193,7 +194,8 @@
                                     timestamp: new Date(),
                                     first_date: new Date(),
                                     view: 0,
-                                    number: newNum
+                                    number: newNum,
+                                    name_keyword: keywordTemp3
                                 }).then(function(docRef) {
                                     console.log("ID로 작성된 문서: ", docRef.id);
                                     alert("공지사항이 등록되었습니다.");
@@ -231,12 +233,14 @@
 
                 // 등록(수정) 버튼 클릭했을 때 실행
                 $(".register").on("click", function() {
+                    outputKeyword();
                     if(login_check==true){
                         if(login_user_class=="m"){
                             db.collection("notice").doc(docId).update({
                                 name: $("#title").val(),
                                 content: document.getElementById("content").innerHTML,
-                                timestamp: new Date()
+                                timestamp: new Date(),
+                                name_keyword: keywordTemp3
                             }).then(function() {
                                 console.log("문서가 성공적으로 업데이트되었습니다!");
                                 alert("공지사항이 수정되었습니다.");
@@ -271,6 +275,117 @@
             if (!results) return null;
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+    </script>
+
+    <script>
+        let keywordTemp3 = [];
+
+        function outputKeyword() {
+            const keyword = document.getElementById("title").value.toLowerCase();
+            const keywordLen = keyword.length;
+            const keywordTemp = [];
+
+            for(let i=0; i< keywordLen; i++) {
+                for(let j=i+1; j<=keywordLen; j++){
+                    // 글자 수 만큼 분리
+                    const temp = keyword.substr(i, j-i).trim();
+                    const regex = /[^a-zA-Z0-9가-힣]/g;
+                    const filteredSubstr = temp.replace(regex, "");
+                    if(filteredSubstr !== "") {
+                        keywordTemp.push(filteredSubstr);
+                    }
+                }
+            }
+            
+            const name_keyword_temp = [ 
+                keyword.split(/[\s]+/),
+                keyword.split(/은\s+/),
+                keyword.split(/의\s+/),
+                keyword.split(/에\s+/),
+                keyword.split(/는\s+/),
+                keyword.split(/이\s+/),
+                keyword.split(/가\s+/),
+                keyword.split(/만\s+/),
+                keyword.split(/뿐\s+/),
+                keyword.split(/밖에\s+/),
+                keyword.split(/도\s+/),
+                keyword.split(/까지\s+/),
+                keyword.split(/마저\s+/),
+                keyword.split(/조차\s+/),
+                keyword.split(/은\s+/),
+                keyword.split(/나\s+/),
+                keyword.split(/이나\s+/),
+                keyword.split(/라도\s+/),
+                keyword.split(/이라도\s+/),
+                keyword.split(/든지\s+/),
+                keyword.split(/이든지\s+/),
+                keyword.split(/이나마\s+/),
+                keyword.split(/나마\s+/),
+                keyword.split(/,\s+/),
+                keyword.split(/"\s+/),
+                keyword.split(/,\s+&\s+/),
+                keyword.split('/'),
+                keyword.split('?'),
+                keyword.split(/!\s+/),
+                keyword.split(/@\s+/),
+                keyword.split(/#\s+/),
+                keyword.split('$'),
+                keyword.split(/%\s+/),
+                keyword.split('^'),
+                keyword.split(/&\s+/),
+                keyword.split('*'),
+                keyword.split('('),
+                keyword.split(')'),
+                keyword.split(/-\s+/),
+                keyword.split(/_\s+/),
+                keyword.split('+'),
+                keyword.split(/=\s+/),
+                keyword.split(/<\s+/),
+                keyword.split(/>\s+/),
+                keyword.split(/.\s+/),
+                keyword.split('|'),
+                keyword.split(/`\s+/),
+                keyword.split(/~\s+/),
+                keyword.split('['),
+                keyword.split(']'),
+                keyword.split('{'),
+                keyword.split('}'),
+                keyword.split(/」\s+/),
+                keyword.split(/「\s+/),
+                keyword.split(/,[\s]+/),
+                keyword.split(/"\s+/),
+                keyword.split(/1\s+/),
+                keyword.split(/2\s+/),
+                keyword.split(/3\s+/),
+                keyword.split(/4\s+/),
+                keyword.split(/5\s+/),
+                keyword.split(/6\s+/),
+                keyword.split(/7\s+/),
+                keyword.split(/8\s+/),
+                keyword.split(/9\s+/),
+                keyword.split(/0\s+/)
+            ];
+
+            const name_keyword_temp2 = flattenArray(name_keyword_temp).filter(element => element.trim() !== '').map(element => element.replace(/[^\w\s]/gi, '')).map(element => element.replace(/[\s]/gi, ''));
+            // 공백 또는 빈 문자열 제거
+            keywordTemp3 = [...new Set(name_keyword_temp2.concat(keywordTemp))].filter(element => element.trim() !== '');
+            // 분리된 문자열 최종 출력
+            console.log(keywordTemp3);
+        }
+
+        // 주어진 배열을 1차원 배열로 만드는 함수 -> 재귀적 함수
+        function flattenArray(arr) {
+            let result = [];
+            arr.forEach(element => {
+                // 만약 요소가 배열인 경우 재귀적으로 결과 배열에 추가
+                if(Array.isArray(element)) {
+                    result = result.concat(flattenArray(element));
+                } else {  // 요소가 배열이 아닌 경우 결과 배열에 직접 추가
+                    result.push(element);
+                }
+            });
+            return result;
         }
     </script>
 </body>

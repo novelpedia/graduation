@@ -21,10 +21,10 @@
 
     <nav class="mypage_sidebar">
         <div class="mypage_menubar_content">
-            <div class="mypage_title"><a href="user_modify.html">마이페이지</a>
+            <div class="mypage_title"><a href="mypage.html">마이페이지</a>
             </div>
 
-            <div class="mypage_imformation"><a href="user_modify.html">회원정보</a>
+            <div class="mypage_imformation"><a href="mypage.html">회원정보</a>
             </div>
 
             <div class="mypage_library">
@@ -35,31 +35,31 @@
 
                 <div class="mypage_list">
                     <div class="mypage_set1">
-                        <div class="mypage_picture"><a href="#">작품</a></div>
+                        <div class="mypage_picture"><a href="n_record.html">작품</a></div>
                     </div>
 
                     <div class="mypage_set1">
-                        <div class="mypage_author"><a href="#">작가</a></div>
+                        <div class="mypage_author"><a href="a_record.html">작가</a></div>
                     </div>
 
                     <div class="mypage_set1">
-                        <div class="mypage_publisher"><a href="#">출판사</a></div>
+                        <div class="mypage_publisher"><a href="p_record.html">출판사</a></div>
                     </div>
 
-                    <div class="mypage_under_bar_boxing">
+                    <!-- <div class="mypage_under_bar_boxing">
                         <div class="mypage_under_bar"></div>
                     </div>
 
                     <div class="mypage_set1">
                         <div class="mypage_visit"><a href="view_record.html">열람기록</a></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
             <div class="mypage_review"><a href="review_record.html">리뷰</a></div>
         </div>
         <div class="mypage_leave">
-            <div class="mypage_delete"><a href="#">회원탈퇴</a></div>
+            <div class="mypage_delete"><a href="#" id="delete-account">회원탈퇴</a></div>
         </div>
     </nav>
     
@@ -493,6 +493,24 @@
             await Promise.all(promises)
             await location.reload();
         }
+    </script>
+
+    <script>
+        //회원 탈퇴 기능
+        const deleteBtn = document.querySelector('#delete-account'); //탈퇴 버튼 기능
+
+        deleteBtn.addEventListener('click', (event) => { //버튼 클릭 시 발생
+            event.preventDefault(); //잠깐 작동 정지하고
+
+            if (confirm('노벨피디아를 탈퇴하시겠습니까?')) {
+                docRef.delete().then(function() { 
+                    confirm("탈퇴 되었습니다.");
+                    location.href = "login.html"; //로그인 화면으로 이동
+                }).catch(function(error) {  
+                    console.error("탈퇴 실패되었습니다.", error);
+                });    
+            }
+        });
     </script>
 </body>
 </html>

@@ -182,20 +182,7 @@
     <!--로그아웃 상태일 때-->
     <script src="./js/logout_state.js"></script>
 
-    <script>
-        async function managerChecking(){
-            setTimeout(() => {
-                if(login_user_class == "m"){
-                    var temp = `<a class="edit">수정</a>`
-                    $('#button_area').append(temp);
-                }
-                else{
-                    console.log("test");
-                }
-            }, 1000); // 1초 대기
-        }
-        managerChecking();
-    </script>
+    
 
     <script>
         $(document).ready(function() {
@@ -272,6 +259,21 @@
                     console.log("문서를 가져오는 중 오류 발생: ", error);
                 });
         });
+    </script>
+
+    <script>
+        async function managerChecking(){
+            setTimeout(() => {
+                if(login_user_class == "m"){
+                    var temp = `<a href="notice_writing.html?page=${number}" class="edit">수정</a>`
+                    $('#button_area').append(temp);
+                }
+                else{
+                    console.log("test");
+                }
+            }, 1000); // 1초 대기
+        }
+        managerChecking();
     </script>
 
     <!-- 수정 클릭했을 때 url에서 number 가져와서 notice_writing.html에 전달 -->
