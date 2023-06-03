@@ -8,6 +8,7 @@
     <link href="css/header.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
     <link href="css/report_writing.css" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet">
     <title>글쓰기</title>
 </head>
 <body>
@@ -109,6 +110,13 @@
             menu_window.classList.toggle('search_active');
         }
     </script>
+    
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
 
     <section class="section_all">
         <div class="banner"><a href="report_list.html">신고 및 건의</a></div>
@@ -144,11 +152,6 @@
                         <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </footer>
@@ -174,12 +177,15 @@
 
     <script>
         $(document).ready(function() {
+            $('#loading_box').show();
             var number = getParameterByName("page");
             // number 값 null일 때, 새로운 신고 및 건의 등록
             if (number == null) {
                 // 등록 버튼 클릭했을 때 실행
                 $(".register").on("click", function() {
+                    $('#loading_box').show();
                     outputKeyword();
+                    temp_title();
                     // var user_id = login_user_information 제거
                     console.log("user_id : " + user_id);
 
@@ -188,59 +194,81 @@
                         // 새로운 변수 생성
                         var name = $("#name").val();
                         var content = $(".content").val();
+                        var space_count = 0;
 
+                        for (var i = 0; i < name.length; i++ ) {
+                            // 'l'이 아니면 현 시점에서 실행을 중단하고 반복문의 증감식으로 이동한다.
+                            if (name[i] !== " "){
+                            }
+                            else{
+                                space_count++;
+                            }
+                        }
                         // 모든 값이 작성되었을 때
-                        if (name !== '' && content !== '' && category !== undefined) {
+                        if ((name.length - space_count) > 0 && content.length > 0 && category !== undefined) {
+                            if(temp_title_var){
+                                alert("제목에 꺽쇠괄호('<')를 이용할 수 없습니다.");
+                                $('#loading_box').hide();
+                            }
+                            else{
+                                // 신고 및 건의 중 가장 큰 number 값 찾기
+                                var maxNum = 0;
+                                db.collection("report").orderBy("number", "desc").limit(1).get().then(function(querySnapshot) {
+                                    querySnapshot.forEach(function(doc) {
+                                        maxNum = doc.data().number;
+                                    });
+                                    // 새로운 변수 생성
+                                    var newNum = maxNum + 1;
+                                    var view = 0;
+                                    var timestamp = firebase.firestore.Timestamp.fromDate(new Date());
+                                    var created_at = timestamp.toDate(); // 최초 작성 시간
+                                    var updated_at = created_at; // 최초 작성 시간이므로 수정 시간도 최초 작성 시간과 같습니다.
 
-                            // 신고 및 건의 중 가장 큰 number 값 찾기
-                            var maxNum = 0;
-                            db.collection("report")
-                                .orderBy("number", "desc")
-                                .limit(1)
-                                .get()
-                                .then(function(querySnapshot) {
-                                querySnapshot.forEach(function(doc) {
-                                    maxNum = doc.data().number;
-                                });
-                                // 새로운 변수 생성
-                                var newNum = maxNum + 1;
-                                var view = 0;
-                                var timestamp = firebase.firestore.Timestamp.fromDate(new Date());
-                                var created_at = timestamp.toDate(); // 최초 작성 시간
-                                var updated_at = created_at; // 최초 작성 시간이므로 수정 시간도 최초 작성 시간과 같습니다.
-
-                                // 신고 및 건의 db에 추가
-                                db.collection("report").add({
-                                    user_id : user_id,
-                                    name: name,
-                                    content: content,
-                                    created_at: created_at,
-                                    updated_at: updated_at,
-                                    view: view,
-                                    number: newNum,
-                                    category: category, // 선택된 카테고리 값 추가
-                                    name_keyword: keywordTemp3
+                                    // 신고 및 건의 db에 추가
+                                    db.collection("report").add({
+                                        user_id : user_id,
+                                        name: name,
+                                        content: content,
+                                        created_at: created_at,
+                                        updated_at: updated_at,
+                                        view: view,
+                                        number: newNum,
+                                        category: category, // 선택된 카테고리 값 추가
+                                        name_keyword: keywordTemp3
                                     }).then(function(docRef) {
                                         console.log("ID로 작성된 문서: ", docRef.id);
                                         alert("신고 및 건의 등록되었습니다.");
+                                        $('#loading_box').hide();
                                         location.href = "report_list.html"; // 새로 등록할 때는 목록 페이지로 이동
                                     }).catch(function(error) {
+                                        $('#loading_box').hide();
                                         console.error("문서 추가 오류: ", error);
                                     });
                                 })
                                 .catch(function(error) {
-                                console.log("문서를 가져오는 중 오류 발생: ", error);
+                                    $('#loading_box').hide();
+                                    console.log("문서를 가져오는 중 오류 발생: ", error);
                                 });
+                            }
                         }
-                    } else {
+                        else{
+                            alert("입력되지 않은 내용이 있습니다.")
+                            $('#loading_box').hide();
+                        }
+                    }
+                    else {
                         $("#register").remove(); // 등록(수정) 버튼 제거
                         // 로그인하지 않은 유저는 경고 메시지를 출력합니다.
                         console.log("로그인하지 않은 유저입니다.");
+                        $('#loading_box').hide();
                         alert("로그인하지 않은 유저입니다. 로그인 후 이용해주세요.");
                     }
+                    
                 });
+                $('#loading_box').hide();
             }else { // number 값 이미 있을 때, 신고 및 건의 수정
                 // 제목, 내용 가져와서 미리 채우기
+                $('#loading_box').show();
                 db.collection("report").where("number", "==", parseInt(number)).get().then(function(querySnapshot) {
                     querySnapshot.forEach(function(doc) {
                         var user_id = doc.data().user_id;
@@ -271,34 +299,58 @@
 
                         // 등록(수정) 버튼 클릭했을 때 실행
                         $(".register").on("click", function() {
+                            $('#loading_box').show();
                             outputKeyword();
+                            temp_title();
                             if (login_check == true && user_id === doc.data().user_id) {
-                                // 입력한 내용 가져오기
-                                var name = $("#name").val();
-                                var content = $("#content").val();
-                                // 신고 or 건의 값을 가져오는 category
-                                var category = $("input[name='choice1']:checked").val() || $("input[name='choice2']:checked").val();
-                                
-                                // 모든 값이 작성되었을 때
-                                if (name !== '' && content !== '' && category !== undefined) {
-                                
-                                    var timestamp = firebase.firestore.Timestamp.fromDate(new Date());
-                                    // 문서 업데이트
-                                    db.collection("report").doc(doc.id).update({
-                                        name: name,
-                                        content: content,
-                                        category: category,
-                                        updated_at: timestamp, // 최종 수정 시간 기록
-                                        name_keyword: keywordTemp3
-                                    })
-                                    .then(function() {
-                                        console.log("문서가 성공적으로 업데이트되었습니다!");
-                                        alert("신고 및 건의 수정되었습니다.");
-                                        location.href = "report_view.html?page=" + number;
-                                    })
-                                    .catch(function(error) {
-                                        console.error("문서 업데이트 오류: ", error);
-                                    });
+                                if(temp_title_var){
+                                    alert("제목에 꺽쇠괄호('<')를 이용할 수 없습니다.");
+                                    $('#loading_box').hide();
+                                }
+                                else{
+                                    // 입력한 내용 가져오기
+                                    var name = $("#name").val();
+                                    var content = $("#content").val();
+                                    // 신고 or 건의 값을 가져오는 category
+                                    var category = $("input[name='choice1']:checked").val() || $("input[name='choice2']:checked").val();
+                                    var space_count = 0;
+
+                                    for (var i = 0; i < name.length; i++ ) {
+                                        // 'l'이 아니면 현 시점에서 실행을 중단하고 반복문의 증감식으로 이동한다.
+                                        if (name[i] !== " "){
+                                        }
+                                        else{
+                                            space_count++;
+                                        }
+                                    }
+                                    
+                                    // 모든 값이 작성되었을 때
+                                    if ((name.length - space_count) > 0 && content.length > 0 && category !== undefined) {
+                                    
+                                        var timestamp = firebase.firestore.Timestamp.fromDate(new Date());
+                                        // 문서 업데이트
+                                        db.collection("report").doc(doc.id).update({
+                                            name: name,
+                                            content: content,
+                                            category: category,
+                                            updated_at: timestamp, // 최종 수정 시간 기록
+                                            name_keyword: keywordTemp3
+                                        })
+                                        .then(function() {
+                                            console.log("문서가 성공적으로 업데이트되었습니다!");
+                                            alert("신고 및 건의 수정되었습니다.");
+                                            $('#loading_box').hide();
+                                            location.href = "report_view.html?page=" + number;
+                                        })
+                                        .catch(function(error) {
+                                            $('#loading_box').hide();
+                                            console.error("문서 업데이트 오류: ", error);
+                                        });
+                                    }
+                                    else{
+                                        alert("입력되지 않은 내용이 있습니다.")
+                                        $('#loading_box').hide();
+                                    }
                                 }
                             }
                             else {
@@ -309,8 +361,10 @@
                             }
                         });
                     });
+                    $('#loading_box').hide();
                 }).catch(function(error) {
                     console.log("문서를 가져오는 중 오류 발생: ", error);
+                    $('#loading_box').hide();
                 });
             }
         });
@@ -437,6 +491,20 @@
                 }
             });
             return result;
+        }
+
+        let temp_title_var = true;
+
+        function temp_title(){
+            var title_data = document.getElementById('name').value;
+            console.log(temp_title_var);
+            console.log(title_data.indexOf('<'));
+            if(title_data.indexOf('<') == -1){
+                temp_title_var = false;
+            }
+            else{
+                temp_title_var = true;
+            }
         }
     </script>
 </body>

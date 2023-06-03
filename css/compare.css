@@ -3,7 +3,7 @@
     margin: 0;
 }
 
-label {
+.compare_set label {
     display: inline-block;
     font-size: 18px;
     font-weight: 600;

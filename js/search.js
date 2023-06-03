@@ -33,7 +33,7 @@ window.onload = async function(){
             .catch(error => console.error(error));
     }
     else{
-        document.getElementById('search_word').innerText = search_term_db;
+        document.getElementById('search_word').innerText = search_term_temp;
 
         fetch('https://tsjpy3ivdqixs65345c42igjie0snnls.lambda-url.ap-southeast-2.on.aws/',{
             method: 'POST', // 요청 메서드를 POST로 설정
@@ -43,18 +43,20 @@ window.onload = async function(){
             .catch(error => console.error(error));
     }
 
+    $('#loading_box').show();
     await getNovel();
     await getAuthor();
     await getPublisher();
+    $('#loading_box').hide();
 }
 
 async function getNovel(){
-    console.log(field);
+    // console.log(field);
     await db.collection("novel_document").where(field, "array-contains", search_term_db).orderBy("view", "desc").limit(5).get().then((결과) => {
         결과.forEach((result) => {
             count = count + 1;
-            console.log("result");
-            console.log(result.data());
+            // console.log("result");
+            // console.log(result.data());
     
             
             // 문자열이 너무 길어지면 문자열을 끊고 '...' 으로 이어지도록
@@ -91,7 +93,7 @@ async function getNovel(){
                         </div>
                         <div class="button_bundle">
                             <a href="#" class="new_document" id="new_document">새 문서 작성하기</a>
-                            <a href="#" class="history">역사</a>
+                            <a href="#" class="history" id="history_document" onclick="history_reset()">역사</a>
                         </div>
                     </div>`;
             // $('#search_result_area').append(temp);
@@ -100,6 +102,7 @@ async function getNovel(){
             document.getElementById('search_result_area_n').innerHTML = search_result;
             document.getElementById('this_document').innerText = search_term_db;
             document.getElementById('new_document').href = './e/' + search_term_db;
+            // document.getElementById('history_document').href = './h/' + search_term_db;
         }
     }).catch((err) => {
         console.log(err);
@@ -117,8 +120,8 @@ async function getAuthor(){
     await db.collection("author_document").where(field, "array-contains", search_term_db).orderBy("view", "desc").limit(5).get().then((결과) => {
         결과.forEach((result) => {
             a_count = a_count + 1;
-            console.log("a_result");
-            console.log(result.data());
+            // console.log("a_result");
+            // console.log(result.data());
     
             var doc_summary_temp = result.data().birthday
     
@@ -148,7 +151,7 @@ async function getAuthor(){
                         </div>
                         <div class="button_bundle">
                             <a href="#" class="new_document" id="a_new_document">새 문서 작성하기</a>
-                            <a href="#" class="history">역사</a>
+                            <a href="#" class="history" id="a_history_document" onclick="a_history_reset()">역사</a>
                         </div>
                     </div>`;
             // $('#search_result_area').append(temp);
@@ -157,6 +160,7 @@ async function getAuthor(){
             document.getElementById('search_result_area_a').innerHTML = search_result;
             document.getElementById('a_this_document').innerText = search_term_db;
             document.getElementById('a_new_document').href = './ea/' + search_term_db;
+            // document.getElementById('a_history_document').href = './h/' + search_term_db;
         }
     }).catch((err) => {
         console.log(err);
@@ -175,8 +179,8 @@ async function getPublisher(){
     await db.collection("publisher_document").where(field, "array-contains", search_term_db).orderBy("view", "desc").limit(5).get().then((결과) => {
         결과.forEach((result) => {
             p_count = p_count + 1;
-            console.log("p_result");
-            console.log(result.data());
+            // console.log("p_result");
+            // console.log(result.data());
     
             var temp = 
                 `<div class="search_result_element">
@@ -204,13 +208,14 @@ async function getPublisher(){
                         </div>
                         <div class="button_bundle">
                             <a href="#" class="new_document" id="p_new_document">새 문서 작성하기</a>
-                            <a href="#" class="history">역사</a>
+                            <a href="#" class="history" id="p_history_document">역사</a>
                         </div>
                     </div>`;
     
             document.getElementById('search_result_area_p').innerHTML = search_result;
             document.getElementById('p_this_document').innerText = search_term_db;
             document.getElementById('p_new_document').href = './ep/' + search_term_db;
+            document.getElementById('p_history_document').href = './h/' + search_term_db;
         }
     
         
@@ -230,11 +235,12 @@ async function getPublisher(){
 // 추가 검색결과 불러오기
 
 $('#n_next').click(async function() {
+    $('#loading_box').show();
     await db.collection("novel_document").where(field, "array-contains", search_term_db).orderBy("view", "desc").startAfter(n_lastVisible).limit(5).get().then((결과) => {
         결과.forEach((result) => {
             count = count + 1;
-            console.log("result");
-            console.log(result.data());
+            // console.log("result");
+            // console.log(result.data());
     
             
             // 문자열이 너무 길어지면 문자열을 끊고 '...' 으로 이어지도록
@@ -261,19 +267,22 @@ $('#n_next').click(async function() {
         n_lastVisible = 결과.docs[결과.docs.length-1];
 
     }).catch((err) => {
+        
         console.log(err);
     })
     await n_moreCheck();
+    $('#loading_box').hide();
 });
 
 
 // 작가
 $('#a_next').click(async function() {
+    $('#loading_box').show();
     await db.collection("author_document").where(field, "array-contains", search_term_db).orderBy("view", "desc").startAfter(a_lastVisible).limit(5).get().then((결과) => {
         결과.forEach((result) => {
             a_count = a_count + 1;
-            console.log("a_result");
-            console.log(result.data());
+            // console.log("a_result");
+            // console.log(result.data());
     
             var doc_summary_temp = result.data().birthday;
             var temp = 
@@ -296,15 +305,17 @@ $('#a_next').click(async function() {
         console.log(err);
     })
     await a_moreCheck();
+    $('#loading_box').hide();
 });
 
 // 출판사
 $('#p_next').click(async function() {
+    $('#loading_box').show();
     await db.collection("publisher_document").where(field, "array-contains", search_term_db).orderBy("view", "desc").startAfter(p_lastVisible).limit(5).get().then((결과) => {
         결과.forEach((result) => {
             p_count = p_count + 1;
-            console.log("p_result");
-            console.log(result.data());
+            // console.log("p_result");
+            // console.log(result.data());
     
             var temp = 
                 `<div class="search_result_element">
@@ -326,6 +337,7 @@ $('#p_next').click(async function() {
         console.log(err);
     })
     await p_moreCheck();
+    $('#loading_box').hide();
 });
 
 
@@ -377,12 +389,19 @@ async function p_moreCheck(){
         
     }).catch((err) => {
         console.log(err);
-        
     });
 }
 
 
+function history_reset(){
+    var author_name = prompt("작품의 작가명을 입력하세요.");
+    location.href = './h/' + search_term_temp + '(' + author_name + ')';
+}
 
+function a_history_reset(){
+    var author_birthday = prompt("작가의 생년월일을 입력하세요. ex)0001-01-01");
+    location.href = './h/' + search_term_temp + '(' + author_birthday + ')';
+}
 
 
 

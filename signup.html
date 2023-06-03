@@ -3,11 +3,12 @@
 
 <head>
     <title>회원가입</title>
-    <link rel="stylesheet" href="./css/signup.css">
-    <link href="css/header.css" rel="stylesheet">
-    <link href="css/footer.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
+    <link href="./css/signup.css" rel="stylesheet">
+    <link href="css/header.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet">
 </head>
 
 <body>
@@ -109,6 +110,13 @@
             menu_window.classList.toggle('search_active');
         }
     </script>
+
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
     
     <section class="signup">
 
@@ -180,29 +188,24 @@
 
 
                 <div class="choice">
-                    <button type="submit"><a href="login.html">뒤로가기</a></button>
+                    <button type="button" onclick="location.href='login'">뒤로가기</button>
                     <button id="register" type="button">가입하기</button>
                 </div>
             </div>
         </form>
     </section>
     
-    <footer class="footer">
+    <<footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="/notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">Q&A</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>

@@ -7,6 +7,7 @@
     <link href="../css/header.css" rel="stylesheet">
     <link href="../css/footer.css" rel="stylesheet">
     <link href="../css/listpage.css" rel="stylesheet">
+    <link href="../css/loading.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> -->
     <title>작품 목록</title>
@@ -112,6 +113,18 @@
         }
     </script>
 
+    <style>
+        .loading_box{
+            margin-top: -150px;
+        }
+    </style>
+
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
 
     <section class="title_section">
         <div class="list_section_all">
@@ -144,17 +157,12 @@
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="/notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">Q&A</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
@@ -187,7 +195,9 @@
         var selectValue = document.getElementById("sort").value;
 
         window.onload = function(){
+            $('#loading_box').show();
             sortChange();
+            $('#loading_box').hide();
         }
 
         function scrollLoadData(value){
@@ -207,6 +217,7 @@
                 sort_da = "desc";
             }
 
+            $('#loading_box').show();
             db.collection('novel_document').orderBy(field_name, sort_da).startAfter(lastVisible).limit(20).get().then((res)=>{
                 var count = 3;
                 var div_count = 1;
@@ -241,7 +252,9 @@
                     console.log(doc.data());            
                     count = count + 1;
                 })
+                $('#loading_box').hide();
             }).catch((err) => {
+                $('#loading_box').hide();
                 console.log(err);
             });
         }

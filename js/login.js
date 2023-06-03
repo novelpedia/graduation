@@ -13,34 +13,40 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
+$('#loading_box').hide();
+
 $('#login_btn').click(function () {
+    $('#loading_box').show();
     firebaseEmailAuth = firebase.auth();
     var email = $('#loginid').val() + "@novelpedia.com";
     var password = $('#loginpw').val();
 
     //파이어베이스 이메일 로그인 함수
     firebaseEmailAuth.signInWithEmailAndPassword(email, password).then(function (firebaseUser) {
-            console.log(firebaseUser.user);
+            // console.log(firebaseUser.user);
 
             /*uid를 이용해 문서정보를 읽어오기*/
             db.collection('user').doc($('#loginid').val() + firebaseUser.user.uid).get().then((결과) => {
                 /*모두 불러오기*/
-                console.log(결과.data());
+                // console.log(결과.data());
                 // 뒤로 갈 히스토리가 있는 경우 및 우리 시스템에서 링크를 통해 유입된 경우
                 if (document.referrer && document.referrer.indexOf("novelpedia.co.kr") !== -1) {
+                    $('#loading_box').hide();
                     history.go(-1);    // 뒤로가기
                     
                 }
                 // 히스토리가 없는 경우 (URL을 직접 입력하여 유입된 경우) 단, 뒤로가기 페이지가 없는 경우는 안됨 / 새탭이나 타 사이트에 있다가 들어온 경우
                 else {
+                    $('#loading_box').hide();
                     window.location.href = "index.html";    // 메인페이지로 
                 }
             })
 
-
+            
         })
         .catch(function (error) {
             // 실패했을 때 에러 띄우기
             alert("로그인 실패" + error);
+            $('#loading_box').hide();
         });
 });

@@ -77,3 +77,9 @@
 .webeditor .editor_button .button:nth-child(1){
     margin-left: 0px;
 } */
+
+@media (max-width:640px) {
+    .webeditor [contenteditable] {
+        width: 100%;
+    }
+}

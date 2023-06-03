@@ -9,6 +9,7 @@
     <link href="../css/footer.css" rel="stylesheet">
     <link href="../css/getOther.css" rel="stylesheet">
     <link href="../css/compare.css" rel="stylesheet">
+    <link href="../css/loading.css" rel="stylesheet">
     <title>작품 편집</title>
 </head>
 
@@ -111,6 +112,13 @@
             menu_window.classList.toggle('search_active');
         }
     </script>
+
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
 
     <section class="document_item">
         <div class="document_name">
@@ -228,17 +236,12 @@
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="../notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">Q&A</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="../report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
@@ -301,6 +304,7 @@
         var o;
         var t;
         
+        $('#loading_box').show();
         docPath.get().then((결과) => {
             // 불러온 내용 바탕으로 내용 바꾸기
             console.log(document_name[2]);
@@ -339,8 +343,10 @@
 
             // document.getElementById("tag").value = document_tag;
             document.getElementById("document_other").innerHTML = document_other;
+            $('#loading_box').hide();
         }).catch((err) => {
             console.log(err);
+            $('#loading_box').hide();
         });
 
         var e_2;
@@ -349,6 +355,7 @@
         var o_2
         var t_2;
 
+        $('#loading_box').show();
         docPath2.get().then((결과) => {
             // 불러온 내용 바탕으로 내용 바꾸기
             console.log(document_name[2]);
@@ -383,9 +390,11 @@
             document.getElementById("tag_2").value = tag_value;
             t_2 = tag_value;
             document.getElementById("document_other_2").innerHTML = document_other;
+            $('#loading_box').hide();
             compare_change();
         }).catch((err) => {
             console.log(err);
+            $('#loading_box').hide();
         });
 
 

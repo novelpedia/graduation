@@ -14,9 +14,7 @@
 <body>
     <input type="checkbox" id="menuicon">
     <label for="menuicon">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span>→</span>
     </label>
 
     <nav class="mypage_sidebar">
@@ -191,17 +189,12 @@
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="/notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">Q&A</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
@@ -227,10 +220,11 @@
 
     
     <script>
+        let docRef_delete;
         firebaseEmailAuth.onAuthStateChanged(function (user) { 
             var userEmail = user.email.split('@'); 
-            console.log(userEmail[0]); 
             const userId = userEmail[0] + user.uid;
+            docRef_delete = db.collection("user").doc(user.email.split('@')[0] + user.uid);
 
             // like 컬렉션에서 userId와 일치하는 모든 문서 가져오기
             db.collection("user").doc(userId).collection("like").where("classification", "==", "n").orderBy("date", "desc").get().then((querySnapshot) => {
@@ -239,8 +233,8 @@
 
                 // 문서 개수에 따라 table_row 생성
                 querySnapshot.forEach((doc) => {
-                    console.log("문서 ID:", doc.id);
-                    console.log("문서 정보:", doc.data());
+                    // console.log("문서 ID:", doc.id);
+                    // console.log("문서 정보:", doc.data());
                     const classification_check = doc.data().classification;
 
                     const date = doc.data().date.toDate();
@@ -395,9 +389,14 @@
             event.preventDefault(); //잠깐 작동 정지하고
 
             if (confirm('노벨피디아를 탈퇴하시겠습니까?')) {
-                docRef.delete().then(function() { 
-                    confirm("탈퇴 되었습니다.");
-                    location.href = "login.html"; //로그인 화면으로 이동
+                docRef_delete.delete().then(function() { 
+                    firebaseEmailAuth.signOut().then(function () {
+                        alert("탈퇴 되었습니다.");
+                        $('#loading_box').hide();
+                        location.href = "/login"; //로그인 화면으로 이동
+                    }).catch(function (error) {
+                        alert("로그아웃 실패", error);
+                    });
                 }).catch(function(error) {  
                     console.error("탈퇴 실패되었습니다.", error);
                 });    

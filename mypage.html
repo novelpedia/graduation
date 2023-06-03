@@ -11,6 +11,7 @@
     <link href="css/password_check.css" rel="stylesheet">
     <link href="css/mypage_menubar.css" rel="stylesheet">
     <link href="css/pwc_userm.css" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet">
     <title>마이페이지</title>
 </head>
 
@@ -114,6 +115,13 @@
         }
     </script>
 
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
+
     <!-- 비밀번호 재확인 -->
     <section class="check_section">
         <div class="checkbox">
@@ -132,9 +140,7 @@
     <!-- 사이드 바 -->
     <input type="checkbox" id="menuicon">
     <label for="menuicon" id=hamburger style="display: none;">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span>→</span>
     </label>
 
     <nav class="mypage_sidebar" style="display: none";>
@@ -187,17 +193,12 @@
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="/notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">Q&A</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
@@ -224,8 +225,11 @@
     <script src="./js/logout_state.js"></script>
 
     <script>
+        let docRef_delete;
         firebaseEmailAuth.onAuthStateChanged(async function (user) {
-            const docRef = db.collection("user").doc(user.email.split('@')[0] + user.uid);
+            $('#loading_box').show();
+            docRef_delete =  db.collection("user").doc(user.email.split('@')[0] + user.uid);
+            let docRef = db.collection("user").doc(user.email.split('@')[0] + user.uid);
 
             const doc = await docRef.get();
     
@@ -244,6 +248,8 @@
                 console.log("회원정보가 없습니다.");
             }
 
+            $('#loading_box').hide();
+
             const login_btn = document.querySelector('#check_btn');
             login_btn.addEventListener('click', async () => {
                 const loginpw = document.querySelector('#loginpw').value;
@@ -251,19 +257,21 @@
 
                 try {
                     // 로그인 시도
+                    $('#loading_box').show();
                     await firebaseEmailAuth.signInWithEmailAndPassword(user.email, loginpw);
-                    console.log(`회원정보는 ${user.email.split('@')[0] + user.uid}`);
+                    
+                    // console.log(`회원정보는 ${user.email.split('@')[0] + user.uid}`);
 
                     // 사용자 정보 조회
                     const userInfoDoc = await db.collection('user').doc(user.email.split('@')[0] + user.uid).get();
                     const userInfo = userInfoDoc.data();
-                    console.log(userInfo);
+                    // console.log(userInfo);
 
                     // 0519 수정
                     const firebaseUser = firebaseEmailAuth.currentUser;
                     const credential = firebase.auth.EmailAuthProvider.credential(firebaseUser.email, loginpw);
                     await firebaseUser.reauthenticateWithCredential(credential);
-                    console.log("비밀번호가 일치합니다.");
+                    // console.log("비밀번호가 일치합니다.");
 
                     $('.check_section').remove();
                     // 회원정보 수정 폼 출력
@@ -357,7 +365,7 @@
                         $('#signupid').val(loginId).prop('disabled', true);
                     } 
                     else {
-                        console.log("로그인한 아이디가 존재하지 않습니다.");
+                        alert("로그인이 되어있지 않습니다.");
                     }
 
                     const loginName = doc.data().이름;
@@ -399,14 +407,18 @@
                     $('#signupphonNumber').val(loginPhonnum);
                     $('#hamburger').show();
                     $('.mypage_sidebar').show();
+
+                    $('#loading_box').hide();
                 }
                 catch (error) {
                     console.log("로그인 에러:", error);
-                    console.log("비밀번호가 일치하지 않습니다.");
+                    alert("비밀번호가 일치하지 않습니다.");
+                    $('#loading_box').hide();
                 }
 
                 $('#saveButton').click(function() { // 저장 버튼 클릭 이벤트
-                    console.log("클릭");
+                    $('#loading_box').show();
+                    // console.log("클릭");
                     const newName = $('#signupname').val(); // 수정된 이름 값
                     const newNickname = $('#signupnickname').val(); // 수정된 닉네임 값
                     const newGender = $('input[name="gender"]:checked').val(); // 수정된 성별 값
@@ -420,7 +432,9 @@
 
                     if (newPassword === CheckPassword) { //(수정)변경할 비밀번호 값과 비밀번호 재확인 값이 일치할 시
                         user.updatePassword(newPassword).then(function() {
-                            console.log('비밀번호가 변경되었습니다.');
+                            alert("비밀번호가 변경되었습니다.");
+                        }).catch(function(err){
+                            console.log("비밀번호 변경에 실패했습니다." + err);
                         });
                                 
                         const docRef = db.collection("user").doc(user.email.split('@')[0] + user.uid);
@@ -432,7 +446,7 @@
                             이메일: newEmail,
                             전화번호: newPhonenum, 
                         }).then(() => {
-                            alert("수정 되었습니다.");
+                            alert("업데이트 되었습니다.");
                         }).catch((error) => {
                             alert(error);
                         });  
@@ -440,6 +454,7 @@
                     else {
                         alert('비밀번호가 일치하지 않습니다.');
                     }
+                    $('#loading_box').hide();
                 });
                 
                 $('#cancelButton').click(function() {
@@ -457,11 +472,18 @@
             event.preventDefault(); //잠깐 작동 정지하고
 
             if (confirm('노벨피디아를 탈퇴하시겠습니까?')) {
-                docRef.delete().then(function() { 
-                    confirm("탈퇴 되었습니다.");
-                    location.href = "login.html"; //로그인 화면으로 이동
+                $('#loading_box').show();
+                docRef_delete.delete().then(function() {
+                    firebaseEmailAuth.signOut().then(function () {
+                        alert("탈퇴 되었습니다.");
+                        $('#loading_box').hide();
+                        location.href = "/login"; //로그인 화면으로 이동
+                    }).catch(function (error) {
+                        alert("로그아웃 실패", error);
+                    });
                 }).catch(function(error) {  
                     console.error("탈퇴 실패되었습니다.", error);
+                    $('#loading_box').hide();
                 });    
             }
         });

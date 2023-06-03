@@ -7,6 +7,7 @@
     <link href="./css/notice.css" rel="stylesheet">
     <link href="./css/header.css" rel="stylesheet">
     <link href="./css/footer.css" rel="stylesheet">
+    <link href="./css/loading.css" rel="stylesheet">
     <title>공지사항</title>
 </head>
 <body>
@@ -109,6 +110,13 @@
         }
     </script>
 
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
+
     <section class="section_all">            
         <div class="container">
             <div class="banner">공지사항</div>
@@ -154,12 +162,7 @@
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">신고 및 건의</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
@@ -187,6 +190,7 @@
 
     <script>
         async function managerChecking(){
+            $('#loading_box').show();
             setTimeout(() => {
                 if(login_user_class == "m"){
                     var temp = `<a href="notice_writing.html" class="write" id="write">글쓰기</a>`
@@ -196,6 +200,7 @@
                     console.log("test");
                 }
             }, 1000); // 1초 대기
+            $('#loading_box').hide();
         }
         managerChecking();
     </script>
@@ -205,6 +210,7 @@
         $(document).ready(function() {
             // 검색 기능 구현
             $('#searching').click(function() {
+                $('#loading_box').show();
                 let searchText = $('#search_bar').val();
                 searchText = searchText.replace(/\+/gi, ' ');
                 // DB에 키워드들은 띄어쓰기를 제거했으므로 공백을 제거해서 DB 검색에 이용
@@ -241,8 +247,10 @@
                         </div>`;
                         $("#notice-list").append(data);
                     });
+                    $('#loading_box').hide();
                 }).catch(function(error) {
                     console.log("문서를 가져오는 중 오류 발생: ", error);
+                    $('#loading_box').hide();
                 });
             });
         });
@@ -253,6 +261,7 @@
         var before;
         var next = db.collection("notice").orderBy("first_date", "desc").limit(10);
 
+        $('#loading_box').show();
         db.collection("notice").orderBy("first_date", "desc").limit(10).get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 const timestamp = doc.data().first_date; // Firestore에서 Timestamp 값을 가져오기
@@ -281,12 +290,15 @@
             next = db.collection("notice").orderBy("first_date", "desc").startAfter(lastVisible).limit(10);
             next_2 = db.collection("notice").orderBy("first_date", "desc").startAfter(lastVisible).limit(1);
             next_back();
+            $('#loading_box').hide();
         })
         .catch(function(error) {
             console.log("문서를 가져오는 중 오류 발생: ", error);
+            $('#loading_box').hide();
         });
 
         document.getElementById('next').addEventListener("click", function() {
+            $('#loading_box').show();
             $('#notice-list').empty();
 
             var temp;
@@ -321,12 +333,15 @@
                 next_2 = db.collection("notice").orderBy("first_date", "desc").startAfter(lastVisible).limit(1);
                 next_back_check = next_back_check + 1;
                 next_back();
+                $('#loading_box').hide();
             }).catch((err) => {
                 console.log(err);
+                $('#loading_box').hide();
             });
         });
 
         document.getElementById('prev').addEventListener("click", function() {
+            $('#loading_box').show();
             $('#notice-list').empty();
             var temp;
         
@@ -363,8 +378,10 @@
                 next_2 = db.collection("notice").orderBy("first_date", "desc").startAfter(lastVisible).limit(1);
                 next_back_check = next_back_check - 1;
                 next_back();
+                $('#loading_box').hide();
             }).catch((err) => {
                 console.log(err);
+                $('#loading_box').hide();
             });
         });
 
@@ -403,7 +420,6 @@
                     
                 }).catch((err) => {
                     console.log(err);
-                    
                 });
             }
         }

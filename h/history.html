@@ -140,17 +140,12 @@
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="../notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">Q&A</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="../report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
@@ -206,7 +201,7 @@
                 document_recent_version = 결과.docs[0].data().version;
                 결과.forEach((doc)=>{
                     data_save_array[doc.data().version] = doc;
-                    console.log(doc.data())
+                    // console.log(doc.data())
                     var document_version = doc.data().version;
                     var document_update_date = doc.data().update_date;
                     var document_category = doc.data().category;
@@ -293,7 +288,7 @@
                 before = next;
                 next = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(15);
                 next_2 = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(1);
-                console.log(next);
+                // console.log(next);
                 await next_back();
             }).catch((err) => {
                 console.log(err);
@@ -311,7 +306,7 @@
                 결과.forEach((doc)=>{
                     
                     data_save_array[doc.data().version] = doc;
-                    console.log(doc.data())
+                    // console.log(doc.data())
                     var document_version = doc.data().version;
                     var document_update_date = doc.data().update_date;
                     var document_category = doc.data().category;
@@ -376,14 +371,11 @@
                 else{
                     b_lastVisible = 결과.docs[결과.docs.length - 결과.docs.length];
                 }
-                console.log(결과.docs.length);
-                console.log("b", b_lastVisible);
+
                 before = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "asc").startAfter(b_lastVisible).limit(15);
                 var lastVisible = 결과.docs[결과.docs.length-1];
-                console.log("l", lastVisible);
                 next = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(15);
                 next_2 = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(1);
-                console.log(next);
                 next_back_check = next_back_check + 1;
                 next_back();
             }).catch((err) => {
@@ -399,7 +391,6 @@
         
             before.get().then((결과) => {
                 for(var i = 14; i>-1; i--){
-                    console.log(i);
                     data_save_array[결과.docs[i].data().version] = 결과.docs[i];
                     // 결과.docs[i];
                     // console.log(doc.data())
@@ -466,7 +457,6 @@
                     
                 // })
                 var b_lastVisible = 결과.docs[결과.docs.length-1];
-                console.log("b", b_lastVisible);
                 before = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "asc").startAfter(b_lastVisible).limit(15);
                 var lastVisible;
                 if (결과.docs.length>14){
@@ -475,10 +465,8 @@
                 else{
                     lastVisible = 결과.docs[결과.docs.length - 결과.docs.length];
                 }
-                console.log("l", lastVisible);
                 next = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(15);
                 next_2 = db.collection("history").doc(document_name[2]).collection('version').orderBy("version", "desc").startAfter(lastVisible).limit(1);
-                console.log(next);
                 next_back_check = next_back_check - 1;
                 next_back();
             }).catch((err) => {
@@ -515,7 +503,6 @@
                 document.getElementById('back').style.display = "none";
 
                 next_2.get().then((결과) => {
-                    console.log("결과" + 결과.docs.length);
 
                     if(결과.docs.length>0){
                         document.getElementById('next').style.display = "block";
@@ -532,7 +519,6 @@
                 document.getElementById('back').style.display = "flex";
 
                 next_2.get().then((결과) => {
-                    console.log("결과" + 결과.docs.length);
 
                     if(결과.docs.length>0){
                         document.getElementById('next').style.display = "flex";
@@ -680,7 +666,7 @@
                 version: firebase.firestore.FieldValue.increment(1),
             })
             .then(async () => {
-                alert("history data 업데이트 성공!");                
+                // alert("history data 업데이트 성공!");                
             }).catch((err)=>{
                 console.log(err + "history data 업데이트 실패!")
             });
@@ -758,14 +744,14 @@
                 };
             }
             
-            console.log(document_name[2]);
+            // console.log(document_name[2]);
             await db.collection('history').doc(document_name[2]).collection('version').doc((document_recent_version + 1).toString()).set(info).then((result) => {
-                console.log(result);
-                alert("history data success.");
+                // console.log(result);
+                // alert("history data success.");
                 location.reload();
             }).catch((error) => {
                 console.log(error);
-                alert("history data failed.");
+                // alert("history data failed.");
             });
 
         }

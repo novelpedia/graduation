@@ -57,28 +57,33 @@ body {
     /*position: relative;
             top: 10px;*/
     margin: 0;
-    margin-left: 15px;
+    margin-left: 35px;
     margin-bottom: 10px;
     margin-top: 10px;
     color: black;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
+}
+
+.main_go .line_one, .line_two{
+    display: flex;
+    justify-content: center;
 }
 
 .main_go .button {
     font-weight: 600;
     cursor: pointer;
     padding: 0;
-    margin-right: -7px;
-    margin-bottom: -6px;
+    margin-right: -3px;
+    margin-bottom: -3px;
     width: 85px;
     height: 70px;
     background-color: white;
     border: 1px solid lightgray;
 }
 
+
 .main_go .line_one .button:nth-of-type(1) {
-    margin-left: 35px;
     background-image: url(../image/순위.png);
     background-repeat: no-repeat;
     background-size: 40px;
@@ -87,15 +92,14 @@ body {
 }
 
 .main_go .line_one .button:nth-of-type(4) {
-    /*background-image: url(../image/게시판.png);*/
+    background-image: url(../image/novelpedia_qr.png);
     background-repeat: no-repeat;
-    background-size: 40px;
+    background-size: 55px;
     background-position: center;
     border-top-right-radius: 5px;
 }
 
 .main_go .line_two .button:nth-of-type(1) {
-    margin-left: 35px;
     /* background-image: url(../image/작품.png); */
     background-repeat: no-repeat;
     background-size: 40px;
@@ -141,8 +145,8 @@ body {
     top: 5px;
     color: black;
     text-decoration: none;
-    margin-left: 15px;
-    font-size: 25px;
+    margin-left: 20px;
+    font-size: 20px;
     font-weight: 600;
 }
 
@@ -201,7 +205,7 @@ body {
     margin-left: 15px;
     color: black;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
 }
 
@@ -216,7 +220,13 @@ body {
     justify-content: center;
 }
 
-.main_ranking .document_rank2 {}
+.main_ranking .document_rank2 {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.main_ranking .document_rank2:nth-child(1) {
+    border-top: 1px solid #e5e5e5;
+}
 
 .main_ranking .document_rank2 a {
     display: flex;
@@ -235,9 +245,14 @@ body {
 .main_ranking .document_rank2 p {
     display: block;
     margin: 0;
-    margin-bottom: 10px;
+    margin-top: 7px;
+    margin-bottom: 7px;
     text-align: left;
     color: black;
+}
+
+.main_ranking .document_rank2 p:hover {
+    color: #769FCD;
 }
 
 .main_ranking .document_rank2 .p_rank {
@@ -255,6 +270,7 @@ body {
 }
 
 .main_ranking .document_rank_second {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
 }
@@ -322,13 +338,13 @@ body {
     justify-content: space-between;
     margin-right: 10px;
     margin-top: 10px;
-
 }
 
 .select_div select { /*2023-04-03 수정*/
     display: flex;
     height: 30px;
     width: 80px;
+    outline: none;
 }
 
 .p_title:hover{
@@ -359,11 +375,12 @@ body {
     width: 80px;
     margin-right: 10px;
     margin-top: 10px;
+    outline: none;
 }
 
 .main_new_review a {
     text-decoration: none;
-    font-size: 25px;
+    font-size: 20px;
     position: relative;
     top: 10px;
     margin-left: 15px;
@@ -502,7 +519,7 @@ body {
     z-index: 10;
     top: 50%;
     transform: translateY(-50%);
-    padding: 40px;
+    padding: 30px;
     cursor: pointer;
 }
 
@@ -647,7 +664,7 @@ body {
 
 .slide-pagelist > li > label {
     display: block;
-    padding: 8px 15px;
+    padding: 5px 10px;
     border-radius: 30px;
     background: #d6e6f2;
     margin-right: 5px;

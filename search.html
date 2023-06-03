@@ -7,7 +7,8 @@
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
     <link href="css/header.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
-    <link href="./css/search.css" rel="stylesheet">
+    <link href="css/search.css" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet">
     <title>검색페이지</title>
 </head>
 
@@ -111,6 +112,12 @@
         }
     </script>
 
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
 
     <section class="section_search">
         <div class="search_page">
@@ -120,30 +127,31 @@
                 <div class="search_word" id="search_count">0</div>
                 <div class="search_default_sentence">개의 검색결과</div>
             </div>
+            
             <div class="search_area">
-                <form method="get" action="./search.html">
+                <form method="get" action="search">
                     <div class="select_package">
                         <select>
                             <option>전체</option>
-                            <option>웹소설</option>
+                            <!-- <option>웹소설</option>
                             <option>웹툰</option>
                             <option>일반소설</option>
-                            <option>만화책</option>
+                            <option>만화책</option> -->
                         </select>
                         <select>
                             <option>전체</option>
-                            <option>작품</option>
+                            <!-- <option>작품</option>
                             <option>작가</option>
-                            <option>출판사</option>
+                            <option>출판사</option> -->
                         </select>
                         <select class="title_content_select">
                             <option>문서제목</option>
-                            <option>내용</option>
-                            <option>문서제목 + 내용</option>
+                            <!-- <option>내용</option>
+                            <option>문서제목 + 내용</option> -->
                         </select>
                     </div>
                     <div class="input_package">
-                        <input type="text" class="search_input_bar">
+                        <input type="text" class="search_input_bar" name="q">
                         <input type="submit" value="검색" class="search_submit_button">
                     </div>
                 </form>
@@ -169,17 +177,12 @@
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="/notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">Q&A</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>

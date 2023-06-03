@@ -256,7 +256,7 @@ body {
 }
 
 .novel_top_rank li .novel_cont {
-    justify-content: center;
+    width: 100%;
 }
 
 .novel_cont h3 {

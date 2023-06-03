@@ -9,6 +9,7 @@
     <link href="../css/header.css" rel="stylesheet">
     <link href="../css/footer.css" rel="stylesheet">
     <link href="../css/getOther.css" rel="stylesheet">
+    <link href="../css/loading.css" rel="stylesheet">
     <title>작품페이지</title>
 </head>
 
@@ -112,6 +113,13 @@
         }
     </script>
 
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
+
     <section class="section_empty" id="section_empty">
         <div id="empty"></div>
     </section>
@@ -162,9 +170,9 @@
                     <ol>목차
                         <li><a href="#document_information">작품정보</a></li>
                         <li><a href="#document_summary">줄거리</a></li>
+                        <li><a href="#document_recommand">작품추천</a></li>
                         <li><a href="#document_review">리뷰</a></li>
-                        <li><a></a></li>
-                        <li><a></a></li>
+                        <li><a href="#document_other">사용자편집</a></li>
                     </ol>
                 </div>
             </div>
@@ -175,7 +183,6 @@
                     <tr>
                         <th colspan="2">작품정보</th>
                     </tr>
-                    <!--Work Info-->
                     <tr>
                         <td class="title">제목</td>
                         <td class="content" id="document_information_title"></td>
@@ -322,25 +329,17 @@
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="/notice">공지사항</a></li>
+                        <li><a href="../notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">신고 및 건의</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="../report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
-
-
-    
 
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
@@ -356,6 +355,22 @@
     <script src="../js/logout.js"></script>
     <!--로그아웃 상태일 때-->
     <script src="../js/logout_state.js"></script>
+
+    <!-- 꺽쇠괄호 방지 -->
+    <script>
+        let ltgt_content_var = true;
+
+        function ltgt_content_check(){
+            var cotent_data = $('#char_content').val();
+            if(cotent_data.indexOf('<') == -1){
+                ltgt_content_var = false;
+            }
+            else{
+                ltgt_content_var = true;
+            }
+        }
+    </script>
+    
 
     <!-- 주소창에서 url 정보 받아오기 -->
     <script>
@@ -374,10 +389,12 @@
     <!-- 문서 열면서 동기적으로 실행할 함수 -->
     <script>
         async function start_novel(){
+            $('#loading_box').show()
             await getUser();
             await getInformation();
             await getReviewInfor();
-            console.log(login_user_information);
+            $('#loading_box').hide()
+            // console.log(login_user_information);
         }
 
         start_novel();
@@ -390,12 +407,12 @@
             body: JSON.stringify({ document_name : document_name[2]}) // 매개변수를 JSON 형식으로 문자열화하여 페이로드에 포함
         }).then(response => response.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 if(data==null){
                     var temp =
                     `
                         <div class="document_list_none">
-                            작품을 추천하기에 정보가 부족하거나, 문서가 생성된지 시간이 얼마 지나지 않았습니다. NULL
+                            작품을 추천하기에 정보가 부족하거나, 문서가 생성된지 시간이 얼마 지나지 않았습니다.
                         </div>
                     `
                     $('#recommand_document').append(temp);
@@ -411,27 +428,32 @@
                         $('#recommand_document').append(temp);
                     }
                     else{
+                        var recommand_count = 0;
+                        
                         data.forEach((doc)=>{
-                            console.log(doc);
-                            if(doc==document_name[2]){
-                                
+                            if(recommand_count<5){
+                                // console.log(doc);
+                                if(doc==document_name[2]){
+                                    
+                                }
+                                else{
+                                    db.collection('novel_document').doc(doc).get().then((result) => {
+                                        var temp =
+                                        `
+                                            <div class="document_list">
+                                                <a href="/n/${doc}">
+                                                    <img src="${result.data().bookcover}">
+                                                    <p>${result.data().name}</p>
+                                                </a>
+                                            </div>
+                                        `
+                                        $('#recommand_document').append(temp);
+                                    }).catch((err) => {
+                                        console.log(err);
+                                    })
+                                }
                             }
-                            else{
-                                db.collection('novel_document').doc(doc).get().then((result) => {
-                                    var temp =
-                                    `
-                                        <div class="document_list">
-                                            <a href="/n/${doc}">
-                                                <img src="${result.data().bookcover}">
-                                                <p>${result.data().name}</p>
-                                            </a>
-                                        </div>
-                                    `
-                                    $('#recommand_document').append(temp);
-                                }).catch((err) => {
-
-                                })
-                            }
+                            recommand_count++;
                         })
                     }
                 }                
@@ -448,13 +470,13 @@
                 if (doc.exists) {
                     // 이미 리뷰목록에 있는 경우
                     user_star_rating = doc.data().star;
-                    console.log("review exists true");
+                    // console.log("review exists true");
                     document.getElementById('review_input').remove();
                     document.getElementById('review_line').remove();
                     
                 } else {
                     // 리뷰 목록에 없는 경우
-                    console.log("review exists false");
+                    // console.log("review exists false");
                 }
             }
             catch(error){
@@ -466,6 +488,7 @@
         function review(){
             let review_path = db.collection('review').doc(document_name[2]).collection('short').doc(login_user_information);
             var star_rating = 0;
+            ltgt_content_check();
 
             document.getElementsByName('rating').forEach((node) => {
                 if(node.checked)  {
@@ -479,8 +502,11 @@
                 else if($('#char_content').val().length<1){
                     alert("아무 내용도 입력되지 않았습니다");
                 }
+                else if(ltgt_content_var){
+                    alert("내용에 꺽쇠괄호('<')를 입력할 수 없습니다.");
+                }
                 else{
-                    console.log(star_rating);
+                    // console.log(star_rating);
                     var n_name = document_name[2].split('(');
                     var n_author = n_name[1].split(')');
 
@@ -493,13 +519,16 @@
                         star: star_rating,
                         date: new Date()
                     };
+                    $('#loading_box').show()
                     review_path.set(review_data).then(async (result) => {
                         await reviewIncCounter(star_rating);
                         await history_reviewIncCounter(star_rating);
                         await review_add_user(star_rating);
+                        $('#loading_box').hide()
                         location.reload();
                     }).catch((error) => {
                         console.log(error);
+                        $('#loading_box').hide()
                         alert("review failed.");
                     });
                 }
@@ -512,15 +541,19 @@
         function review_delete(){
             let review_path = db.collection('review').doc(document_name[2]).collection('short').doc(login_user_information);
 
-            console.log(user_star_rating);
+            // console.log(user_star_rating);
 
+            $('#loading_box').show()
+            
             review_path.delete().then(async (result) => {
                 await reviewDimCounter(user_star_rating);
                 await history_reviewDimCounter(user_star_rating);
                 await review_delete_user();
+                $('#loading_box').hide()
                 location.reload();
             }).catch((error) => {
                 console.log(error);
+                $('#loading_box').hide()
                 alert("delete failed.");
             });
         }
@@ -533,7 +566,7 @@
         // 리뷰가져오기
         db.collection("review").doc(document_name[2]).collection("short").orderBy("date", "desc").limit(5).get().then((결과) => {
             var review_count = 0;
-            var temp = `<div class="review_pre"><div class="review_pre_set"><p>※리뷰가 존재하지 않습니다.※</p></div></div>`;
+            var temp = `<div class="review_pre"><div class="review_pre_set"><span>※리뷰가 존재하지 않습니다.※</span></div></div>`;
 
             
             결과.forEach((result) => {
@@ -602,7 +635,7 @@
 
             next.get().then((결과) => {
                 결과.forEach((result)=>{
-                    console.log(result.data())
+                    // console.log(result.data())
 
                     if(result.data().id == user_id){
                         temp = 
@@ -724,7 +757,7 @@
                 document.getElementById('back').style.display = "none";
 
                 next_2.get().then((결과) => {
-                    console.log("결과" + 결과.docs.length);
+                    // console.log("결과" + 결과.docs.length);
 
                     if(결과.docs.length>0){
                         document.getElementById('next').style.display = "block";
@@ -741,7 +774,7 @@
                 document.getElementById('back').style.display = "flex";
 
                 next_2.get().then((결과) => {
-                    console.log("결과" + 결과.docs.length);
+                    // console.log("결과" + 결과.docs.length);
 
                     if(결과.docs.length>0){
                         document.getElementById('next').style.display = "flex";
@@ -766,7 +799,7 @@
                 star: firebase.firestore.FieldValue.increment(star_t),
                 star_count: firebase.firestore.FieldValue.increment(1)
             }).then(() => {
-                console.log("좋아요 증가 성공");
+                // console.log("좋아요 증가 성공");
                 // history(document_bookcover);
                 // console.log("Document successfully updated!");
             }).catch((error) => {
@@ -781,7 +814,7 @@
                 star: firebase.firestore.FieldValue.increment(-star_t),
                 star_count: firebase.firestore.FieldValue.increment(-1)
             }).then(() => {
-                console.log("좋아요 제거 성공");
+                // console.log("좋아요 제거 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -794,7 +827,7 @@
                 star: firebase.firestore.FieldValue.increment(star_t),
                 star_count: firebase.firestore.FieldValue.increment(1)
             }).then(() => {
-                console.log("역사 좋아요 증가 성공");
+                // console.log("역사 좋아요 증가 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -807,7 +840,7 @@
                 star: firebase.firestore.FieldValue.increment(-star_t),
                 star_count: firebase.firestore.FieldValue.increment(-1)
             }).then(() => {
-                console.log("역사 좋아요 제거 성공");
+                // console.log("역사 좋아요 제거 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -826,7 +859,7 @@
                 date: new Date()
             };
             await docRef.set(info).then((result) => {
-                console.log("user에 저장완료");
+                // console.log("user에 저장완료");
             }).catch((error) => {
                 alert("user save failed.", error);
             });
@@ -836,7 +869,7 @@
         async function review_delete_user(){
             const docRef = db.collection('user').doc(login_user_information).collection('review').doc(document_name[2]);
             await docRef.delete().then(async (result) => {
-                console.log("user 정보 삭제 완료");
+                // console.log("user 정보 삭제 완료");
             }).catch((error) => {
                 console.log(error);
                 alert("user delete failed.");
@@ -848,18 +881,18 @@
         var like_state = false;
 
         async function getInformation() {
-            console.log("loging : " + login_user_information);
+            // console.log("loging : " + login_user_information);
             const getDocRef = db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]);
             try{
                 const doc = await getDocRef.get();
                 if (doc.exists) {
                     // 이미 좋아요 목록에 있는 경우
-                    console.log("exists true");
+                    // console.log("exists true");
                     document.getElementById('like_button').checked = true;
                     like_state = true;
                 } else {
                     // 좋아요 목록에 없는 경우
-                    console.log("exists false");
+                    // console.log("exists false");
                     like_state = false;
                 }
             }
@@ -868,36 +901,58 @@
             }
         }
 
+        var doubleclick_prevent = 1;
+
         function like(){
             if(login_check == true){
                 if(like_state == true) {
-                    // 이미 좋아요 목록에 있는 경우
-                    db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).delete().then(function() {
-                        likeDimCounter();
-                        history_likeDimCounter();
-                        console.log("문서 삭제 완료");
-                        like_state = false;
-                    }).catch(function(error) {
-                        console.error("Error removing document: ", error);
-                    });
+                    if (doubleclick_prevent <= 0 ) {
+                        alert("이미 작업이 수행중입니다.");
+                    } else {
+                        doubleclick_prevent  = doubleclick_prevent - 1;
+                        // 이미 좋아요 목록에 있는 경우
+                        $('#loading_box').show()
+                        db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).delete().then(function() {
+                            likeDimCounter();
+                            history_likeDimCounter();
+                            // console.log("문서 삭제 완료");
+                            like_state = false;
+                            $('#loading_box').hide()
+                        }).catch(function(error) {
+                            $('#loading_box').hide()
+                            console.error("Error removing document: ", error);
+                        });
+                    }
+
+                    doubleclick_prevent = 1;
                 } else {
-                    // 좋아요 목록에 없는 경우
-                    var name_information = document_name[2].split('(');
-                    var author_information = name_information[1].split(')');
-                    var info = {
-                        name: name_information[0],
-                        author: author_information[0],
-                        date: new Date(),
-                        classification: "n"
-                    };
-                    db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).set(info).then((result) => {
-                        likeIncCounter();
-                        history_likeIncCounter();
-                        alert("추가 완료");
-                        like_state = true;
-                    }).catch((error) => {
-                        alert("failed.", error);
-                    });
+                    if (doubleclick_prevent <= 0 ) {
+                        alert("이미 작업이 수행중입니다.");
+                    } else {
+                        doubleclick_prevent  = doubleclick_prevent - 1;
+                        // 좋아요 목록에 없는 경우
+                        $('#loading_box').show()
+                        var name_information = document_name[2].split('(');
+                        var author_information = name_information[1].split(')');
+                        var info = {
+                            name: name_information[0],
+                            author: author_information[0],
+                            date: new Date(),
+                            classification: "n"
+                        };
+                        db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).set(info).then((result) => {
+                            likeIncCounter();
+                            history_likeIncCounter();
+                            // alert("추가 완료");
+                            like_state = true;
+                            $('#loading_box').hide()
+                        }).catch((error) => {
+                            $('#loading_box').hide()
+                            alert("failed.", error);
+                        });
+                    }
+
+                    doubleclick_prevent = 1;
                 }
             }
             else{
@@ -912,7 +967,7 @@
             return docRef.update({
                 like: firebase.firestore.FieldValue.increment(1),
             }).then(() => {
-                console.log("좋아요 증가 성공");
+                // console.log("좋아요 증가 성공");
                 document.getElementById("like_count").innerText = Number($("label[id='like_count']").text()) + 1;
             }).catch((error) => {
                 console.log(error);
@@ -926,7 +981,7 @@
                 like: firebase.firestore.FieldValue.increment(-1),
             }).then(() => {
                 document.getElementById("like_count").innerText = Number($("label[id='like_count']").text()) - 1;
-                console.log("좋아요 제거 성공");
+                // console.log("좋아요 제거 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -939,7 +994,7 @@
             return docRef.update({
                 like: firebase.firestore.FieldValue.increment(1),
             }).then(() => {
-                console.log("역사 좋아요 증가 성공");
+                // console.log("역사 좋아요 증가 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -951,7 +1006,7 @@
             return docRef.update({
                 like: firebase.firestore.FieldValue.increment(-1),
             }).then(() => {
-                console.log("역사 좋아요 제거 성공");
+                // console.log("역사 좋아요 제거 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -965,8 +1020,10 @@
 
         if(document_name[1]=="hn"){
             window.addEventListener("load", async function() { //새로고침 함수
+                $('#loading_box').show()
                 await data_loading();
                 await getHistory();
+                $('#loading_box').hide()
                 // await getCookie();
                 // countSpan.textContent = view;
                             
@@ -974,8 +1031,10 @@
         }
         else{
             window.addEventListener("load", async function() { //새로고침 함수
+                $('#loading_box').show()
                 await data_loading();
                 await getCookie();
+                $('#loading_box').hide()
                 // countSpan.textContent = view;
                             
             });
@@ -1003,21 +1062,21 @@
 
         async function getCookie() {
             var cookies = document.cookie.split(';');
-            console.log(cookies);
+            // console.log(cookies);
 
             var currentCookie = document.cookie;
             var cookieCheck = currentCookie.indexOf(document_name[2]);
-            console.log(cookieCheck);
+            // console.log(cookieCheck);
 
             if(cookieCheck > - 1){
-                console.log("이미 조회한 게시물");
+                // console.log("이미 조회한 게시물");
             }
             else {
                 cookie_name = "NovelPedia" + document_name[2]
                 await setCookie(cookie_name, 1);
                 await viewIncCounter();
                 await history_viewIncCounter();
-                console.log("처음 조회하는 게시물");
+                // console.log("처음 조회하는 게시물");
             }
         }
 
@@ -1026,7 +1085,7 @@
             return await docRef.update({
                 view: firebase.firestore.FieldValue.increment(1),
             }).then(() => {
-                console.log("조회수 증가 성공");
+                // console.log("조회수 증가 성공");
                 
                 // history(document_bookcover);
                 // console.log("Document successfully updated!");
@@ -1041,7 +1100,7 @@
             return await docRef.update({
                 view: firebase.firestore.FieldValue.increment(1),
             }).then(() => {
-                console.log("역사 조회수 증가 성공");
+                // console.log("역사 조회수 증가 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -1058,7 +1117,7 @@
                 document.getElementById("update_name").innerText = "수정 일시 : ";
                 document.getElementById("like_count").innerText = 결과.data().like;
             }).catch((err)=>{
-                console.log("역사_카운트_로드 실패");
+                console.log("역사_카운트_로드 실패" + err);
             });
         }
     </script>
@@ -1089,7 +1148,7 @@
             await docPath.get().then((결과) => {
                 data_save_array = 결과;
                 // 불러온 내용 바탕으로 내용 바꾸기
-                console.log(결과.data())
+                // console.log(결과.data())
                 
                 // DB에 저장되어있는 내용 가져와서 DB에 저장
                 var document_bookcover = 결과.data().bookcover;
@@ -1117,7 +1176,7 @@
                 document.getElementById("document_information_star").innerText= star_cal;
 
                 // 태그 불러오기 영역
-                console.log(typeof(document_tag));
+                // console.log(typeof(document_tag));
                 document_tag.forEach(function(tag_element){
                     var tag_temp = `<a href="../search?q=!${tag_element}">${"#"+tag_element}</a>`
                     $('#document_tag_area').append(tag_temp);
@@ -1133,15 +1192,8 @@
                 var minute = ("0" + time.getMinutes()).slice(-2) + "분 ";
                 var second = ("0" + time.getSeconds()).slice(-2) + "초";
 
-                // 줄거리 더보기 버튼 제거
-                if(document_summary_content.length<650){
-                    document.getElementById("more_button").style.display = 'none';
-                    document.getElementById("summary_content").style.borderBottomRightRadius = '15px';
-                    document.getElementById("summary_content").style.borderBottomLeftRadius = '15px';
-                }
-
                 // 표지변경
-                console.log(document_bookcover);
+                // console.log(document_bookcover);
                 document.getElementById("document_bookcover").src = document_bookcover;
 
                 document.getElementById("document_information_title").innerText = document_information_title;
@@ -1160,7 +1212,7 @@
                 // document.getElementById("like_count").value = document_like;
 
                 const address_analze = document_information_buy_series_address.split(":");
-                console.log(address_analze[0]);
+                // console.log(address_analze[0]);
 
                 if(address_analze[0]==="http" || address_analze[0]==="https"){
                     document.getElementById("document_information_buy_series").href = document_information_buy_series_address;
@@ -1176,6 +1228,13 @@
                 // document.getElementById("document_information_author").innerText = document_information_author;
                 // document.getElementById("document_information_author").innerText = document_information_author;
                 // document.getElementById("document_information_author").innerText = document_information_author;
+
+                // 줄거리 더보기 버튼 제거
+                if(document.getElementById("document_summary_content").getBoundingClientRect().height<301){
+                    document.getElementById("more_button").style.display = 'none';
+                    document.getElementById("summary_content").style.borderBottomRightRadius = '15px';
+                    document.getElementById("summary_content").style.borderBottomLeftRadius = '15px';
+                }
             }).catch((err) => {
                 console.log(err);
                 document.getElementById("document_section").style.display = "none";
@@ -1212,7 +1271,7 @@
                     }
                     await history_data_update();
                     await history_update();
-                    console.log("문서 삭제 완료");
+                    // console.log("문서 삭제 완료");
                 }).catch(function(error) {
                     console.error("Error removing document: ", error);
                 });
@@ -1227,7 +1286,7 @@
                 version: firebase.firestore.FieldValue.increment(1),
             })
             .then(async () => {
-                alert("history data 업데이트 성공!");                
+                // alert("history data 업데이트 성공!");                
             }).catch((err)=>{
                 console.log(err + "history data 업데이트 실패!")
             });
@@ -1259,12 +1318,12 @@
             };
             console.log(document_name[2]);
             await db.collection('history').doc(document_name[2]).collection('version').doc((data_save_array.data().version + 1).toString()).set(info).then((result) => {
-                console.log(result);
-                alert("history data success.");
+                // console.log(result);
+                // alert("history data success.");
                 location.reload();
             }).catch((error) => {
                 console.log(error);
-                alert("history data failed.");
+                // alert("history data failed.");
             });
 
         }

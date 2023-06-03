@@ -124,12 +124,12 @@
                     <ul class="slidelist">
                         <!-- 슬라이드 영역 -->
                         <li class="slideitem">
-                            <a href="#" target="_blank">
+                            <a href="https://novelpedia.co.kr/notice_view.html?page=1" target="_blank" title="사용방법 보러가기">
                                 <!--<div class="textbox">
                                     <h3>첫번째 슬라이드</h3>
                                     <p>첫번째 슬라이드 입니다.</p>
                                 </div>-->
-                                <img src="./image/slide4.png">
+                                <img src="./image/banner_6.png">
                             </a>
                         </li>
                         <li class="slideitem">
@@ -198,9 +198,9 @@
                     <p>바로가기</p>
                     <div class="line_one">
                         <input type="button" class="button" onclick="location.href='/rank'">
-                        <input type="button" class="button" onclick="location.href='#'">
-                        <input type="button" class="button" onclick="location.href='#'">
-                        <input type="button" class="button" onclick="location.href='#'">
+                        <input type="button" class="button" onclick="location.href='/notice'" value="공지사항">
+                        <input type="button" class="button" onclick="location.href='/report'" value="신고 및 건의">
+                        <input type="button" class="button" onclick="location.href='#'" value="">
                     </div>
                     <div class="line_two">
                         <input type="button" class="button" onclick="location.href='e/'" value="작품 생성">
@@ -227,8 +227,7 @@
         <div class="main_intro">
             <div class="explain">
                 <!--<hr />-->
-                <h1>"NovelPedia"</h1>
-                <p>노벨피디아는 잘못된 정보가 포함되어 있을 수 있습니다.</p>
+                <p>NovelPedia는 누구나 자유롭게 이용할 수 있습니다.</p>
                 <p>정식 출간되지 않은 작품도 문서로 등록할 수 있으며, 직접 문서를 고치고 리뷰를 작성할 수 있습니다.</p>
                 <!--<hr />-->
             </div>
@@ -237,7 +236,7 @@
         <div class="main_second">
             <div class="main_ranking">
                 <div class="select_div">
-                    <a href="#">노벨피디아 순위</a>
+                    <a href="/rank">노벨피디아 순위</a>
                     <select id="sort_value">
                         <option value="view" selected>조회수</option>
                         <option value="like">좋아요수</option>
@@ -248,9 +247,9 @@
                 <div class="document_rank_first">
                 </div>
 
-                <div class="document_rank2">
+                <!-- <div class="document_rank2">
                     <a href="#" class="a_first"></a>
-                </div>
+                </div> -->
 
                 <div class="document_rank_second">
                 </div>
@@ -266,7 +265,6 @@
                 </div>
                 <div class="modify_document" id="recent_modify">
                 </div>
-                <!-- <span>2023.11.33. 5:20 pm 업데이트</span> -->
             </div>
         </div>
     </section>
@@ -282,11 +280,6 @@
                 <div class="footer-col">
                     <ul>
                         <li><a href="/report">신고 및 건의</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
                     </ul>
                 </div>
             </div>
@@ -321,7 +314,7 @@
         dbRef.orderBy("the_first_date", "desc").limit(4).get().then((res)=>{
             /*res 안에 든 데이터의 갯수만큼 코드 반복*/
             res.forEach((doc)=>{
-                console.log(doc.data());
+                // console.log(doc.data());
                 var document_name = "n/" + doc.data().name + "(" + doc.data().author + ")";
                 var doc_name_temp = doc.data().name;
 
@@ -347,7 +340,7 @@
         dbRef.orderBy("update_date", "desc").limit(10).get().then((res)=>{
             /*res 안에 든 데이터의 갯수만큼 코드 반복*/
             res.forEach((doc)=>{
-                console.log(doc.data());
+                // console.log(doc.data());
                 var document_name = "n/" + doc.data().name + "(" + doc.data().author + ")";
                 var doc_name_temp = doc.data().name;
 
@@ -374,7 +367,7 @@
             if(select_sort == 1){
                 db.collection("novel_document").orderBy("update_date", "desc").limit(10).get().then((res)=>{
                     res.forEach((doc)=>{
-                        console.log(doc.data());
+                        // console.log(doc.data());
                         var document_name = "n/" + doc.data().name + "(" + doc.data().author + ")";
                         var doc_name_temp = doc.data().name;
 
@@ -389,7 +382,7 @@
             else if(select_sort == 2){
                 db.collection("author_document").orderBy("update_date", "desc").limit(10).get().then((res)=>{
                     res.forEach((doc)=>{
-                        console.log(doc.data());
+                        // console.log(doc.data());
                         var document_name = "a/" + doc.data().name + "(" + doc.data().birthday + ")";
                         var doc_name_temp = doc.data().name;
 
@@ -404,7 +397,7 @@
             else{
                 db.collection("publisher_document").orderBy("update_date", "desc").limit(10).get().then((res)=>{
                     res.forEach((doc)=>{
-                        console.log(doc.data());
+                        // console.log(doc.data());
                         var document_name = "p/" + doc.data().name;
                         var doc_name_temp = doc.data().name;
 
@@ -479,7 +472,7 @@
                     }
                     index++;
                     // 콘솔창에 데이터 정보 출력
-                    console.log(doc.id, doc.data());
+                    // console.log(doc.id, doc.data());
                     if(index <= 4) {
                         $(".document_rank_first").append(temp);
                     } else {
@@ -493,7 +486,7 @@
     </script>
 
     <!--검색창-->
-    <script src="./js/search.js"></script>
+    <!-- <script src="./js/search.js"></script> -->
 </body>
 
 </html>

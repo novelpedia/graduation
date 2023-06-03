@@ -3,26 +3,6 @@
     margin: 0;
 }
 
-/*
-li {
-    list-style: none;
-}
-
-a {
-    text-decoration: none;
-}
-*/
-
-/*
-button {
-    cursor: pointer;
-}
-*/
-
-body {
-    /*border-radius: 10px;*/
-}
-
 .signup {
     width: 650px;
     height: auto;
@@ -34,11 +14,6 @@ body {
 .mid {
     margin-top: 30px;
 }
-
-/*.space {
-    height: 140px;
-
-}*/
 
 .signup h2 {
     width: 100%;
@@ -291,6 +266,7 @@ body {
     justify-content: flex-end;
     margin-top: -1px;
     margin-bottom: 30px;
+    display: none;
 }
 
 .check input {
@@ -313,6 +289,7 @@ body {
 .phone input {}
 
 .gender {
+    display: flex;
     margin-top: -2px;
     width: 65%
 }
@@ -322,7 +299,6 @@ body {
 }
 
 .gender input[type=radio] + label {
-    display: inline-block;
     cursor: pointer;
     height: 40px;
     width: 50%;
@@ -330,7 +306,6 @@ body {
     background-color: white;
     text-align: center;
     font-size: 14px;
-    margin-right: -9px;
 }
 
 .gender input[type=radio] + label {
@@ -391,6 +366,7 @@ body {
     font-size: 14px;
     font-weight: bold;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 

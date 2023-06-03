@@ -2,8 +2,13 @@
     font-family: 'NanumGothic';
 }
 
+html{
+    height: 100%;
+}
+
 body {
     margin: 0;
+    height: 100%;
 }
 
 [type="radio"] {
@@ -18,6 +23,7 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
+    min-height: 100%;
 }
 
 .boxing_section {
@@ -135,6 +141,7 @@ body {
 .col_6 a {
     text-decoration: none;
     color: black;
+    cursor: pointer;
 }
 
 .col_7 {
@@ -142,6 +149,7 @@ body {
     border: 1px solid #e5e5e5;
     height: 50px;
     vertical-align: middle;
+    word-break: break-all;
 }
 
 .col_8 {

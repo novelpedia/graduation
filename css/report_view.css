@@ -138,10 +138,10 @@
 }
 
 .list{
-    margin-left: 1%;
+    margin-left: 5px;
 }
 
-.list, .edit{
+.list, .edit, .delete{
     text-decoration: none;
     display: inline-block;
     color:black;
@@ -155,6 +155,11 @@
     line-height: 33.5px;
     text-align: center;
     cursor: pointer;
+}
+
+.delete{
+    color: red;
+    margin-right: 5px;
 }
 
 .list:hover{

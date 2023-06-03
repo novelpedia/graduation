@@ -149,13 +149,8 @@ input[id="menuicon"] + label {
 }
 
 input[id="menuicon"] + label span {
-    display: block;
-    /*position: absolute;*/
-    width: 75%;
-    height: 4px;
-    border-radius: 30px;
-    background: #000;
-    transition: all .75s;
+    font-size: 25px;
+    font-weight: 600;
 }
 
 /*input[id="menuicon"] + label:hover{

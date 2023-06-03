@@ -9,6 +9,7 @@
     <link href="../css/header.css" rel="stylesheet">
     <link href="../css/footer.css" rel="stylesheet">
     <link href="../css/getOther.css" rel="stylesheet">
+    <link href="../css/loading.css" rel="stylesheet">
     <title>출판사페이지</title>
 </head>
 
@@ -67,11 +68,11 @@
     <script>
         /*메뉴버튼 바꾸기 위한 변수*/
         const change_img = document.createElement('img');
-        change_img.setAttribute('src', './image/메뉴_닫힘.png');
+        change_img.setAttribute('src', '../image/메뉴_닫힘.png');
         change_img.setAttribute('id', 'close');
 
         const change_img_normal = document.createElement('img');
-        change_img_normal.setAttribute('src', './image/메뉴_검정_버튼.png');
+        change_img_normal.setAttribute('src', '../image/메뉴_검정_버튼.png');
         change_img_normal.setAttribute('id', 'close');
 
         /*검색버튼에 대한 동작 변수*/
@@ -112,6 +113,13 @@
         }
     </script>
 
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
+
     <section class="section_empty" id="section_empty">
         <div id="empty"></div>
     </section>
@@ -145,7 +153,7 @@
                 <div class="document_bundle_cover">
                     <!--작품표지-->
                     <div class="document_profile_image">
-                        <img id="document_profile_image_cover" src="image/표지_미등록.png">
+                        <img id="document_profile_image_cover" src="../image/표지_미등록.png">
                         <!--관심등록 및 버튼-->
                         <div class="document_button">
                             <input type="checkbox" id="like_button" style="display: none;">
@@ -161,10 +169,7 @@
                     <ol>목차
                         <li><a href="#document_information">출판사정보</a></li>
                         <li><a href="#document_novel_list">작품목록</a></li>
-                        <li><a></a></li>
-                        <li><a></a></li>
-                        <li><a></a></li>
-                        <li><a></a></li>
+                        <li><a href="#document_other">사용자편집</a></li>
                     </ol>
                 </div>
             </div>
@@ -307,17 +312,12 @@
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="../notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">Q&A</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="../report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
@@ -355,9 +355,11 @@
     <!-- 문서 열면서 동기적으로 실행할 함수 -->
     <script>
         async function start_author(){
+                $('#loading_box').show()
                 await getUser();
                 await getInformation();
-                console.log(login_user_information);
+                // console.log(login_user_information);
+                $('#loading_box').hide()
             }
 
         start_author();
@@ -366,18 +368,18 @@
     <!-- 좋아요 -->
     <script>
         async function getInformation() {
-            console.log("loging : " + login_user_information);
+            // console.log("loging : " + login_user_information);
             const getDocRef = db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]);
             try{
                 const doc = await getDocRef.get();
                 if (doc.exists) {
                     // 이미 좋아요 목록에 있는 경우
-                    console.log("exists true");
+                    // console.log("exists true");
                     document.getElementById('like_button').checked = true;
                     like_state = true;
                 } else {
                     // 좋아요 목록에 없는 경우
-                    console.log("exists false");
+                    // console.log("exists false");
                     like_state = false;
                 }
             }
@@ -389,16 +391,20 @@
         function like(){
             if(login_check == true){
                 if(like_state == true) {
+                    $('#loading_box').show()
                     // 이미 좋아요 목록에 있는 경우
                     db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).delete().then(function() {
                         likeDimCounter();
                         history_likeDimCounter();
-                        console.log("문서 삭제 완료");
+                        // console.log("문서 삭제 완료");
                         like_state = false;
+                        $('#loading_box').hide()
                     }).catch(function(error) {
                         console.error("Error removing document: ", error);
+                        $('#loading_box').hide()
                     });
                 } else {
+                    $('#loading_box').show()
                     // 좋아요 목록에 없는 경우
                     var info = {
                         name: document_name[2],
@@ -408,10 +414,12 @@
                     db.collection('user').doc(login_user_information).collection('like').doc(document_name[2]).set(info).then((result) => {
                         likeIncCounter();
                         history_likeIncCounter();
-                        alert("추가 완료");
+                        // alert("추가 완료");
                         like_state = true;
+                        $('#loading_box').hide()
                     }).catch((error) => {
                         alert("failed.", error);
+                        $('#loading_box').hide()
                     });
                 }
             }
@@ -427,7 +435,7 @@
             return docRef.update({
                 like: firebase.firestore.FieldValue.increment(1),
             }).then(() => {
-                console.log("좋아요 증가 성공");
+                // console.log("좋아요 증가 성공");
                 document.getElementById("like_count").innerText = Number($("label[id='like_count']").text()) + 1;
             }).catch((error) => {
                 console.log(error);
@@ -441,7 +449,7 @@
                 like: firebase.firestore.FieldValue.increment(-1),
             }).then(() => {
                 document.getElementById("like_count").innerText = Number($("label[id='like_count']").text()) - 1;
-                console.log("좋아요 제거 성공");
+                // console.log("좋아요 제거 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -453,7 +461,7 @@
             return docRef.update({
                 like: firebase.firestore.FieldValue.increment(1),
             }).then(() => {
-                console.log("역사 좋아요 증가 성공");
+                // console.log("역사 좋아요 증가 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -465,7 +473,7 @@
             return docRef.update({
                 like: firebase.firestore.FieldValue.increment(-1),
             }).then(() => {
-                console.log("역사 좋아요 제거 성공");
+                // console.log("역사 좋아요 제거 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -481,7 +489,7 @@
                 document.getElementById("update_name").innerText = "수정 일시 : ";
                 document.getElementById("like_count").innerText = 결과.data().like;
             }).catch((err)=>{
-                console.log("역사_카운트_로드 실패");
+                console.log("역사_카운트_로드 실패" + err);
             });
         }
     </script>
@@ -492,14 +500,18 @@
         var cookie_name;
         if(document_name[1]=="hp"){
             window.addEventListener("load", async function() { //새로고침 함수
+                $('#loading_box').show();
                 await data_loading();
                 await getHistory();
+                $('#loading_box').hide()
             });
         }
         else{
             window.addEventListener("load", async function() { //새로고침 함수
+                $('#loading_box').show()
                 await data_loading();
                 await getCookie();
+                $('#loading_box').hide()
                 // countSpan.textContent = view;       
             });
 
@@ -526,21 +538,21 @@
 
         async function getCookie() {
             var cookies = document.cookie.split(';');
-            console.log(cookies);
+            // console.log(cookies);
 
             var currentCookie = document.cookie;
             var cookieCheck = currentCookie.indexOf(document_name[2]);
-            console.log(cookieCheck);
+            // console.log(cookieCheck);
 
             if(cookieCheck > - 1){
-                console.log("이미 조회한 게시물");
+                // console.log("이미 조회한 게시물");
             }
             else {
                 cookie_name = "NovelPedia" + document_name[2]
                 await setCookie(cookie_name, 1);
                 await viewIncCounter();
                 await history_viewIncCounter();
-                console.log("처음 조회하는 게시물");
+                // console.log("처음 조회하는 게시물");
             }
         }
 
@@ -549,7 +561,7 @@
             return await docRef.update({
                 view: firebase.firestore.FieldValue.increment(1),
             }).then(() => {
-                console.log("조회수 증가 성공");
+                // console.log("조회수 증가 성공");
                 // history(document_bookcover);
                 // console.log("Document successfully updated!");
             }).catch((error) => {
@@ -563,7 +575,7 @@
             return await docRef.update({
                 view: firebase.firestore.FieldValue.increment(1),
             }).then(() => {
-                console.log("역사 조회수 증가 성공");
+                // console.log("역사 조회수 증가 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -593,7 +605,7 @@
             await docPath.get().then((결과) => {
                 data_save_array = 결과;
                 // 불러온 내용 바탕으로 내용 바꾸기
-                console.log(결과.data())
+                // console.log(결과.data())
                 
                 var document_profilecover = 결과.data().profilecover;
                 var document_information_name = 결과.data().name;
@@ -634,7 +646,7 @@
                 document.getElementById("like_count").innerText = document_like;
 
                 // 태그 불러오기 영역
-                console.log(typeof(document_tag));
+                // console.log(typeof(document_tag));
                 document_tag.forEach(function(tag_element){
                     var tag_temp = `<a href="../search?q=!${tag_element}">${"#"+tag_element}</a>`
                     $('#document_tag_area').append(tag_temp);
@@ -698,7 +710,7 @@
                     }
                     await history_data_update();
                     await history_update();
-                    console.log("문서 삭제 완료");
+                    // console.log("문서 삭제 완료");
                 }).catch(function(error) {
                     console.error("Error removing document: ", error);
                 });
@@ -713,7 +725,7 @@
                 version: firebase.firestore.FieldValue.increment(1),
             })
             .then(async () => {
-                alert("history data 업데이트 성공!");                
+                // alert("history data 업데이트 성공!");                
             }).catch((err)=>{
                 console.log(err + "history data 업데이트 실패!")
             });
@@ -737,14 +749,14 @@
                 user_class: user_class,
                 action: "d",                               
             };
-            console.log(document_name[2]);
+            // console.log(document_name[2]);
             await db.collection('history').doc(document_name[2]).collection('version').doc((data_save_array.data().version + 1).toString()).set(info).then((result) => {
-                console.log(result);
-                alert("history data success.");
+                // console.log(result);
+                // alert("history data success.");
                 location.reload();
             }).catch((error) => {
                 console.log(error);
-                alert("history data failed.");
+                // alert("history data failed.");
             });
 
         }

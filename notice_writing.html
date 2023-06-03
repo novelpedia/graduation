@@ -7,7 +7,8 @@
     <link href="./css/notice_wirte.css" rel="stylesheet">
     <link href="./css/header.css" rel="stylesheet">
     <link href="./css/footer.css" rel="stylesheet">
-    <title>Document</title>
+    <link href="./css/loading.css" rel="stylesheet">
+    <title>공지사항</title>
 </head>
 <body>
     <header class="header">
@@ -109,6 +110,13 @@
         }
     </script>
 
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
+
     <section class="section_all">
         <div class="banner"><a href="notice_list.html">공지사항</a></div>
         <div class="view_container">
@@ -134,12 +142,7 @@
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">신고 및 건의</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
@@ -174,6 +177,7 @@
             if (number == null) { 
                 // 등록 버튼 클릭했을 때 실행
                 $(".register").on("click", function() {
+                    $('#loading_box').show();
                     outputKeyword();
                     if(login_check==true){
                         if(login_user_class=="m"){
@@ -199,24 +203,32 @@
                                 }).then(function(docRef) {
                                     console.log("ID로 작성된 문서: ", docRef.id);
                                     alert("공지사항이 등록되었습니다.");
+                                    $('#loading_box').hide();
                                     location.href = "notice_list.html"; // 새로 등록할 때는 목록 페이지로 이동
                                 }).catch(function(error) {
                                     console.error("문서 추가 오류: ", error);
+                                    $('#loading_box').hide();
                                 });
                             }).catch(function(error) {
                                 console.log("문서를 가져오는 중 오류 발생: ", error);
+                                $('#loading_box').hide();
                             });
                         }
                         else{
                             alert("비정상적인 접근입니다. 관리자 계정이 아닙니다.")
+                            $('#loading_box').hide();
                         }
                     }
                     else{
                         alert("로그인 후 이용하세요");
+                        $('#loading_box').hide();
                     }
                     
                 });
-            } else { // number 값 이미 있을 때, 공지사항 수정
+                $('#loading_box').hide();
+            }
+            else { // number 값 이미 있을 때, 공지사항 수정
+                $('#loading_box').show();
                  // 제목, 내용 가져와서 미리 채우기
                 db.collection("notice").where("number", "==", parseInt(number)).get().then(function(querySnapshot) {
                     querySnapshot.forEach(function(doc) {
@@ -226,13 +238,16 @@
                         document
                         $("#title").val(title);
                         document.getElementById("content").innerHTML = content;
+                        $('#loading_box').hide();
                     });
                 }).catch(function(error) {
                     console.log("문서를 가져오는 중 오류 발생: ", error);
+                    $('#loading_box').hide();
                 });
 
                 // 등록(수정) 버튼 클릭했을 때 실행
                 $(".register").on("click", function() {
+                    $('#loading_box').show();
                     outputKeyword();
                     if(login_check==true){
                         if(login_user_class=="m"){
@@ -244,17 +259,21 @@
                             }).then(function() {
                                 console.log("문서가 성공적으로 업데이트되었습니다!");
                                 alert("공지사항이 수정되었습니다.");
+                                $('#loading_box').hide();
                                 location.href = "notice_view.html?page=" + number;
                             }).catch(function(error) {
                                 console.error("문서 업데이트 오류: ", error);
+                                $('#loading_box').hide();
                             });
                         }
                         else{
                             alert("비정상적인 접근입니다. 관리자 계정이 아닙니다.")
+                            $('#loading_box').hide();
                         }
                     }
                     else{
                         alert("로그인 후 이용하세요");
+                        $('#loading_box').hide();
                     }
                     // 입력한 내용 가져오기
                     // 문서 업데이트

@@ -26,13 +26,14 @@ var id_duple_chk = false;
 /*중복 여부 확인*/
 var duple_chk = false;
 
+$('#loading_box').hide();
+
 
 document.querySelector("html").addEventListener("click", function (e) {
     if (e.target.id == e.currentTarget.querySelector("#signupid").id) {
-
         console.log("True");
-
-    } else {
+    }
+    else {
         var id = $('#signupid').val() + "@novelpedia.com";
         if (!number_chk && id.length > 15) {
             firebase.auth().createUserWithEmailAndPassword(id, tp_pw).then((result) => {
@@ -47,7 +48,6 @@ document.querySelector("html").addEventListener("click", function (e) {
                 }).catch((error) => {
                     alert("중복체크 과정에서 오류가 발생했습니다. 해당 아이디는 당분간 사용할 수 없습니다. 관리자에게 문의하세요." + error);
                 });
-
             }).catch((err) => {
                 /*$('#signupid').delete().then(() => {
                     // User deleted.
@@ -88,7 +88,6 @@ function dupleChk() {
 
 
 $('#register').click(function () {
-
     var id = $('#signupid').val() + "@novelpedia.com";
     var pw = $('#signupPass').val();
     var pw2 = $('#passwordCheck').val();
@@ -125,6 +124,7 @@ $('#register').click(function () {
     } else if (birthday.length === 0) {
         alert("생년월일이 입력되지 않았습니다.");
     } else {
+        $('#loading_box').show();
         firebase.auth().createUserWithEmailAndPassword(id, pw).then((result) => {
             var 사용자데이터 = {
                 이름: name,
@@ -142,18 +142,17 @@ $('#register').click(function () {
             db.collection('user').doc(docname).set(사용자데이터).then((result) => {
                 console.log(result);
                 alert(name + "님 환영합니다.");
+                $('#loading_box').hide();
                 window.location.href = 'index.html';
             }).catch(() => {
                 alert("DB접근 불가");
+                $('#loading_box').hide();
             });
             console.log(result.user);
         }).catch((err) => {
-            /*$('#signupid').delete().then(() => {
-                // User deleted.
-            }).catch((error) => {
-                alert('제거실패' + error);
-            });*/
             alert('회원가입 실패' + err);
+            $('#loading_box').hide();
         });
     }
+    // $('#loading_box').hide();
 })

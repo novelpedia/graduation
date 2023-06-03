@@ -2,24 +2,6 @@
     font-family: 'NanumGothic';
     margin: 0;
 }
-/*
-
-li {
-    list-style: none;
-}
-
-a {
-    text-decoration: none;
-}
-*/
-
-/*button {
-    cursor: pointer;
-}
-
-body {
-    border-radius: 10px;
-}*/
 
 .user_modify {
     width: 850px;
@@ -43,12 +25,6 @@ body {
 .user_modify .space {
     display: flex;
     justify-content: center;
-    
-    /*display: flex;
-    left: 82.5%;
-    margin-top: 50px;
-    margin-bottom: 30px;
-    justify-content: flex-end;*/
 }
 
 .user_modify .modify {
@@ -56,7 +32,6 @@ body {
 }
 
 .user_modify .space2 {
-    /*회원정보 수정 */
     display: flex;
     justify-content: flex-end;
     left: 86%;
@@ -222,7 +197,7 @@ body {
     border-radius: 0px;
     border: solid 1px #e5e5e5;
     background-color: white;
-
+    display: none;
 }
 
 .user_modify .check2 {
@@ -231,6 +206,7 @@ body {
     border-radius: 0px;
     border: solid 1px #e5e5e5;
     background-color: white;
+    display: none;
 }
 
 .user_modify .block {

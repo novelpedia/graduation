@@ -7,7 +7,8 @@
     <link href="./css/notice_view.css" rel="stylesheet">
     <link href="./css/header.css" rel="stylesheet">
     <link href="./css/footer.css" rel="stylesheet">
-    <title>Document</title>
+    <link href="./css/loading.css" rel="stylesheet">
+    <title>공지사항</title>
 </head>
 <body>
     <header class="header">
@@ -109,6 +110,13 @@
         }
     </script>
 
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
+
     <section class="section_all">            
         <div class="container">
             <div class="banner"><a href="notice_list.html">공지사항</a></div>
@@ -150,12 +158,7 @@
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">신고 및 건의</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
@@ -195,10 +198,7 @@
             // 만약 number 값이 1보다 크면 이전 글의 링크 찾기
             if (number > 1) {
                 const prevNumber = number - 1;
-                db.collection("notice")
-                .where("number", "==", prevNumber)
-                .get()
-                .then(function(querySnapshot) {
+                db.collection("notice").where("number", "==", prevNumber).get().then(function(querySnapshot) {
                         if (!querySnapshot.empty) { // 결과값이 비어있지 않은 경우, 이전 글 이름 & 링크 생성
                             const prevDoc = querySnapshot.docs[0];
                             const prevName = prevDoc.data().name;
@@ -216,10 +216,9 @@
                 $("#prev_div").remove();
             }
 
-            db.collection("notice") // firestore에서 number값 일치하는 공지사항 가져오기
-                .where("number", "==", number)
-                .get()
-                .then(function(querySnapshot) {
+            // firestore에서 number값 일치하는 공지사항 가져오기
+            $('#loading_box').show();
+            db.collection("notice") .where("number", "==", number).get().then(function(querySnapshot) {
                     querySnapshot.forEach(function(doc) { // 화면에 표시
                         const timestamp = doc.data().timestamp; 
                         const date = new Date(timestamp.toDate());
@@ -254,15 +253,18 @@
                             }
                         });
                     });
+                    $('#loading_box').hide();
                 })
                 .catch(function(error) {
                     console.log("문서를 가져오는 중 오류 발생: ", error);
+                    $('#loading_box').hide();
                 });
         });
     </script>
 
     <script>
         async function managerChecking(){
+            $('#loading_box').show();
             setTimeout(() => {
                 if(login_user_class == "m"){
                     var temp = `<a href="notice_writing.html?page=${number}" class="edit">수정</a>`
@@ -272,6 +274,7 @@
                     console.log("test");
                 }
             }, 1000); // 1초 대기
+            $('#loading_box').hide();
         }
         managerChecking();
     </script>

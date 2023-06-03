@@ -14,9 +14,7 @@
 <body class="review_body">
     <input type="checkbox" id="menuicon">
     <label for="menuicon">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span>→</span>
     </label>
 
     <nav class="mypage_sidebar">
@@ -199,25 +197,17 @@
         </div>
     </section>
     
-    
-    
-    
     <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="/notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">Q&A</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
@@ -259,15 +249,17 @@
         var save_review_date;
         let review_save = [];
         let review_save_count = 0;
+        let docRef_delete;
 
         async function getReviewInfor() {
             const dbRef = db.collection("user").doc(login_user_information).collection("review").orderBy("date", "desc").limit(10);
+            docRef_delete = db.collection("user").doc(login_user_information);
             try{
                 const res = await dbRef.get();
                 lastVisible = res.docs[res.docs.length-1];
 
                 res.forEach((doc)=>{
-                    console.log("data: " + doc.data());
+                    // console.log("data: " + doc.data());
                     review_save[review_save_count] = doc.data();
                     
 
@@ -341,16 +333,16 @@
             // console.log("original : " + scrollHeight_original);
 
             if(scrollHeight_original == scrollHeight){
-                console.log("같음 실행");
+                // console.log("같음 실행");
             }
             else{
                 scroll_count = 0;
                 loading = false;
-                console.log("다름 실행");
+                // console.log("다름 실행");
             }
 
             if (Math.ceil(scrollTop + window.innerHeight) >= scrollHeight && !loading) {
-                console.log("실행");
+                // console.log("실행");
                 loading = true;
                 await next_review();
                 
@@ -363,14 +355,11 @@
             var next = db.collection("user").doc(login_user_information).collection("review").orderBy("date", "desc").startAfter(lastVisible).limit(10);
             try{
                 const res = await next.get();
-                console.log("test");
+                // console.log("test");
                 lastVisible = res.docs[res.docs.length-1];
 
                 res.forEach((doc)=>{
                     review_save[review_save_count] = doc.data();
-                    
-                    console.log("data: " + doc.data());
-                    
 
                     var review_date = doc.data().date;
 
@@ -427,7 +416,7 @@
                 star: firebase.firestore.FieldValue.increment(-star_t),
                 star_count: firebase.firestore.FieldValue.increment(-1)
             }).then(()  => {
-                console.log("좋아요 제거 성공");
+                // console.log("좋아요 제거 성공");
             }).catch((error) => {
                 console.log(error);
             });
@@ -440,7 +429,7 @@
                 star: firebase.firestore.FieldValue.increment(-star_t),
                 star_count: firebase.firestore.FieldValue.increment(-1)
             }).then(()  => {
-                console.log("역사 좋아요 제거 성공");
+                // console.log("역사 좋아요 제거 성공");
             }).catch((error) => {
                 console.log("역사 실패", error);
             });
@@ -449,7 +438,7 @@
         async function review_delete_user(document_n){
             const docRef = db.collection('user').doc(login_user_information).collection('review').doc(document_n);
             await docRef.delete().then(async (result) => {
-                console.log("user 정보 삭제 완료");
+                // console.log("user 정보 삭제 완료");
             }).catch((error) => {
                 console.log(error);
                 alert("user delete failed.");
@@ -485,7 +474,7 @@
 
             $('input:checkbox[name=choice]').each(async function (index) {
                 if($(this).is(":checked")==true){
-                    console.log(review_save[$(this).val()].star);
+                    // console.log(review_save[$(this).val()].star);
                     promises.push(review_delete(review_save[$(this).val()].star, review_save[$(this).val()].d_name, "ad"));
                 }
             });
@@ -503,11 +492,18 @@
             event.preventDefault(); //잠깐 작동 정지하고
 
             if (confirm('노벨피디아를 탈퇴하시겠습니까?')) {
-                docRef.delete().then(function() { 
-                    confirm("탈퇴 되었습니다.");
-                    location.href = "login.html"; //로그인 화면으로 이동
+                $('#loading_box').show();
+                docRef_delete.delete().then(function() {
+                    firebaseEmailAuth.signOut().then(function () {
+                        alert("탈퇴 되었습니다.");
+                        $('#loading_box').hide();
+                        location.href = "/login"; //로그인 화면으로 이동
+                    }).catch(function (error) {
+                        alert("로그아웃 실패", error);
+                    });
                 }).catch(function(error) {  
                     console.error("탈퇴 실패되었습니다.", error);
+                    $('#loading_box').hide();
                 });    
             }
         });

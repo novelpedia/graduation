@@ -9,7 +9,7 @@ async function getDocument(userEmail, uid) {
     const userDocRef = db.collection('user').doc(userEmail + uid);
     try{
         const 결과 = await userDocRef.get();
-        console.log(결과.data());
+        // console.log(결과.data());
         document.getElementById("login_logout").textContent = "로그아웃";
         document.getElementById("login_logout").href = "#";
         document.getElementById("mypage_button").style.display = 'flex';
@@ -44,18 +44,18 @@ async function userSessionCheck() {
 
     userInfor = await userInformation();
     // await getDocument(userEmailTemp, userUidTemp);
-    console.log("login.js : " + userInfor);
+    // console.log("login.js : " + userInfor);
     return userInfor;
 }
 
 async function getUser(){
     login_user_information = await userSessionCheck();
-    console.log("login_user_information : " + login_user_information);
+    // console.log("login_user_information : " + login_user_information);
 }
 
 async function start(){
     await getUser();
-    console.log(login_user_information);
+    // console.log(login_user_information);
 }
 
 start();

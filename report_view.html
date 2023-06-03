@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
     <link href="css/header.css" rel="stylesheet">
-    <link href="./css/footer.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
     <link href="css/report_view.css" rel="stylesheet">
-    <title>view</title>
+    <link href="css/loading.css" rel="stylesheet">
+    <title>신고 및 건의</title>
 </head>
 <body>
     <header class="header">
@@ -110,6 +111,13 @@
         }
     </script>
 
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
+
     <section class="section_all">            
         <div class="report_container">
             <div class="banner"><a href="report_list.html">신고 및 건의</a></div>
@@ -155,11 +163,6 @@
                         <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
     </footer>
@@ -184,7 +187,9 @@
     <script src="./js/logout_state.js"></script>
 
     <script>
+        let doc_id;
         $(document).ready(function() {
+            $('#loading_box').show();
             // 현재 페이지에서 number를 가져오기
             const urlParams = new URLSearchParams(window.location.search);
             // number값 정수형으로 변환
@@ -210,11 +215,10 @@
                 $("#prev-link").remove();
             }
 
-            db.collection("report") // firestore에서 number값 일치하는 신고 및 건의 가져오기
-                .where("number", "==", number)
-                .get()
-                .then(function(querySnapshot) {
+            // firestore에서 number값 일치하는 신고 및 건의 가져오기
+            db.collection("report").where("number", "==", number).get().then(function(querySnapshot) {
                     querySnapshot.forEach(function(doc) { // 화면에 표시
+                        doc_id = doc.id;
                         const created_at = doc.data().created_at; // Firestore에서 created_at 값을 가져오기
                         const date = new Date(created_at.toDate()); // created_at 값을 Date 객체로 변환
                         const year = date.getFullYear();
@@ -241,6 +245,7 @@
 
                         // user_id 는 login_check에 선언되어있음
                         if (user_id === doc.data().user_id) {
+                            $("#someedit").append('<a class="delete" id="delete_button" onclick="delete_document()">삭제</a>');
                             $("#someedit").append('<a href="report_writing.html?page=' + number + '" class="edit" id="edit_button">수정</a>');
                             console.log("해당 글 작성자가 맞습니다.");
                         }else {
@@ -264,10 +269,7 @@
                         doc.ref.update({ view: newView });
                         // 다음 글 number 값 찾을 때 현재 number 값에 +1 값 사용
                         const nextNumber = number + 1;
-                        const nextDocRef = db.collection("report")
-                        .where("number", "==", nextNumber)
-                        .get()
-                        .then(function(querySnapshot) {
+                        const nextDocRef = db.collection("report").where("number", "==", nextNumber).get().then(function(querySnapshot) {
                             if (!querySnapshot.empty) { // 결과값이 비어있지 않은 경우, 이전 글 이름 & 링크 생성
                                 const nextDoc = querySnapshot.docs[0];
                                 const nextName = nextDoc.data().name;
@@ -279,11 +281,24 @@
                             }
                         });
                     });
+                    $('#loading_box').hide();
                 })
                 .catch(function(error) {
                     console.log("문서를 가져오는 중 오류 발생: ", error);
+                    $('#loading_box').hide();
                 });
         });
+
+        function delete_document(){
+            if (confirm('해당 글을 삭제하시겠습니까?')) {
+                db.collection("report").doc(doc_id).delete().then(function() { 
+                    alert("성공적으로 삭제되었습니다.");
+                    location.href = '/report';
+                }).catch(function(error) {  
+                    console.error("삭제에 실패했습니다.", error);
+                });    
+            }
+        }
     </script>
 </body>
 </html>

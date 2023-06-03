@@ -31,6 +31,7 @@
     height: 45px;
     align-items: center;
     justify-content: center;
+    background-color: #f7fbfc;
 }
 
 .first_col_0 { /* (수정) 4월 4일 */
@@ -332,7 +333,7 @@
 
 @media (max-width: 640px) {
     .view_section_all {
-        width: 100%
+        width: 90%;
     }
 
     .table_all {

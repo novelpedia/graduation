@@ -28,7 +28,7 @@ body{
     margin-top: 150px;
     padding-bottom: 10px;
     font-weight: 600;
-    font-size: 40px;
+    font-size: 30px;
 }
 
 .col_1,
@@ -278,7 +278,7 @@ body{
 
 @media (max-width: 640px) {
     .view_section_all {
-        width: 100%
+        width: 90%;
     }
 
     .table_all {

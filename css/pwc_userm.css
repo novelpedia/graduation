@@ -204,23 +204,6 @@
     border: 1px solid #e5e5e5;
 }
 
-.check {
-    /*인증하기 */
-    display: flex;
-    border-radius: 0px;
-    border: solid 1px #e5e5e5;
-    background-color: white;
-
-}
-
-.check2 {
-    /*인증하기 */
-    display: flex;
-    border-radius: 0px;
-    border: solid 1px #e5e5e5;
-    background-color: white;
-}
-
 .block {
     width: 65%;
     margin-top: 7px;
@@ -325,6 +308,14 @@
 
 
 @media screen and (max-width: 640px) {
+    .user_modify {
+        width: 90%;
+    }
+
+    .user_modify .second {
+        width: 100%;
+    }
+
     .mypage {
         font-size: 30px;
     }

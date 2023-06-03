@@ -10,62 +10,12 @@
     <link href="css/footer.css" rel="stylesheet">
     <link href="css/mypage_menubar.css" rel="stylesheet">
     <link href="css/record.css" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet">
     <title>출판사 열람기록</title>
 </head>
 <body>
-    <input type="checkbox" id="menuicon">
-    <label for="menuicon">
-        <span></span>
-        <span></span>
-        <span></span>
-    </label>
-
-    <nav class="mypage_sidebar">
-        <div class="mypage_menubar_content">
-            <div class="mypage_title"><a href="mypage.html">마이페이지</a>
-            </div>
-
-            <div class="mypage_imformation"><a href="mypage.html">회원정보</a>
-            </div>
-
-            <div class="mypage_library">
-                <input type="checkbox" id="answer01">
-                <label for="answer01">
-                    <div class="mypage_mtitle">내 서재</div>
-                </label>
-
-                <div class="mypage_list">
-                    <div class="mypage_set1">
-                        <div class="mypage_picture"><a href="n_record.html">작품</a></div>
-                    </div>
-
-                    <div class="mypage_set1">
-                        <div class="mypage_author"><a href="a_record.html">작가</a></div>
-                    </div>
-
-                    <div class="mypage_set1">
-                        <div class="mypage_publisher"><a href="p_record.html">출판사</a></div>
-                    </div>
-
-                    <!-- <div class="mypage_under_bar_boxing">
-                        <div class="mypage_under_bar"></div>
-                    </div> -->
-
-                    <!-- <div class="mypage_set1">
-                        <div class="mypage_visit"><a href="view_record.html">열람기록</a></div>
-                    </div> -->
-                </div>
-            </div>
-
-            <div class="mypage_review"><a href="review_record.html">리뷰</a></div>
-        </div>
-        <div class="mypage_leave">
-            <div class="mypage_delete"><a href="#" id="delete-account">회원탈퇴</a></div>
-        </div>
-    </nav>
-    
     <header class="header">
-        <a class="logo_a" href="index.html">
+        <a class="logo_a" href="http://novelpedia.co.kr">
             <!--<img class="logo" src="./image/novelpedia.png" height="40px">-->
             <img class="logo_icon" src="image/logo.png">
         </a>
@@ -87,15 +37,32 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="set">
-            <div class="set_mid">
-                <ul class="bar_menu">
-                    <li class="mypage_header"><a href="mypage">마이페이지</a></li>
-                    <li><a href="login.html">Login</a></li>
-                </ul>
+            <div class="set">
+                <div class="set_mid">
+                    <ul class="bar_menu">
+                        <input type="checkbox" id="list_open">
+                        <label for="list_open" class="list_page_label">
+                            <li class="list_li">목록페이지</li>
+                            <div class="header_list">
+                                <div class="header_set1">
+                                    <div class="header_picture"><a href="list/novel">작품</a></div>
+                                </div>
+                                <div class="header_set1">
+                                    <div class="header_author"><a href="list/author">작가</a></div>
+                                </div>
+            
+                                <div class="header_set1">
+                                    <div class="header_publisher"><a href="list/publisher">출판사</a></div>
+                                </div>
+                            </div>
+                        </label>
+                        <li class="mypage_header" id="mypage_button"><a href="mypage">마이페이지</a></li>
+                        <li><a href="login" id="login_logout">Login</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
+
     </header>
 
     <script>
@@ -145,6 +112,64 @@
             menu_window.classList.toggle('search_active');
         }
     </script>
+
+    <div class="loading_box" id="loading_box">
+        <div class="loading-container">
+            <div class="loading"></div>
+            <div id="loading-text">loading</div>
+        </div>
+    </div>
+
+    <input type="checkbox" id="menuicon">
+    <label for="menuicon">
+        <span>→</span>
+    </label>
+
+    <nav class="mypage_sidebar">
+        <div class="mypage_menubar_content">
+            <div class="mypage_title"><a href="mypage.html">마이페이지</a>
+            </div>
+
+            <div class="mypage_imformation"><a href="mypage.html">회원정보</a>
+            </div>
+
+            <div class="mypage_library">
+                <input type="checkbox" id="answer01">
+                <label for="answer01">
+                    <div class="mypage_mtitle">내 서재</div>
+                </label>
+
+                <div class="mypage_list">
+                    <div class="mypage_set1">
+                        <div class="mypage_picture"><a href="n_record.html">작품</a></div>
+                    </div>
+
+                    <div class="mypage_set1">
+                        <div class="mypage_author"><a href="a_record.html">작가</a></div>
+                    </div>
+
+                    <div class="mypage_set1">
+                        <div class="mypage_publisher"><a href="p_record.html">출판사</a></div>
+                    </div>
+
+                    <!-- <div class="mypage_under_bar_boxing">
+                        <div class="mypage_under_bar"></div>
+                    </div> -->
+
+                    <!-- <div class="mypage_set1">
+                        <div class="mypage_visit"><a href="view_record.html">열람기록</a></div>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="mypage_review"><a href="review_record.html">리뷰</a></div>
+        </div>
+        <div class="mypage_leave">
+            <div class="mypage_delete"><a href="#" id="delete-account">회원탈퇴</a></div>
+        </div>
+    </nav>
+    
+
    
     <section class="view_section_all">            
         <div class="container">
@@ -175,17 +200,12 @@
             <div class="row">
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">공지사항</a></li>
+                        <li><a href="/notice">공지사항</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <ul>
-                        <li><a href="#">Q&A</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <ul>
-                        <li><a href="#">의견보내기</a></li>
+                        <li><a href="/report">신고 및 건의</a></li>
                     </ul>
                 </div>
             </div>
@@ -212,10 +232,11 @@
 
     
     <script>
+        $('#loading_box').show();
+        let docRef_delete;
         firebaseEmailAuth.onAuthStateChanged(function (user) { 
             var userEmail = user.email.split('@'); 
-            console.log(userEmail[0]); 
-    
+            docRef_delete = db.collection("user").doc(user.email.split('@')[0] + user.uid);
             const userId = userEmail[0] + user.uid;
 
             // like 컬렉션에서 userId와 일치하는 모든 문서 가져오기
@@ -224,8 +245,8 @@
                 let prevDate = null;
 
                 querySnapshot.forEach((doc) => {
-                    console.log("문서 ID:", doc.id);
-                    console.log("문서 정보:", doc.data());
+                    // console.log("문서 ID:", doc.id);
+                    // console.log("문서 정보:", doc.data());
                     const classification_check = doc.data().classification;
                     const date = doc.data().date.toDate();
 
@@ -265,6 +286,7 @@
                     $('.table_set').append(tableRow); // 테이블 생성
 
                     const deleteLink = $('<a>').text('삭제하기').click(function() {
+                        $('#loading_box').show();
                         // 문서를 삭제하기 전에 like 필드 값을 감소시킴
                         const docId = db.collection("author_document").doc(`${doc.data().name}(${doc.data().birthday})`);
                         const history = db.collection("history").doc(`${doc.data().name}(${doc.data().birthday})`).collection("data").doc("count"); //0418 수정
@@ -274,20 +296,24 @@
                         docId.update({ like: decrement }).then(function() {
                             console.log(`문서 ${docId.id}의 좋아요가 삭제되었습니다.`);
                             history.update({ like: decrement }).then(function() {
-                                console.log(`history ${history.id}의 좋아요가 삭제되었습니다.`);
+                                // console.log(`history ${history.id}의 좋아요가 삭제되었습니다.`);
                             }).catch(function(error) {
                                 console.error(`history ${history.id}의 좋아요 삭제에 실패하였습니다.${error}`);
+                                $('#loading_box').hide();
                             });
                         }).catch(function(error) {
                             console.error(`문서 ${docId.id}의 좋아요 삭제에 실패하였습니다.${error}`);
+                            $('#loading_box').hide();
                         });
 
-                        // (0406) 수정 문서를 삭제함
+                        $('#loading_box').show();
                         docRef.delete().then(function() {
                             console.log(`문서 ${docRef.id}가 삭제되었습니다.`);
                             tableRow.remove();
+                            $('#loading_box').hide();
                         }).catch(function(error) {
                             console.error(`문서 삭제 중 오류가 발생했습니다: ${error}`);
+                            $('#loading_box').hide();
                         });
                     });
 
@@ -298,13 +324,17 @@
                     let checkedDocs = [];
 
                     $('.all_choice').click(function() {
+                        $('#loading_box').show();
                         isCheckedAll = !isCheckedAll;
                         $('input[type="checkbox"]:not(#menuicon,#answer01)').prop('checked', isCheckedAll);
                         updateCheckedDocs();
+                        $('#loading_box').hide();
                     });
 
                     $('input[type="checkbox"]:not(.all_choice,#menuicon,#answer01)').click(function() {
+                        $('#loading_box').show();
                         updateCheckedDocs();
+                        $('#loading_box').hide();
                     });
 
                     function updateCheckedDocs() {
@@ -319,6 +349,7 @@
                     }
 
                     $('.delete_it').off('click').click(function() {
+                        $('#loading_box').show();
                         // 선택된 체크박스들의 정보를 이용하여 문서와 좋아요 삭제
                         checkedDocs.forEach(function(docId) {
                             db.collection("author_document").doc(docId).get().then(function(doc) {
@@ -328,20 +359,30 @@
 
                                 db.collection("author_document").doc(docId).update({ like: decrement }).then(function() {
                                     console.log(`문서 ${docId}의 좋아요가 삭제되었습니다.`);
+                                    $('#loading_box').hide();
                                 }).catch(function(error) {
                                     console.error(`문서 ${docId}의 좋아요 삭제에 실패하였습니다.${error}`);
+                                    $('#loading_box').hide();
                                 });
 
+                                $('#loading_box').show();
                                 ahistory.update({ like: decrement }).then(function() {
                                     console.log(`문서 ${docId}의 좋아요가 삭제되었습니다.`);
+                                    $('#loading_box').hide();
                                     location.reload(); // 새로고침
                                 }).catch(function(error) {
                                     console.error(`문서 ${docId}의 좋아요 삭제에 실패하였습니다.${error}`);
+                                    $('#loading_box').hide();
                                 });
 
+                                $('#loading_box').show();
                                 // 문서를 삭제함
-                                docRef.delete().catch(function(error) {
+                                docRef.delete().then(function(err) {
+                                    $('#loading_box').hide();
+                                    console.log("문서 삭제 완료");
+                                }).catch(function(error) {
                                     console.error(`문서 삭제 중 오류가 발생했습니다: ${error}`);
+                                    $('#loading_box').hide();
                                 });
 
                                 // 체크된 row들을 삭제함
@@ -370,6 +411,7 @@
 
                     });
                 });
+                $('#loading_box').hide();
             });
         });
     </script>
@@ -382,9 +424,14 @@
             event.preventDefault(); //잠깐 작동 정지하고
 
             if (confirm('노벨피디아를 탈퇴하시겠습니까?')) {
-                docRef.delete().then(function() { 
-                    confirm("탈퇴 되었습니다.");
-                    location.href = "login.html"; //로그인 화면으로 이동
+                docRef_delete.delete().then(function() { 
+                    firebaseEmailAuth.signOut().then(function () {
+                        alert("탈퇴 되었습니다.");
+                        $('#loading_box').hide();
+                        location.href = "/login"; //로그인 화면으로 이동
+                    }).catch(function (error) {
+                        alert("로그아웃 실패", error);
+                    });
                 }).catch(function(error) {  
                     console.error("탈퇴 실패되었습니다.", error);
                 });    
